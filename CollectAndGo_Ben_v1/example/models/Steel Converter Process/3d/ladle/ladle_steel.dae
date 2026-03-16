@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 2.79.0 commit date:2017-09-11, commit time:10:43, hash:5bd8ac9</authoring_tool>
+    </contributor>
+    <created>2018-04-05T13:01:35</created>
+    <modified>2018-04-05T13:01:35</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Y_UP</up_axis>
+  </asset>
+  <library_cameras>
+    <camera id="Camera-camera-camera" name="Camera-camera.008">
+      <optics>
+        <technique_common>
+          <perspective>
+            <xfov sid="xfov">44.97718</xfov>
+            <aspect_ratio>1.777778</aspect_ratio>
+            <znear sid="znear">0.1</znear>
+            <zfar sid="zfar">100</zfar>
+          </perspective>
+        </technique_common>
+      </optics>
+      <extra>
+        <technique profile="blender">
+          <shiftx sid="shiftx" type="float">0</shiftx>
+          <shifty sid="shifty" type="float">0</shifty>
+          <YF_dofdist sid="YF_dofdist" type="float">0</YF_dofdist>
+        </technique>
+      </extra>
+    </camera>
+    <camera id="ladle_steel_Front-camera" name="ladle_steel_Front">
+      <optics>
+        <technique_common>
+          <perspective>
+            <xfov sid="xfov">44.97718</xfov>
+            <aspect_ratio>1.777778</aspect_ratio>
+            <znear sid="znear">0.1</znear>
+            <zfar sid="zfar">100</zfar>
+          </perspective>
+        </technique_common>
+      </optics>
+      <extra>
+        <technique profile="blender">
+          <shiftx sid="shiftx" type="float">0</shiftx>
+          <shifty sid="shifty" type="float">0</shifty>
+          <YF_dofdist sid="YF_dofdist" type="float">0</YF_dofdist>
+        </technique>
+      </extra>
+    </camera>
+    <camera id="ladle_steel_Left-camera" name="ladle_steel_Left">
+      <optics>
+        <technique_common>
+          <perspective>
+            <xfov sid="xfov">44.97718</xfov>
+            <aspect_ratio>1.777778</aspect_ratio>
+            <znear sid="znear">0.1</znear>
+            <zfar sid="zfar">100</zfar>
+          </perspective>
+        </technique_common>
+      </optics>
+      <extra>
+        <technique profile="blender">
+          <shiftx sid="shiftx" type="float">0</shiftx>
+          <shifty sid="shifty" type="float">0</shifty>
+          <YF_dofdist sid="YF_dofdist" type="float">0</YF_dofdist>
+        </technique>
+      </extra>
+    </camera>
+    <camera id="ladle_steel_Top-camera" name="ladle_steel_Top">
+      <optics>
+        <technique_common>
+          <perspective>
+            <xfov sid="xfov">44.97718</xfov>
+            <aspect_ratio>1.777778</aspect_ratio>
+            <znear sid="znear">0.1</znear>
+            <zfar sid="zfar">100</zfar>
+          </perspective>
+        </technique_common>
+      </optics>
+      <extra>
+        <technique profile="blender">
+          <shiftx sid="shiftx" type="float">0</shiftx>
+          <shifty sid="shifty" type="float">0</shifty>
+          <YF_dofdist sid="YF_dofdist" type="float">0</YF_dofdist>
+        </technique>
+      </extra>
+    </camera>
+    <camera id="ladle_steel_Back-camera" name="ladle_steel_Back">
+      <optics>
+        <technique_common>
+          <perspective>
+            <xfov sid="xfov">44.97718</xfov>
+            <aspect_ratio>1.777778</aspect_ratio>
+            <znear sid="znear">0.1</znear>
+            <zfar sid="zfar">100</zfar>
+          </perspective>
+        </technique_common>
+      </optics>
+      <extra>
+        <technique profile="blender">
+          <shiftx sid="shiftx" type="float">0</shiftx>
+          <shifty sid="shifty" type="float">0</shifty>
+          <YF_dofdist sid="YF_dofdist" type="float">0</YF_dofdist>
+        </technique>
+      </extra>
+    </camera>
+    <camera id="ladle_steel_Right-camera" name="ladle_steel_Right">
+      <optics>
+        <technique_common>
+          <perspective>
+            <xfov sid="xfov">44.97718</xfov>
+            <aspect_ratio>1.777778</aspect_ratio>
+            <znear sid="znear">0.1</znear>
+            <zfar sid="zfar">100</zfar>
+          </perspective>
+        </technique_common>
+      </optics>
+      <extra>
+        <technique profile="blender">
+          <shiftx sid="shiftx" type="float">0</shiftx>
+          <shifty sid="shifty" type="float">0</shifty>
+          <YF_dofdist sid="YF_dofdist" type="float">0</YF_dofdist>
+        </technique>
+      </extra>
+    </camera>
+    <camera id="ladle_steel_Bottom-camera" name="ladle_steel_Bottom">
+      <optics>
+        <technique_common>
+          <perspective>
+            <xfov sid="xfov">44.97718</xfov>
+            <aspect_ratio>1.777778</aspect_ratio>
+            <znear sid="znear">0.1</znear>
+            <zfar sid="zfar">100</zfar>
+          </perspective>
+        </technique_common>
+      </optics>
+      <extra>
+        <technique profile="blender">
+          <shiftx sid="shiftx" type="float">0</shiftx>
+          <shifty sid="shifty" type="float">0</shifty>
+          <YF_dofdist sid="YF_dofdist" type="float">0</YF_dofdist>
+        </technique>
+      </extra>
+    </camera>
+  </library_cameras>
+  <library_images/>
+  <library_effects>
+    <effect id="mesh1-geometry_material0_006-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">0.8 0.556864 0.156864 1</color>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">409</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_materials>
+    <material id="mesh1-geometry_material0_006-material" name="mesh1-geometry_material0_006">
+      <instance_effect url="#mesh1-geometry_material0_006-effect"/>
+    </material>
+  </library_materials>
+  <library_geometries>
+    <geometry id="mesh1-geometry_material0_IndexedFaceSet_008-mesh" name="mesh1-geometry_material0_IndexedFaceSet.008">
+      <mesh>
+        <source id="mesh1-geometry_material0_IndexedFaceSet_008-mesh-positions">
+          <float_array id="mesh1-geometry_material0_IndexedFaceSet_008-mesh-positions-array" count="300">-0.41118 1.65563 -0.56837 -0.41118 1.65563 -0.69598 -0.41318 1.65563 -0.63218 -0.40517 1.65563 -0.50483 -0.40517 1.65563 -0.75953 -0.39518 1.65563 -0.44178 -0.39518 1.65563 -0.82257 -0.38126 1.65563 -0.37949 -0.38126 1.65563 -0.88487 -0.36345 1.65563 -0.94616 -0.36345 1.65563 -0.31819 -0.34183 1.65563 -0.25813 -0.34183 1.65563 -1.00622 -0.31648 1.65563 -0.19955 -0.31648 1.65563 -1.06481 -0.2875 1.65563 -0.14267 -0.2875 1.65563 -1.12168 -0.255 1.65563 -0.08772999 -0.255 1.65563 -1.17662 -0.21913 1.65563 -0.03494 -0.21913 1.65563 -1.22942 -0.18 1.65563 -1.27985 -0.18 1.65563 0.01549994 -0.13779 1.65563 0.06338 -0.13779 1.65563 -1.32774 -0.09264999 1.65563 0.10852 -0.09264999 1.65563 -1.37287 -0.04477 1.65563 0.15073 -0.04477 1.65563 -1.41508 0.005659997 1.65563 0.18986 0.005659997 1.65563 -1.45421 0.05845999 1.65563 0.22573 0.05845999 1.65563 -1.49009 0.1134 1.65563 -1.52258 0.1134 1.65563 0.25823 0.17028 1.65563 0.28721 0.17028 1.65563 -1.55156 0.22886 1.65563 -1.57691 0.22886 1.65563 0.31256 0.28892 1.65563 -1.59853 0.28892 1.65563 0.33418 0.35022 1.65563 0.35199 0.35022 1.65563 -1.61634 0.41251 1.65563 0.36591 0.41251 1.65563 -1.63027 0.47556 1.65563 0.3759 0.47556 1.65563 -1.64025 0.5391 1.65563 0.38191 0.5391 1.65563 -1.64626 0.60291 1.65563 0.38391 0.60291 1.65563 -1.64826 0.66671 1.65563 -1.64626 0.66671 1.65563 0.38191 0.73026 1.65563 0.3759 0.73026 1.65563 -1.64025 0.7933 1.65563 0.36591 0.7933 1.65563 -1.63027 0.8556 1.65563 0.35199 0.8556 1.65563 -1.61634 0.91689 1.65563 -1.59853 0.91689 1.65563 0.33418 0.97695 1.65563 -1.57691 0.97695 1.65563 0.31256 1.03554 1.65563 -1.55156 1.03554 1.65563 0.28721 1.09241 1.65563 -1.52258 1.09241 1.65563 0.25823 1.14735 1.65563 -1.49009 1.14735 1.65563 0.22573 1.20015 1.65563 0.18986 1.20015 1.65563 -1.45421 1.25058 1.65563 -1.41508 1.25058 1.65563 0.15073 1.29847 1.65563 0.10852 1.29847 1.65563 -1.37287 1.3436 1.65563 0.06338 1.3436 1.65563 -1.32774 1.38582 1.65563 0.01549994 1.38582 1.65563 -1.27985 1.42494 1.65563 -0.03494 1.42494 1.65563 -1.22942 1.46082 1.65563 -1.17662 1.46082 1.65563 -0.08772999 1.49331 1.65563 -0.14267 1.49331 1.65563 -1.12168 1.52229 1.65563 -0.19955 1.52229 1.65563 -1.06481 1.54764 1.65563 -0.25813 1.54764 1.65563 -1.00622 1.56926 1.65563 -0.94616 1.56926 1.65563 -0.31819 1.58707 1.65563 -0.37949 1.58707 1.65563 -0.88487 1.60099 1.65563 -0.44178 1.60099 1.65563 -0.82257 1.61098 1.65563 -0.75953 1.61098 1.65563 -0.50483 1.61699 1.65563 -0.56837 1.61699 1.65563 -0.69598 1.61899 1.65563 -0.63218</float_array>
+          <technique_common>
+            <accessor source="#mesh1-geometry_material0_IndexedFaceSet_008-mesh-positions-array" count="100" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="mesh1-geometry_material0_IndexedFaceSet_008-mesh-normals">
+          <float_array id="mesh1-geometry_material0_IndexedFaceSet_008-mesh-normals-array" count="3">0 1 0</float_array>
+          <technique_common>
+            <accessor source="#mesh1-geometry_material0_IndexedFaceSet_008-mesh-normals-array" count="1" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="mesh1-geometry_material0_IndexedFaceSet_008-mesh-vertices">
+          <input semantic="POSITION" source="#mesh1-geometry_material0_IndexedFaceSet_008-mesh-positions"/>
+        </vertices>
+        <triangles material="mesh1-geometry_material0_006-material" count="98">
+          <input semantic="VERTEX" source="#mesh1-geometry_material0_IndexedFaceSet_008-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#mesh1-geometry_material0_IndexedFaceSet_008-mesh-normals" offset="1"/>
+          <p>0 0 1 0 2 0 1 0 0 0 3 0 1 0 3 0 4 0 4 0 3 0 5 0 4 0 5 0 6 0 6 0 5 0 7 0 6 0 7 0 8 0 8 0 7 0 9 0 9 0 7 0 10 0 9 0 10 0 11 0 9 0 11 0 12 0 12 0 11 0 13 0 12 0 13 0 14 0 14 0 13 0 15 0 14 0 15 0 16 0 16 0 15 0 17 0 16 0 17 0 18 0 18 0 17 0 19 0 18 0 19 0 20 0 20 0 19 0 21 0 21 0 19 0 22 0 21 0 22 0 23 0 21 0 23 0 24 0 24 0 23 0 25 0 24 0 25 0 26 0 26 0 25 0 27 0 26 0 27 0 28 0 28 0 27 0 29 0 28 0 29 0 30 0 30 0 29 0 31 0 30 0 31 0 32 0 32 0 31 0 33 0 33 0 31 0 34 0 33 0 34 0 35 0 33 0 35 0 36 0 36 0 35 0 37 0 37 0 35 0 38 0 37 0 38 0 39 0 39 0 38 0 40 0 39 0 40 0 41 0 39 0 41 0 42 0 42 0 41 0 43 0 42 0 43 0 44 0 44 0 43 0 45 0 44 0 45 0 46 0 46 0 45 0 47 0 46 0 47 0 48 0 48 0 47 0 49 0 48 0 49 0 50 0 50 0 49 0 51 0 51 0 49 0 52 0 51 0 52 0 53 0 51 0 53 0 54 0 54 0 53 0 55 0 54 0 55 0 56 0 56 0 55 0 57 0 56 0 57 0 58 0 58 0 57 0 59 0 59 0 57 0 60 0 59 0 60 0 61 0 61 0 60 0 62 0 61 0 62 0 63 0 63 0 62 0 64 0 63 0 64 0 65 0 65 0 64 0 66 0 65 0 66 0 67 0 67 0 66 0 68 0 67 0 68 0 69 0 67 0 69 0 70 0 70 0 69 0 71 0 71 0 69 0 72 0 71 0 72 0 73 0 71 0 73 0 74 0 74 0 73 0 75 0 74 0 75 0 76 0 76 0 75 0 77 0 76 0 77 0 78 0 78 0 77 0 79 0 78 0 79 0 80 0 80 0 79 0 81 0 81 0 79 0 82 0 81 0 82 0 83 0 81 0 83 0 84 0 84 0 83 0 85 0 84 0 85 0 86 0 86 0 85 0 87 0 86 0 87 0 88 0 88 0 87 0 89 0 89 0 87 0 90 0 89 0 90 0 91 0 89 0 91 0 92 0 92 0 91 0 93 0 92 0 93 0 94 0 94 0 93 0 95 0 95 0 93 0 96 0 95 0 96 0 97 0 95 0 97 0 98 0 98 0 97 0 99 0</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_controllers/>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="mesh1-geometry_material0_IndexedFaceSet" name="mesh1-geometry_material0_IndexedFaceSet" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <instance_geometry url="#mesh1-geometry_material0_IndexedFaceSet_008-mesh" name="mesh1-geometry_material0_IndexedFaceSet">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="mesh1-geometry_material0_006-material" target="#mesh1-geometry_material0_006-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+      <node id="Camera-camera" name="Camera-camera" type="NODE">
+        <matrix sid="transform">0.9371812 -0.09775203 0.1182503 3.977413 0.2425525 0.3775274 -0.4570302 2.897957 8.4404e-5 0.487653 0.3775239 10.00271 0 0 0 1</matrix>
+        <instance_camera url="#Camera-camera-camera"/>
+      </node>
+      <node id="ladle_steel_Front" name="ladle_steel_Front" type="NODE">
+        <matrix sid="transform">1 0 0 0.60291 0 1 0 1.65563 0 0 1 4.69652 0 0 0 1</matrix>
+        <instance_camera url="#ladle_steel_Front-camera"/>
+      </node>
+      <node id="ladle_steel_Left" name="ladle_steel_Left" type="NODE">
+        <matrix sid="transform">-2.03653e-4 0 1 4.66725 0 0.9999999 0 1.65563 -1 0 -2.03653e-4 0.63218 0 0 0 1</matrix>
+        <instance_camera url="#ladle_steel_Left-camera"/>
+      </node>
+      <node id="ladle_steel_Top" name="ladle_steel_Top" type="NODE">
+        <matrix sid="transform">0.9999999 0 0 0.60291 0 -2.03415e-4 1 4.70389 0 -1 -2.03415e-4 0.63218 0 0 0 1</matrix>
+        <instance_camera url="#ladle_steel_Top-camera"/>
+      </node>
+      <node id="ladle_steel_Back" name="ladle_steel_Back" type="NODE">
+        <matrix sid="transform">-0.9999999 0 -4.07132e-4 0.60291 0 1 0 1.65563 4.07132e-4 0 -0.9999999 -3.43217 0 0 0 1</matrix>
+        <instance_camera url="#ladle_steel_Back-camera"/>
+      </node>
+      <node id="ladle_steel_Right" name="ladle_steel_Right" type="NODE">
+        <matrix sid="transform">-2.03653e-4 0 -1 -3.46144 0 0.9999999 0 1.65563 1 0 -2.03653e-4 0.63218 0 0 0 1</matrix>
+        <instance_camera url="#ladle_steel_Right-camera"/>
+      </node>
+      <node id="ladle_steel_Bottom" name="ladle_steel_Bottom" type="NODE">
+        <matrix sid="transform">0.9999999 0 0 0.60291 0 -2.03415e-4 -1 -1.39263 0 1 -2.03415e-4 0.63218 0 0 0 1</matrix>
+        <instance_camera url="#ladle_steel_Bottom-camera"/>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>

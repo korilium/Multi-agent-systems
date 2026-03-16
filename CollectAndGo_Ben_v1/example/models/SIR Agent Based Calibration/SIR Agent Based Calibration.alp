@@ -1,0 +1,2853 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+*************************************************
+	         AnyLogic Project File
+*************************************************
+-->
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.0.qualifier" AlpVersion="8.9.2">
+<Model>
+	<Id>1163616625032</Id>
+	<Name><![CDATA[SIR Agent Based Calibration]]></Name>
+	<Description><![CDATA[The built-in OptQuest optimizer is used to calibrate an agent based model of contagious disease diffusion. In the model each person has 3 possible states: Susceptible, Infectious and Recovered (SIR). Initially all but few people are susceptible, and few – infectious. A person can contact another person, and in case one is susceptible and another – infectious, the first may get infected with a certain probability. The agents are put on a grid and contacts occur only between the immediate neighbors. The objective is to find the parameters of the agents (contact frequencies and infection probabilities) so that the output of the simulation model fits best with the historical data – the dynamics of infectious population (disease prevalence). As the model is stochastic, the calibration is done under uncertainty, and simulation replications are used. A separate 1st order Monte Carlo experiment is included to demonstrate the variation of output of the agent based model.]]></Description>
+	<EngineVersion>6</EngineVersion>
+	<JavaPackageName><![CDATA[sir_agent_based_calibration]]></JavaPackageName>
+	<ModelTimeUnit><![CDATA[Day]]></ModelTimeUnit>
+
+	<Folders>
+
+	</Folders>
+	<ActiveObjectClasses>
+		<!--   =========   Active Object Class   ========  -->
+		<ActiveObjectClass>
+			<Id>1163616625033</Id>
+			<Name><![CDATA[Main]]></Name>
+			<StartupCode><![CDATA[sendToRandomAgentInside( "Infection" );
+
+//used for Calibration experiment in AnyLogic Cloud
+dsInfectiousHistoric.fillFrom( InfectiousHistoric );]]></StartupCode>
+			<Generic>false</Generic>
+			<GenericParameter>
+				<Id>1413229661737</Id>
+				<Name><![CDATA[1413229661737]]></Name>
+				<GenericParameterValue Class="CodeValue">
+					<Code><![CDATA[T]]></Code>
+				</GenericParameterValue>
+				<GenericParameterLabel><![CDATA[Generic parameters:]]></GenericParameterLabel>
+			</GenericParameter>
+			<FlowChartsUsage>ENTITY</FlowChartsUsage>
+			<SamplesToKeep>100</SamplesToKeep>
+			<LimitNumberOfArrayElements>false</LimitNumberOfArrayElements>
+			<ElementsLimitValue>100</ElementsLimitValue>
+			<MakeDefaultViewArea>false</MakeDefaultViewArea>
+			<SceneGridColor/>
+			<SceneBackgroundColor/>
+			<SceneSkybox>null</SceneSkybox>
+			<AgentProperties>
+				<EnvironmentDefinesInitialLocation>true</EnvironmentDefinesInitialLocation>
+				<RotateAnimationTowardsMovement>true</RotateAnimationTowardsMovement>
+				<RotateAnimationVertically>false</RotateAnimationVertically>
+				<VelocityCode Class="CodeUnitValue">
+					<Code><![CDATA[10]]></Code>
+					<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+				</VelocityCode>
+				<PhysicalLength Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalLength>
+				<PhysicalWidth Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalWidth>
+				<PhysicalHeight Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalHeight>
+			</AgentProperties>
+			<EnvironmentProperties>
+					<EnableSteps>false</EnableSteps>
+					<StepDurationCode Class="CodeUnitValue">
+						<Code><![CDATA[1.0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
+					</StepDurationCode>
+					<SpaceType>CONTINUOUS</SpaceType>
+					<WidthCode><![CDATA[500]]></WidthCode>
+					<HeightCode><![CDATA[500]]></HeightCode>
+					<ZHeightCode><![CDATA[0]]></ZHeightCode>
+					<ColumnsCountCode><![CDATA[100]]></ColumnsCountCode>
+					<RowsCountCode><![CDATA[100]]></RowsCountCode>
+					<NeigborhoodType>MOORE</NeigborhoodType>
+					<LayoutType>ARRANGED</LayoutType>
+					<NetworkType>USER_DEF</NetworkType>
+					<ConnectionsPerAgentCode><![CDATA[2]]></ConnectionsPerAgentCode>
+					<ConnectionsRangeCode><![CDATA[50]]></ConnectionsRangeCode>
+					<NeighborLinkFractionCode><![CDATA[0.95]]></NeighborLinkFractionCode>
+					<MCode><![CDATA[10]]></MCode>
+			</EnvironmentProperties>
+			<DatasetsCreationProperties>
+				<AutoCreate>true</AutoCreate>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1412064000000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[1]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
+					</RecurrenceCode>
+			</DatasetsCreationProperties>
+			<ScaleRuler>
+				<Id>1412007235902</Id>
+				<Name><![CDATA[scale]]></Name>
+				<X>0</X><Y>-150</Y>
+				<PublicFlag>false</PublicFlag>
+				<PresentationFlag>false</PresentationFlag>
+				<ShowLabel>false</ShowLabel>
+				<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+				<Length>100</Length>
+				<Rotation>0</Rotation>
+				<ScaleType>BASED_ON_LENGTH</ScaleType>
+				<ModelLength>10</ModelLength>
+				<LengthUnits>METER</LengthUnits>
+				<Scale>10</Scale>
+				<InheritedFromParentAgentType>true</InheritedFromParentAgentType>
+			</ScaleRuler>
+			<CurrentLevel>1561037887766</CurrentLevel>
+			<ConnectionsId>1381839436436</ConnectionsId>
+			<Outputs>
+				<Output>
+					<Id>1489594551547</Id>
+					<Name><![CDATA[maxPrevalence]]></Name>
+					<X>250</X><Y>90</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Type><![CDATA[double]]></Type>
+					<UnitType><![CDATA[NONE]]></UnitType>
+					<Value Class="CodeValue">
+						<Code><![CDATA[InfectiousDS.getYMax()]]></Code>
+					</Value>
+					<ComputationMoment>ON_SIMULATION_END</ComputationMoment>
+					<ComputationTimeCode Class="CodeUnitValue">
+						<Code><![CDATA[]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+					</ComputationTimeCode>
+					<ComputationDate>1489651200000</ComputationDate>
+				</Output>
+				<Output>
+					<Id>1701337931914</Id>
+					<Name><![CDATA[differenceWithHistoricData]]></Name>
+					<X>400</X><Y>110</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Type><![CDATA[double]]></Type>
+					<UnitType><![CDATA[NONE]]></UnitType>
+					<Value Class="CodeValue">
+						<Code><![CDATA[difference( InfectiousDS, InfectiousHistoric )]]></Code>
+					</Value>
+					<ComputationMoment>ON_SIMULATION_END</ComputationMoment>
+					<ComputationTimeCode Class="CodeUnitValue">
+						<Code><![CDATA[]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+					</ComputationTimeCode>
+					<ComputationDate>1701417600000</ComputationDate>
+				</Output>
+			</Outputs>
+			<Variables>
+				<Variable Class="Parameter">
+					<Id>1163671985842</Id>
+					<Name><![CDATA[AverageIllnessDuration]]></Name>
+					<X>50</X><Y>70</Y>
+					<Label><X>20</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<UnitOfValue Class="TimeUnits"><![CDATA[DAY]]></UnitOfValue>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[15]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>0</Id>
+							<Label><![CDATA[AverageIllnessDuration]]></Label>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1163671985844</Id>
+					<Name><![CDATA[ContactRate]]></Name>
+					<X>50</X><Y>90</Y>
+					<Label><X>20</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<UnitOfValue Class="RateUnits"><![CDATA[PER_DAY]]></UnitOfValue>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[1.0]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>0</Id>
+							<Label><![CDATA[ContactRate]]></Label>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1163671985851</Id>
+					<Name><![CDATA[InfectionProbability]]></Name>
+					<X>50</X><Y>110</Y>
+					<Label><X>20</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[0.8]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>0</Id>
+							<Label><![CDATA[InfectionProbability]]></Label>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1163673083289</Id>
+					<Name><![CDATA[TotalPopulation]]></Name>
+					<X>50</X><Y>50</Y>
+					<Label><X>20</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[int]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[10000]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>0</Id>
+							<Label><![CDATA[TotalPopulation]]></Label>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+			</Variables>
+			<TableFunctions>
+				<TableFunction AccessType="public" StaticFunction="true">
+					<Id>1701338212181</Id>
+					<Name><![CDATA[InfectiousHistoric]]></Name>
+					<X>400</X><Y>50</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<InterpolationMethod>LINEAR</InterpolationMethod>
+					<OutOfRangeBehaviour>ERROR</OutOfRangeBehaviour>
+					<OutOfRangeCustomValue><![CDATA[0.0]]></OutOfRangeCustomValue>
+					<ApproximationOrder><![CDATA[1]]></ApproximationOrder>
+					<LoadFromDatabase><![CDATA[false]]></LoadFromDatabase>
+					<ValuesQuery>
+						<TableReference>
+						</TableReference>
+							<ArgumentColumnReference>
+							</ArgumentColumnReference>
+							<ValueColumnReference>
+							</ValueColumnReference>
+					</ValuesQuery>
+// arguments and values
+					<Argument><![CDATA[2.0]]></Argument>
+					<Argument><![CDATA[4.0]]></Argument>
+					<Argument><![CDATA[6.0]]></Argument>
+					<Argument><![CDATA[8.0]]></Argument>
+					<Argument><![CDATA[10.0]]></Argument>
+					<Argument><![CDATA[12.0]]></Argument>
+					<Argument><![CDATA[14.0]]></Argument>
+					<Argument><![CDATA[16.0]]></Argument>
+					<Argument><![CDATA[18.0]]></Argument>
+					<Argument><![CDATA[20.0]]></Argument>
+					<Argument><![CDATA[22.0]]></Argument>
+					<Argument><![CDATA[24.0]]></Argument>
+					<Argument><![CDATA[26.0]]></Argument>
+					<Argument><![CDATA[28.0]]></Argument>
+					<Argument><![CDATA[30.0]]></Argument>
+					<Argument><![CDATA[32.0]]></Argument>
+					<Argument><![CDATA[34.0]]></Argument>
+					<Argument><![CDATA[36.0]]></Argument>
+					<Argument><![CDATA[38.0]]></Argument>
+					<Argument><![CDATA[40.0]]></Argument>
+					<Argument><![CDATA[42.0]]></Argument>
+					<Argument><![CDATA[44.0]]></Argument>
+					<Argument><![CDATA[46.0]]></Argument>
+					<Argument><![CDATA[48.0]]></Argument>
+					<Argument><![CDATA[50.0]]></Argument>
+					<Argument><![CDATA[52.0]]></Argument>
+					<Argument><![CDATA[54.0]]></Argument>
+					<Argument><![CDATA[56.0]]></Argument>
+					<Argument><![CDATA[58.0]]></Argument>
+					<Argument><![CDATA[60.0]]></Argument>
+					<Argument><![CDATA[62.0]]></Argument>
+					<Argument><![CDATA[64.0]]></Argument>
+					<Argument><![CDATA[66.0]]></Argument>
+					<Argument><![CDATA[68.0]]></Argument>
+					<Argument><![CDATA[70.0]]></Argument>
+					<Argument><![CDATA[72.0]]></Argument>
+					<Argument><![CDATA[74.0]]></Argument>
+					<Argument><![CDATA[76.0]]></Argument>
+					<Argument><![CDATA[78.0]]></Argument>
+					<Argument><![CDATA[80.0]]></Argument>
+					<Argument><![CDATA[82.0]]></Argument>
+					<Argument><![CDATA[84.0]]></Argument>
+					<Argument><![CDATA[86.0]]></Argument>
+					<Argument><![CDATA[88.0]]></Argument>
+					<Argument><![CDATA[90.0]]></Argument>
+					<Argument><![CDATA[92.0]]></Argument>
+					<Argument><![CDATA[94.0]]></Argument>
+					<Argument><![CDATA[96.0]]></Argument>
+					<Argument><![CDATA[98.0]]></Argument>
+					<Argument><![CDATA[100.0]]></Argument>
+					<Argument><![CDATA[102.0]]></Argument>
+					<Argument><![CDATA[104.0]]></Argument>
+					<Argument><![CDATA[106.0]]></Argument>
+					<Argument><![CDATA[108.0]]></Argument>
+					<Argument><![CDATA[110.0]]></Argument>
+					<Argument><![CDATA[112.0]]></Argument>
+					<Argument><![CDATA[114.0]]></Argument>
+					<Argument><![CDATA[116.0]]></Argument>
+					<Argument><![CDATA[118.0]]></Argument>
+					<Argument><![CDATA[120.0]]></Argument>
+					<Argument><![CDATA[122.0]]></Argument>
+					<Argument><![CDATA[124.0]]></Argument>
+					<Argument><![CDATA[126.0]]></Argument>
+					<Argument><![CDATA[128.0]]></Argument>
+					<Argument><![CDATA[130.0]]></Argument>
+					<Argument><![CDATA[132.0]]></Argument>
+					<Argument><![CDATA[134.0]]></Argument>
+					<Argument><![CDATA[136.0]]></Argument>
+					<Argument><![CDATA[138.0]]></Argument>
+					<Argument><![CDATA[140.0]]></Argument>
+					<Argument><![CDATA[142.0]]></Argument>
+					<Argument><![CDATA[144.0]]></Argument>
+					<Argument><![CDATA[146.0]]></Argument>
+					<Argument><![CDATA[148.0]]></Argument>
+					<Argument><![CDATA[150.0]]></Argument>
+					<Argument><![CDATA[152.0]]></Argument>
+					<Argument><![CDATA[154.0]]></Argument>
+					<Argument><![CDATA[156.0]]></Argument>
+					<Argument><![CDATA[158.0]]></Argument>
+					<Argument><![CDATA[160.0]]></Argument>
+					<Argument><![CDATA[162.0]]></Argument>
+					<Argument><![CDATA[164.0]]></Argument>
+					<Argument><![CDATA[166.0]]></Argument>
+					<Argument><![CDATA[168.0]]></Argument>
+					<Argument><![CDATA[170.0]]></Argument>
+					<Argument><![CDATA[172.0]]></Argument>
+					<Argument><![CDATA[174.0]]></Argument>
+					<Argument><![CDATA[176.0]]></Argument>
+					<Argument><![CDATA[178.0]]></Argument>
+					<Argument><![CDATA[180.0]]></Argument>
+					<Argument><![CDATA[182.0]]></Argument>
+					<Argument><![CDATA[184.0]]></Argument>
+					<Argument><![CDATA[186.0]]></Argument>
+					<Argument><![CDATA[188.0]]></Argument>
+					<Argument><![CDATA[190.0]]></Argument>
+					<Argument><![CDATA[192.0]]></Argument>
+					<Argument><![CDATA[194.0]]></Argument>
+					<Argument><![CDATA[196.0]]></Argument>
+					<Argument><![CDATA[198.0]]></Argument>
+					<Argument><![CDATA[200.0]]></Argument>
+					<Value><![CDATA[3.0]]></Value>
+					<Value><![CDATA[8.0]]></Value>
+					<Value><![CDATA[24.0]]></Value>
+					<Value><![CDATA[71.0]]></Value>
+					<Value><![CDATA[202.0]]></Value>
+					<Value><![CDATA[558.0]]></Value>
+					<Value><![CDATA[1428.0]]></Value>
+					<Value><![CDATA[3070.0]]></Value>
+					<Value><![CDATA[5014.0]]></Value>
+					<Value><![CDATA[6214.0]]></Value>
+					<Value><![CDATA[6431.0]]></Value>
+					<Value><![CDATA[6083.0]]></Value>
+					<Value><![CDATA[5527.0]]></Value>
+					<Value><![CDATA[4931.0]]></Value>
+					<Value><![CDATA[4361.0]]></Value>
+					<Value><![CDATA[3841.0]]></Value>
+					<Value><![CDATA[3375.0]]></Value>
+					<Value><![CDATA[2961.0]]></Value>
+					<Value><![CDATA[2596.0]]></Value>
+					<Value><![CDATA[2275.0]]></Value>
+					<Value><![CDATA[1993.0]]></Value>
+					<Value><![CDATA[1746.0]]></Value>
+					<Value><![CDATA[1529.0]]></Value>
+					<Value><![CDATA[1339.0]]></Value>
+					<Value><![CDATA[1172.0]]></Value>
+					<Value><![CDATA[1026.0]]></Value>
+					<Value><![CDATA[898.0]]></Value>
+					<Value><![CDATA[787.0]]></Value>
+					<Value><![CDATA[689.0]]></Value>
+					<Value><![CDATA[603.0]]></Value>
+					<Value><![CDATA[528.0]]></Value>
+					<Value><![CDATA[462.0]]></Value>
+					<Value><![CDATA[404.0]]></Value>
+					<Value><![CDATA[354.0]]></Value>
+					<Value><![CDATA[310.0]]></Value>
+					<Value><![CDATA[271.0]]></Value>
+					<Value><![CDATA[237.0]]></Value>
+					<Value><![CDATA[208.0]]></Value>
+					<Value><![CDATA[182.0]]></Value>
+					<Value><![CDATA[159.0]]></Value>
+					<Value><![CDATA[139.0]]></Value>
+					<Value><![CDATA[122.0]]></Value>
+					<Value><![CDATA[107.0]]></Value>
+					<Value><![CDATA[93.0]]></Value>
+					<Value><![CDATA[82.0]]></Value>
+					<Value><![CDATA[72.0]]></Value>
+					<Value><![CDATA[63.0]]></Value>
+					<Value><![CDATA[55.0]]></Value>
+					<Value><![CDATA[48.0]]></Value>
+					<Value><![CDATA[42.0]]></Value>
+					<Value><![CDATA[37.0]]></Value>
+					<Value><![CDATA[32.0]]></Value>
+					<Value><![CDATA[28.0]]></Value>
+					<Value><![CDATA[25.0]]></Value>
+					<Value><![CDATA[22.0]]></Value>
+					<Value><![CDATA[19.0]]></Value>
+					<Value><![CDATA[17.0]]></Value>
+					<Value><![CDATA[14.0]]></Value>
+					<Value><![CDATA[13.0]]></Value>
+					<Value><![CDATA[11.0]]></Value>
+					<Value><![CDATA[10.0]]></Value>
+					<Value><![CDATA[9.0]]></Value>
+					<Value><![CDATA[7.0]]></Value>
+					<Value><![CDATA[7.0]]></Value>
+					<Value><![CDATA[6.0]]></Value>
+					<Value><![CDATA[5.0]]></Value>
+					<Value><![CDATA[4.0]]></Value>
+					<Value><![CDATA[4.0]]></Value>
+					<Value><![CDATA[3.0]]></Value>
+					<Value><![CDATA[3.0]]></Value>
+					<Value><![CDATA[3.0]]></Value>
+					<Value><![CDATA[2.0]]></Value>
+					<Value><![CDATA[2.0]]></Value>
+					<Value><![CDATA[2.0]]></Value>
+					<Value><![CDATA[2.0]]></Value>
+					<Value><![CDATA[1.0]]></Value>
+					<Value><![CDATA[1.0]]></Value>
+					<Value><![CDATA[1.0]]></Value>
+					<Value><![CDATA[1.0]]></Value>
+					<Value><![CDATA[1.0]]></Value>
+					<Value><![CDATA[1.0]]></Value>
+					<Value><![CDATA[1.0]]></Value>
+					<Value><![CDATA[1.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+				</TableFunction>
+			</TableFunctions>
+			<AnalysisData>
+    			<DataSet>
+					<Id>1163672549793</Id>
+					<Name><![CDATA[InfectiousDS]]></Name>
+					<X>250</X><Y>70</Y>
+					<Label><X>20</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<AutoUpdate>true</AutoUpdate>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1412064000000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[2]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
+					</RecurrenceCode>
+					<FreezeXAxis>true</FreezeXAxis>
+					<VerticalAxisExpression><![CDATA[people.nInfectious()]]></VerticalAxisExpression>
+					<SamplesToKeep>100</SamplesToKeep>
+				</DataSet>
+    			<DataSet>
+					<Id>1701338881494</Id>
+					<Name><![CDATA[dsInfectiousHistoric]]></Name>
+					<X>400</X><Y>80</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<AutoUpdate>false</AutoUpdate>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1412064000000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[MINUTE]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[2]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
+					</RecurrenceCode>
+					<FreezeXAxis>false</FreezeXAxis>
+					<SamplesToKeep>100</SamplesToKeep>
+				</DataSet>
+			</AnalysisData>
+			<AgentLinks>
+				<AgentLink>
+					<Id>1381839436436</Id>
+					<Name><![CDATA[agentLink]]></Name>
+					<X>50</X><Y>-50</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<HandleReceiveInConnections>false</HandleReceiveInConnections>
+					<AgentLinkType>COLLECTION_OF_LINKS</AgentLinkType>
+					<AgentLinkBidirectional>true</AgentLinkBidirectional>
+					<MessageType><![CDATA[Object]]></MessageType>
+					<LineStyle>SOLID</LineStyle>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16777216</LineColor>
+					<LineZOrder>UNDER_AGENTS</LineZOrder>
+					<LineArrow>NONE</LineArrow>
+					<LineArrowPosition>END</LineArrowPosition>
+				</AgentLink>
+			</AgentLinks>
+
+			<EmbeddedObjects>
+				<EmbeddedObject>
+					<Id>1163672178128</Id>
+					<Name><![CDATA[people]]></Name>
+					<X>50</X><Y>250</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<PresentationId>1163672178129</PresentationId>
+					<ActiveObjectClass>
+						<PackageName><![CDATA[sir_agent_based_calibration]]></PackageName>
+						<ClassName><![CDATA[Person]]></ClassName>
+					</ActiveObjectClass>
+					<GenericParameterSubstitute>
+						<GenericParameterSubstituteReference>
+							<PackageName><![CDATA[sir_agent_based_calibration]]></PackageName>
+							<ClassName><![CDATA[Person]]></ClassName>
+							<ItemName><![CDATA[1413229661740]]></ItemName>
+						</GenericParameterSubstituteReference>
+					</GenericParameterSubstitute>
+					<Parameters>
+					</Parameters>
+					<ReplicationFlag>true</ReplicationFlag>
+					<Replication Class="CodeValue">
+						<Code><![CDATA[TotalPopulation]]></Code>
+					</Replication>
+					<EnvironmentCode><![CDATA[environment]]></EnvironmentCode>
+					<CollectionType>ARRAY_LIST_BASED</CollectionType>
+					<StatisticsItem>
+						<Id>1705919825725</Id>
+						<Name><![CDATA[nInfectious]]></Name>
+						<Type>count</Type>
+						<Expression><![CDATA[]]></Expression>
+						<Condition><![CDATA[item.inState( Person.Infectious )]]></Condition>
+					</StatisticsItem>
+					<InEnvironment>true</InEnvironment>
+					<InitialSpeedCode Class="CodeUnitValue">
+						<Code><![CDATA[10]]></Code>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</InitialSpeedCode>
+					<InitialLocationType>XYZ</InitialLocationType>
+					<XCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</XCode>
+					<YCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</YCode>
+					<ZCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ZCode>
+					<ColumnCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ColumnCode>
+					<RowCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</RowCode>
+					<LocationNameCode Class="CodeValue">
+						<Code><![CDATA[""]]></Code>
+					</LocationNameCode>
+					<InitializationType>SPECIFIED_NUMBER</InitializationType>
+					<InitializationDatabaseTableQuery>
+						<TableReference>
+						</TableReference>
+					</InitializationDatabaseTableQuery>
+					<InitializationDatabaseType>ONE_AGENT_PER_DATABASE_RECORD</InitializationDatabaseType>
+					<QuantityColumn>
+					</QuantityColumn>
+				</EmbeddedObject>
+			</EmbeddedObjects>
+
+			<Presentation>
+				<Level>
+					<Id>1561037887766</Id>
+					<Name><![CDATA[level]]></Name>
+					<X>0</X><Y>0</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<LevelVisibility>DIM_NON_CURRENT</LevelVisibility>
+
+			<Presentation>
+				<Group>
+					<Id>1719997867875</Id>
+					<Name><![CDATA[group]]></Name>
+					<X>0</X><Y>0</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+
+			<Presentation>
+				<EmbeddedObjectPresentation>
+					<Id>1163672178129</Id>
+					<Name><![CDATA[people_presentation]]></Name>
+					<X>0</X><Y>0</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<ScaleType>AUTOMATICALLY_CALCULATED</ScaleType>
+					<GISScaleForRealEmbeddedObjectPresentationSize>1000</GISScaleForRealEmbeddedObjectPresentationSize>
+					<GISScaleForFixedEmbeddedObjectPresentationSize>1000000000</GISScaleForFixedEmbeddedObjectPresentationSize>
+					<Latitude>0.0</Latitude>
+					<Longitude>0.0</Longitude>
+				</EmbeddedObjectPresentation>
+			</Presentation>
+
+				</Group>
+			</Presentation>
+
+				</Level>
+			</Presentation>
+
+		</ActiveObjectClass>
+		<!--   =========   Active Object Class   ========  -->
+		<ActiveObjectClass>
+			<Id>1163671663688</Id>
+			<Name><![CDATA[Person]]></Name>
+			<Generic>false</Generic>
+			<GenericParameter>
+				<Id>1413229661740</Id>
+				<Name><![CDATA[1413229661740]]></Name>
+				<GenericParameterValue Class="CodeValue">
+					<Code><![CDATA[T]]></Code>
+				</GenericParameterValue>
+				<GenericParameterLabel><![CDATA[Generic parameters:]]></GenericParameterLabel>
+			</GenericParameter>
+			<FlowChartsUsage>ENTITY</FlowChartsUsage>
+			<SamplesToKeep>100</SamplesToKeep>
+			<LimitNumberOfArrayElements>false</LimitNumberOfArrayElements>
+			<ElementsLimitValue>100</ElementsLimitValue>
+			<MakeDefaultViewArea>false</MakeDefaultViewArea>
+			<SceneGridColor/>
+			<SceneBackgroundColor/>
+			<SceneSkybox>null</SceneSkybox>
+			<AgentProperties>
+				<EnvironmentDefinesInitialLocation>true</EnvironmentDefinesInitialLocation>
+				<RotateAnimationTowardsMovement>true</RotateAnimationTowardsMovement>
+				<RotateAnimationVertically>false</RotateAnimationVertically>
+				<VelocityCode Class="CodeUnitValue">
+					<Code><![CDATA[10]]></Code>
+					<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+				</VelocityCode>
+				<PhysicalLength Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalLength>
+				<PhysicalWidth Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalWidth>
+				<PhysicalHeight Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalHeight>
+			</AgentProperties>
+			<EnvironmentProperties>
+					<EnableSteps>false</EnableSteps>
+					<StepDurationCode Class="CodeUnitValue">
+						<Code><![CDATA[1.0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
+					</StepDurationCode>
+					<SpaceType>CONTINUOUS</SpaceType>
+					<WidthCode><![CDATA[500]]></WidthCode>
+					<HeightCode><![CDATA[500]]></HeightCode>
+					<ZHeightCode><![CDATA[0]]></ZHeightCode>
+					<ColumnsCountCode><![CDATA[100]]></ColumnsCountCode>
+					<RowsCountCode><![CDATA[100]]></RowsCountCode>
+					<NeigborhoodType>MOORE</NeigborhoodType>
+					<LayoutType>USER_DEF</LayoutType>
+					<NetworkType>USER_DEF</NetworkType>
+					<ConnectionsPerAgentCode><![CDATA[2]]></ConnectionsPerAgentCode>
+					<ConnectionsRangeCode><![CDATA[50]]></ConnectionsRangeCode>
+					<NeighborLinkFractionCode><![CDATA[0.95]]></NeighborLinkFractionCode>
+					<MCode><![CDATA[10]]></MCode>
+			</EnvironmentProperties>
+			<DatasetsCreationProperties>
+				<AutoCreate>true</AutoCreate>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1412064000000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[1]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
+					</RecurrenceCode>
+			</DatasetsCreationProperties>
+			<ScaleRuler>
+				<Id>1412007235905</Id>
+				<Name><![CDATA[scale]]></Name>
+				<X>0</X><Y>-150</Y>
+				<PublicFlag>false</PublicFlag>
+				<PresentationFlag>false</PresentationFlag>
+				<ShowLabel>false</ShowLabel>
+				<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+				<Length>100</Length>
+				<Rotation>0</Rotation>
+				<ScaleType>BASED_ON_LENGTH</ScaleType>
+				<ModelLength>10</ModelLength>
+				<LengthUnits>METER</LengthUnits>
+				<Scale>10</Scale>
+				<InheritedFromParentAgentType>true</InheritedFromParentAgentType>
+			</ScaleRuler>
+			<CurrentLevel>1561037887767</CurrentLevel>
+			<ConnectionsId>1381839436438</ConnectionsId>
+			<StatechartElements>
+				<StatechartElement Class="State" ParentState="ROOT_NODE">
+					<Id>1163671686962</Id>
+					<Name><![CDATA[Susceptible]]></Name>
+					<X>60</X><Y>50</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties Width="100" Height="30">
+						<EntryAction><![CDATA[
+]]></EntryAction>
+						<FillColor/>
+					</Properties>
+				</StatechartElement>
+				<StatechartElement Class="State" ParentState="ROOT_NODE">
+					<Id>1163671686972</Id>
+					<Name><![CDATA[Infectious]]></Name>
+					<X>60</X><Y>130</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties Width="100" Height="50">
+						<FillColor>-47872</FillColor>
+					</Properties>
+				</StatechartElement>
+				<StatechartElement Class="State" ParentState="ROOT_NODE">
+					<Id>1163671686976</Id>
+					<Name><![CDATA[Recovered]]></Name>
+					<X>60</X><Y>250</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties Width="100" Height="30">
+						<EntryAction><![CDATA[
+]]></EntryAction>
+						<FillColor/>
+					</Properties>
+				</StatechartElement>
+				<StatechartElement Class="EntryPoint" ParentState="ROOT_NODE">
+					<Id>1163671686952</Id>
+					<Name><![CDATA[statechart]]></Name>
+					<X>100</X><Y>30</Y>
+					<Label><X>-30</X><Y>-20</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Points>
+						<Point><X>0</X><Y>0</Y></Point>
+						<Point><X>0</X><Y>20</Y></Point>
+					</Points>
+					<Properties Target="1163671686962">
+					</Properties>	
+				</StatechartElement>
+				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
+					<Id>1163671686964</Id>
+					<Name><![CDATA[Infection]]></Name>
+					<X>100</X><Y>80</Y>
+					<Label><X>10</X><Y>20</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Points>
+						<Point><X>0</X><Y>0</Y></Point>
+						<Point><X>0</X><Y>50</Y></Point>
+					</Points>
+					<IconOffset>19.0</IconOffset>
+					<Properties Source="1163671686962" Target="1163671686972" Trigger="message">
+						<Timeout Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
+						</Timeout>
+						<Condition><![CDATA[true]]></Condition>
+						<Rate Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="RateUnits"><![CDATA[PER_DAY]]></Unit>
+						</Rate>
+						<MessageType><![CDATA[Object]]></MessageType>
+						<DefaultTransition>true</DefaultTransition>
+						<FilterType><![CDATA[unconditionally]]></FilterType>
+						<EqualsExpression><![CDATA[Sample_Message]]></EqualsExpression>
+						<SatisfiesExpression><![CDATA[true]]></SatisfiesExpression>
+					</Properties>	
+				</StatechartElement>
+				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
+					<Id>1163671686974</Id>
+					<Name><![CDATA[Recovery]]></Name>
+					<X>100</X><Y>180</Y>
+					<Label><X>10</X><Y>30</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Points>
+						<Point><X>0</X><Y>0</Y></Point>
+						<Point><X>0</X><Y>70</Y></Point>
+					</Points>
+					<IconOffset>29.0</IconOffset>
+					<Properties Source="1163671686972" Target="1163671686976" Trigger="rate">
+						<Timeout Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
+						</Timeout>
+						<Condition><![CDATA[true]]></Condition>
+						<Rate Class="CodeUnitValue">
+							<Code><![CDATA[1.0 / main.AverageIllnessDuration]]></Code>
+							<Unit Class="RateUnits"><![CDATA[PER_DAY]]></Unit>
+						</Rate>
+						<MessageType><![CDATA[Object]]></MessageType>
+						<DefaultTransition>true</DefaultTransition>
+						<FilterType><![CDATA[unconditionally]]></FilterType>
+						<EqualsExpression><![CDATA[Sample_Message]]></EqualsExpression>
+						<SatisfiesExpression><![CDATA[true]]></SatisfiesExpression>
+					</Properties>	
+				</StatechartElement>
+				<StatechartElement Class="Transition" ParentState="Infectious" ParentStateId="1163671686972">
+					<Id>1163671686982</Id>
+					<Name><![CDATA[Contact]]></Name>
+					<X>140</X><Y>180</Y>
+					<Label><X>-50</X><Y>-20</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Points>
+						<Point><X>0</X><Y>0</Y></Point>
+						<Point><X>0</X><Y>-20</Y></Point>
+						<Point><X>20</X><Y>-20</Y></Point>
+					</Points>
+					<IconOffset>14.0</IconOffset>
+					<Properties Source="1163671686972" Target="1163671686972" Trigger="rate">
+						<Action><![CDATA[send( "Infection", RANDOM );
+]]></Action>
+						<Timeout Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
+						</Timeout>
+						<Condition><![CDATA[true]]></Condition>
+						<Rate Class="CodeUnitValue">
+							<Code><![CDATA[main.ContactRate * main.InfectionProbability]]></Code>
+							<Unit Class="RateUnits"><![CDATA[PER_DAY]]></Unit>
+						</Rate>
+						<MessageType><![CDATA[Object]]></MessageType>
+						<DefaultTransition>true</DefaultTransition>
+						<FilterType><![CDATA[unconditionally]]></FilterType>
+						<EqualsExpression><![CDATA[Sample_Message]]></EqualsExpression>
+						<SatisfiesExpression><![CDATA[true]]></SatisfiesExpression>
+					</Properties>	
+				</StatechartElement>
+			</StatechartElements>
+			<AgentLinks>
+				<AgentLink>
+					<Id>1381839436438</Id>
+					<Name><![CDATA[agentLink]]></Name>
+					<X>50</X><Y>-50</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<OnReceive><![CDATA[statechart.receiveMessage( msg );]]></OnReceive>
+					<HandleReceiveInConnections>false</HandleReceiveInConnections>
+					<AgentLinkType>COLLECTION_OF_LINKS</AgentLinkType>
+					<AgentLinkBidirectional>true</AgentLinkBidirectional>
+					<MessageType><![CDATA[Object]]></MessageType>
+					<LineStyle>SOLID</LineStyle>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16777216</LineColor>
+					<LineZOrder>UNDER_AGENTS</LineZOrder>
+					<LineArrow>NONE</LineArrow>
+					<LineArrowPosition>END</LineArrowPosition>
+				</AgentLink>
+			</AgentLinks>
+
+			<ContainerLinks>
+				<ContainerLink>
+					<Id>1381839439321</Id>
+					<Name><![CDATA[main]]></Name>
+					<X>50</X><Y>-100</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<ActiveObjectClass>
+						<PackageName><![CDATA[sir_agent_based_calibration]]></PackageName>
+						<ClassName><![CDATA[Main]]></ClassName>
+					</ActiveObjectClass>
+				</ContainerLink>
+			</ContainerLinks>
+
+			<Presentation>
+				<Level>
+					<Id>1561037887767</Id>
+					<Name><![CDATA[level]]></Name>
+					<X>0</X><Y>0</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<LevelVisibility>DIM_NON_CURRENT</LevelVisibility>
+
+
+				</Level>
+			</Presentation>
+
+		</ActiveObjectClass>
+	</ActiveObjectClasses>
+	<DifferentialEquationsMethod>EULER</DifferentialEquationsMethod>
+	<MixedEquationsMethod>RK45_NEWTON</MixedEquationsMethod>
+	<AlgebraicEquationsMethod>MODIFIED_NEWTON</AlgebraicEquationsMethod>
+	<AbsoluteAccuracy>1.0E-5</AbsoluteAccuracy>
+	<FixedTimeStep>0.01</FixedTimeStep>
+	<RelativeAccuracy>1.0E-5</RelativeAccuracy>
+	<TimeAccuracy>1.0E-5</TimeAccuracy>
+	<Frame>
+		<Width>800</Width>
+		<Height>600</Height>
+	</Frame>
+	<Database>
+		<Logging>false</Logging>
+		<AutoExport>false</AutoExport>
+		<ShutdownCompact>false</ShutdownCompact>
+		<ImportSettings>
+		</ImportSettings>
+		<ExportSettings>
+		</ExportSettings>
+	</Database>
+
+	<RunConfiguration ActiveObjectClassId="1163616625033">
+		<Id>1489561473025</Id>
+		<Name><![CDATA[RunConfiguration]]></Name>
+		<MaximumMemory>512</MaximumMemory>
+		<ModelTimeProperties>
+			<StopOption><![CDATA[Stop at specified time]]></StopOption>
+			<InitialDate><![CDATA[1163674368828]]></InitialDate>	
+			<InitialTime><![CDATA[0.0]]></InitialTime>	
+			<FinalDate><![CDATA[1180954368828]]></FinalDate>	
+			<FinalTime><![CDATA[200.0]]></FinalTime>	
+		</ModelTimeProperties>
+		<AnimationProperties>
+			<StopNever>false</StopNever>
+			<ExecutionMode>realTimeScaled</ExecutionMode>
+			<RealTimeScale>10.0</RealTimeScale>
+			<EnableZoomAndPanning>false</EnableZoomAndPanning>
+			<EnableDeveloperPanel>false</EnableDeveloperPanel>
+			<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
+		</AnimationProperties>
+		<Inputs>
+    		<RunConfigurationInput>
+				<Id>1489594700282</Id>
+				<Name><![CDATA[Average illness duration]]></Name>
+				<InputReference>
+					<PackageName><![CDATA[sir_agent_based_calibration]]></PackageName>
+					<ClassName><![CDATA[Main]]></ClassName>
+					<ItemName><![CDATA[AverageIllnessDuration]]></ItemName>
+				</InputReference>
+    		</RunConfigurationInput>
+    		<RunConfigurationInput>
+				<Id>1489594700283</Id>
+				<Name><![CDATA[Contact rate]]></Name>
+				<InputReference>
+					<PackageName><![CDATA[sir_agent_based_calibration]]></PackageName>
+					<ClassName><![CDATA[Main]]></ClassName>
+					<ItemName><![CDATA[ContactRate]]></ItemName>
+				</InputReference>
+    		</RunConfigurationInput>
+    		<RunConfigurationInput>
+				<Id>1489594700284</Id>
+				<Name><![CDATA[Infection probability]]></Name>
+				<InputReference>
+					<PackageName><![CDATA[sir_agent_based_calibration]]></PackageName>
+					<ClassName><![CDATA[Main]]></ClassName>
+					<ItemName><![CDATA[InfectionProbability]]></ItemName>
+				</InputReference>
+    		</RunConfigurationInput>
+    		<RunConfigurationInput>
+				<Id>1489594700285</Id>
+				<Name><![CDATA[Total population]]></Name>
+				<InputReference>
+					<PackageName><![CDATA[sir_agent_based_calibration]]></PackageName>
+					<ClassName><![CDATA[Main]]></ClassName>
+					<ItemName><![CDATA[TotalPopulation]]></ItemName>
+				</InputReference>
+    		</RunConfigurationInput>		
+		</Inputs>
+		<Outputs>
+    		<RunConfigurationOutput>
+				<Id>1701338005118</Id>
+				<Name><![CDATA[Infectious difference]]></Name>
+				<OutputReference>
+					<PackageName><![CDATA[sir_agent_based_calibration]]></PackageName>
+					<ClassName><![CDATA[Main]]></ClassName>
+					<ItemName><![CDATA[differenceWithHistoricData]]></ItemName>
+				</OutputReference>
+    		</RunConfigurationOutput>
+    		<RunConfigurationOutput>
+				<Id>1701338938336</Id>
+				<Name><![CDATA[Ds infectious historic]]></Name>
+				<OutputReference>
+					<PackageName><![CDATA[sir_agent_based_calibration]]></PackageName>
+					<ClassName><![CDATA[Main]]></ClassName>
+					<ItemName><![CDATA[dsInfectiousHistoric]]></ItemName>
+				</OutputReference>
+    		</RunConfigurationOutput>
+    		<RunConfigurationOutput>
+				<Id>1719997867873</Id>
+				<Name><![CDATA[Max prevalence]]></Name>
+				<OutputReference>
+					<PackageName><![CDATA[sir_agent_based_calibration]]></PackageName>
+					<ClassName><![CDATA[Main]]></ClassName>
+					<ItemName><![CDATA[maxPrevalence]]></ItemName>
+				</OutputReference>
+    		</RunConfigurationOutput>
+    		<RunConfigurationOutput>
+				<Id>1701338934367</Id>
+				<Name><![CDATA[Infectious DS]]></Name>
+				<OutputReference>
+					<PackageName><![CDATA[sir_agent_based_calibration]]></PackageName>
+					<ClassName><![CDATA[Main]]></ClassName>
+					<ItemName><![CDATA[InfectiousDS]]></ItemName>
+				</OutputReference>
+    		</RunConfigurationOutput>
+		</Outputs>
+	</RunConfiguration>
+	<Experiments>	
+		<!--   =========  Optimization Experiment   ========  -->
+		<OptimizationExperiment ActiveObjectClassId="1163616625033">
+			<Id>1163674368928</Id>
+			<Name><![CDATA[Calibration]]></Name>
+			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
+			<InitialSetupCode><![CDATA[dsInfectiousHistoric.fillFrom( InfectiousHistoric );]]></InitialSetupCode>
+			<MaximumMemory>2048</MaximumMemory>
+			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
+			<CustomGeneratorCode>new Random()</CustomGeneratorCode>
+			<BeforeEachExperimentRunCode><![CDATA[datasetCurrentObjective.reset();
+datasetBestFeasibleObjective.reset();]]></BeforeEachExperimentRunCode>
+			<AfterSimulationRunCode><![CDATA[dsInfectiousCurrent.fillFrom( root.InfectiousDS );]]></AfterSimulationRunCode>
+			<SeedValue>1</SeedValue>
+			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
+			<VmArgs><![CDATA[]]></VmArgs>
+			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
+			<TableFunctions>
+				<TableFunction AccessType="public" StaticFunction="true">
+					<Id>1313670806344</Id>
+					<Name><![CDATA[InfectiousHistoric]]></Name>
+					<X>-200</X><Y>200</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<InterpolationMethod>LINEAR</InterpolationMethod>
+					<OutOfRangeBehaviour>ERROR</OutOfRangeBehaviour>
+					<OutOfRangeCustomValue><![CDATA[0.0]]></OutOfRangeCustomValue>
+					<ApproximationOrder><![CDATA[1]]></ApproximationOrder>
+					<LoadFromDatabase><![CDATA[false]]></LoadFromDatabase>
+					<ValuesQuery>
+						<TableReference>
+						</TableReference>
+							<ArgumentColumnReference>
+							</ArgumentColumnReference>
+							<ValueColumnReference>
+							</ValueColumnReference>
+					</ValuesQuery>
+// arguments and values
+					<Argument><![CDATA[2.0]]></Argument>
+					<Argument><![CDATA[4.0]]></Argument>
+					<Argument><![CDATA[6.0]]></Argument>
+					<Argument><![CDATA[8.0]]></Argument>
+					<Argument><![CDATA[10.0]]></Argument>
+					<Argument><![CDATA[12.0]]></Argument>
+					<Argument><![CDATA[14.0]]></Argument>
+					<Argument><![CDATA[16.0]]></Argument>
+					<Argument><![CDATA[18.0]]></Argument>
+					<Argument><![CDATA[20.0]]></Argument>
+					<Argument><![CDATA[22.0]]></Argument>
+					<Argument><![CDATA[24.0]]></Argument>
+					<Argument><![CDATA[26.0]]></Argument>
+					<Argument><![CDATA[28.0]]></Argument>
+					<Argument><![CDATA[30.0]]></Argument>
+					<Argument><![CDATA[32.0]]></Argument>
+					<Argument><![CDATA[34.0]]></Argument>
+					<Argument><![CDATA[36.0]]></Argument>
+					<Argument><![CDATA[38.0]]></Argument>
+					<Argument><![CDATA[40.0]]></Argument>
+					<Argument><![CDATA[42.0]]></Argument>
+					<Argument><![CDATA[44.0]]></Argument>
+					<Argument><![CDATA[46.0]]></Argument>
+					<Argument><![CDATA[48.0]]></Argument>
+					<Argument><![CDATA[50.0]]></Argument>
+					<Argument><![CDATA[52.0]]></Argument>
+					<Argument><![CDATA[54.0]]></Argument>
+					<Argument><![CDATA[56.0]]></Argument>
+					<Argument><![CDATA[58.0]]></Argument>
+					<Argument><![CDATA[60.0]]></Argument>
+					<Argument><![CDATA[62.0]]></Argument>
+					<Argument><![CDATA[64.0]]></Argument>
+					<Argument><![CDATA[66.0]]></Argument>
+					<Argument><![CDATA[68.0]]></Argument>
+					<Argument><![CDATA[70.0]]></Argument>
+					<Argument><![CDATA[72.0]]></Argument>
+					<Argument><![CDATA[74.0]]></Argument>
+					<Argument><![CDATA[76.0]]></Argument>
+					<Argument><![CDATA[78.0]]></Argument>
+					<Argument><![CDATA[80.0]]></Argument>
+					<Argument><![CDATA[82.0]]></Argument>
+					<Argument><![CDATA[84.0]]></Argument>
+					<Argument><![CDATA[86.0]]></Argument>
+					<Argument><![CDATA[88.0]]></Argument>
+					<Argument><![CDATA[90.0]]></Argument>
+					<Argument><![CDATA[92.0]]></Argument>
+					<Argument><![CDATA[94.0]]></Argument>
+					<Argument><![CDATA[96.0]]></Argument>
+					<Argument><![CDATA[98.0]]></Argument>
+					<Argument><![CDATA[100.0]]></Argument>
+					<Argument><![CDATA[102.0]]></Argument>
+					<Argument><![CDATA[104.0]]></Argument>
+					<Argument><![CDATA[106.0]]></Argument>
+					<Argument><![CDATA[108.0]]></Argument>
+					<Argument><![CDATA[110.0]]></Argument>
+					<Argument><![CDATA[112.0]]></Argument>
+					<Argument><![CDATA[114.0]]></Argument>
+					<Argument><![CDATA[116.0]]></Argument>
+					<Argument><![CDATA[118.0]]></Argument>
+					<Argument><![CDATA[120.0]]></Argument>
+					<Argument><![CDATA[122.0]]></Argument>
+					<Argument><![CDATA[124.0]]></Argument>
+					<Argument><![CDATA[126.0]]></Argument>
+					<Argument><![CDATA[128.0]]></Argument>
+					<Argument><![CDATA[130.0]]></Argument>
+					<Argument><![CDATA[132.0]]></Argument>
+					<Argument><![CDATA[134.0]]></Argument>
+					<Argument><![CDATA[136.0]]></Argument>
+					<Argument><![CDATA[138.0]]></Argument>
+					<Argument><![CDATA[140.0]]></Argument>
+					<Argument><![CDATA[142.0]]></Argument>
+					<Argument><![CDATA[144.0]]></Argument>
+					<Argument><![CDATA[146.0]]></Argument>
+					<Argument><![CDATA[148.0]]></Argument>
+					<Argument><![CDATA[150.0]]></Argument>
+					<Argument><![CDATA[152.0]]></Argument>
+					<Argument><![CDATA[154.0]]></Argument>
+					<Argument><![CDATA[156.0]]></Argument>
+					<Argument><![CDATA[158.0]]></Argument>
+					<Argument><![CDATA[160.0]]></Argument>
+					<Argument><![CDATA[162.0]]></Argument>
+					<Argument><![CDATA[164.0]]></Argument>
+					<Argument><![CDATA[166.0]]></Argument>
+					<Argument><![CDATA[168.0]]></Argument>
+					<Argument><![CDATA[170.0]]></Argument>
+					<Argument><![CDATA[172.0]]></Argument>
+					<Argument><![CDATA[174.0]]></Argument>
+					<Argument><![CDATA[176.0]]></Argument>
+					<Argument><![CDATA[178.0]]></Argument>
+					<Argument><![CDATA[180.0]]></Argument>
+					<Argument><![CDATA[182.0]]></Argument>
+					<Argument><![CDATA[184.0]]></Argument>
+					<Argument><![CDATA[186.0]]></Argument>
+					<Argument><![CDATA[188.0]]></Argument>
+					<Argument><![CDATA[190.0]]></Argument>
+					<Argument><![CDATA[192.0]]></Argument>
+					<Argument><![CDATA[194.0]]></Argument>
+					<Argument><![CDATA[196.0]]></Argument>
+					<Argument><![CDATA[198.0]]></Argument>
+					<Argument><![CDATA[200.0]]></Argument>
+					<Value><![CDATA[3.0]]></Value>
+					<Value><![CDATA[8.0]]></Value>
+					<Value><![CDATA[24.0]]></Value>
+					<Value><![CDATA[71.0]]></Value>
+					<Value><![CDATA[202.0]]></Value>
+					<Value><![CDATA[558.0]]></Value>
+					<Value><![CDATA[1428.0]]></Value>
+					<Value><![CDATA[3070.0]]></Value>
+					<Value><![CDATA[5014.0]]></Value>
+					<Value><![CDATA[6214.0]]></Value>
+					<Value><![CDATA[6431.0]]></Value>
+					<Value><![CDATA[6083.0]]></Value>
+					<Value><![CDATA[5527.0]]></Value>
+					<Value><![CDATA[4931.0]]></Value>
+					<Value><![CDATA[4361.0]]></Value>
+					<Value><![CDATA[3841.0]]></Value>
+					<Value><![CDATA[3375.0]]></Value>
+					<Value><![CDATA[2961.0]]></Value>
+					<Value><![CDATA[2596.0]]></Value>
+					<Value><![CDATA[2275.0]]></Value>
+					<Value><![CDATA[1993.0]]></Value>
+					<Value><![CDATA[1746.0]]></Value>
+					<Value><![CDATA[1529.0]]></Value>
+					<Value><![CDATA[1339.0]]></Value>
+					<Value><![CDATA[1172.0]]></Value>
+					<Value><![CDATA[1026.0]]></Value>
+					<Value><![CDATA[898.0]]></Value>
+					<Value><![CDATA[787.0]]></Value>
+					<Value><![CDATA[689.0]]></Value>
+					<Value><![CDATA[603.0]]></Value>
+					<Value><![CDATA[528.0]]></Value>
+					<Value><![CDATA[462.0]]></Value>
+					<Value><![CDATA[404.0]]></Value>
+					<Value><![CDATA[354.0]]></Value>
+					<Value><![CDATA[310.0]]></Value>
+					<Value><![CDATA[271.0]]></Value>
+					<Value><![CDATA[237.0]]></Value>
+					<Value><![CDATA[208.0]]></Value>
+					<Value><![CDATA[182.0]]></Value>
+					<Value><![CDATA[159.0]]></Value>
+					<Value><![CDATA[139.0]]></Value>
+					<Value><![CDATA[122.0]]></Value>
+					<Value><![CDATA[107.0]]></Value>
+					<Value><![CDATA[93.0]]></Value>
+					<Value><![CDATA[82.0]]></Value>
+					<Value><![CDATA[72.0]]></Value>
+					<Value><![CDATA[63.0]]></Value>
+					<Value><![CDATA[55.0]]></Value>
+					<Value><![CDATA[48.0]]></Value>
+					<Value><![CDATA[42.0]]></Value>
+					<Value><![CDATA[37.0]]></Value>
+					<Value><![CDATA[32.0]]></Value>
+					<Value><![CDATA[28.0]]></Value>
+					<Value><![CDATA[25.0]]></Value>
+					<Value><![CDATA[22.0]]></Value>
+					<Value><![CDATA[19.0]]></Value>
+					<Value><![CDATA[17.0]]></Value>
+					<Value><![CDATA[14.0]]></Value>
+					<Value><![CDATA[13.0]]></Value>
+					<Value><![CDATA[11.0]]></Value>
+					<Value><![CDATA[10.0]]></Value>
+					<Value><![CDATA[9.0]]></Value>
+					<Value><![CDATA[7.0]]></Value>
+					<Value><![CDATA[7.0]]></Value>
+					<Value><![CDATA[6.0]]></Value>
+					<Value><![CDATA[5.0]]></Value>
+					<Value><![CDATA[4.0]]></Value>
+					<Value><![CDATA[4.0]]></Value>
+					<Value><![CDATA[3.0]]></Value>
+					<Value><![CDATA[3.0]]></Value>
+					<Value><![CDATA[3.0]]></Value>
+					<Value><![CDATA[2.0]]></Value>
+					<Value><![CDATA[2.0]]></Value>
+					<Value><![CDATA[2.0]]></Value>
+					<Value><![CDATA[2.0]]></Value>
+					<Value><![CDATA[1.0]]></Value>
+					<Value><![CDATA[1.0]]></Value>
+					<Value><![CDATA[1.0]]></Value>
+					<Value><![CDATA[1.0]]></Value>
+					<Value><![CDATA[1.0]]></Value>
+					<Value><![CDATA[1.0]]></Value>
+					<Value><![CDATA[1.0]]></Value>
+					<Value><![CDATA[1.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+					<Value><![CDATA[0.0]]></Value>
+				</TableFunction>
+			</TableFunctions>
+			<AnalysisData>
+    			<DataSet>
+					<Id>1719997867871</Id>
+					<Name><![CDATA[datasetCurrentObjective]]></Name>
+					<X>-200</X><Y>50</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>false</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<AutoUpdate>true</AutoUpdate>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1412064000000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[MINUTE]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[1]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
+					</RecurrenceCode>
+					<FreezeXAxis>true</FreezeXAxis>
+					<VerticalAxisExpression><![CDATA[getCurrentObjectiveValue()]]></VerticalAxisExpression>
+					<SamplesToKeep>600</SamplesToKeep>
+				</DataSet>
+    			<DataSet>
+					<Id>1719997867872</Id>
+					<Name><![CDATA[datasetBestFeasibleObjective]]></Name>
+					<X>-200</X><Y>100</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>false</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<AutoUpdate>true</AutoUpdate>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1412064000000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[MINUTE]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[1]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
+					</RecurrenceCode>
+					<FreezeXAxis>true</FreezeXAxis>
+					<VerticalAxisExpression><![CDATA[getBestObjectiveValue()]]></VerticalAxisExpression>
+					<SamplesToKeep>600</SamplesToKeep>
+				</DataSet>
+    			<DataSet>
+					<Id>1163767586846</Id>
+					<Name><![CDATA[dsInfectiousHistoric]]></Name>
+					<X>-200</X><Y>250</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<AutoUpdate>false</AutoUpdate>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1412064000000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[MINUTE]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[2]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
+					</RecurrenceCode>
+					<FreezeXAxis>false</FreezeXAxis>
+					<SamplesToKeep>100</SamplesToKeep>
+				</DataSet>
+    			<DataSet>
+					<Id>1163769606940</Id>
+					<Name><![CDATA[dsInfectiousCurrent]]></Name>
+					<X>-200</X><Y>300</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<AutoUpdate>false</AutoUpdate>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1412064000000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[MINUTE]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[1]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
+					</RecurrenceCode>
+					<FreezeXAxis>false</FreezeXAxis>
+					<SamplesToKeep>100</SamplesToKeep>
+				</DataSet>
+    			<DataSet>
+					<Id>1163775524560</Id>
+					<Name><![CDATA[dsInfectiousBest]]></Name>
+					<X>-200</X><Y>350</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<AutoUpdate>false</AutoUpdate>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1412064000000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[MINUTE]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[1]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
+					</RecurrenceCode>
+					<FreezeXAxis>false</FreezeXAxis>
+					<SamplesToKeep>100</SamplesToKeep>
+				</DataSet>
+			</AnalysisData>
+
+			<Presentation>
+				<Text>
+					<Id>1719997867845</Id>
+					<Name><![CDATA[text]]></Name>
+					<X>20</X><Y>10</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777077</Color>
+					<Text><![CDATA[Calibration of Agent Based SIR Model]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>28</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1719997867846</Id>
+					<Name><![CDATA[text2]]></Name>
+					<X>170</X><Y>80</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777077</Color>
+					<Text><![CDATA[Current]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>RIGHT</Alignment>
+				</Text>
+				<Text>
+					<Id>1719997867847</Id>
+					<Name><![CDATA[text3]]></Name>
+					<X>240</X><Y>80</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777077</Color>
+					<Text><![CDATA[Best]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>RIGHT</Alignment>
+				</Text>
+				<Line>
+					<Id>1719997867848</Id>
+					<Name><![CDATA[line]]></Name>
+					<X>10</X><Y>100</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>0</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16777216</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<BeginArrowSize>1</BeginArrowSize>
+					<BeginArrowStyle>0</BeginArrowStyle>
+					<EndArrowSize>1</EndArrowSize>
+					<EndArrowStyle>0</EndArrowStyle>
+					<Dx>240</Dx>
+					<Dy>0</Dy>
+					<Dz>0</Dz>
+				</Line>
+				<Text>
+					<Id>1719997867849</Id>
+					<Name><![CDATA[text4]]></Name>
+					<X>20</X><Y>110</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Iteration:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1719997867850</Id>
+					<Name><![CDATA[text5]]></Name>
+					<X>170</X><Y>110</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<VisibleCode><![CDATA[getCurrentIteration() > 0]]></VisibleCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-12042869</Color>
+					<Text><![CDATA[?]]></Text>
+					<TextCode><![CDATA[format(getCurrentIteration())]]></TextCode>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>RIGHT</Alignment>
+				</Text>
+				<Text>
+					<Id>1719997867851</Id>
+					<Name><![CDATA[text6]]></Name>
+					<X>170</X><Y>120</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<VisibleCode><![CDATA[getCurrentIteration() > 0 && !isCurrentSolutionFeasible()]]></VisibleCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-65536</Color>
+					<Text><![CDATA[infeasible]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>10</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>RIGHT</Alignment>
+				</Text>
+				<Text>
+					<Id>1719997867852</Id>
+					<Name><![CDATA[text7]]></Name>
+					<X>240</X><Y>110</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<VisibleCode><![CDATA[getBestIteration() > 0]]></VisibleCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-65536</Color>
+					<Text><![CDATA[?]]></Text>
+					<TextCode><![CDATA[format(getBestIteration())]]></TextCode>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>RIGHT</Alignment>
+				</Text>
+				<Line>
+					<Id>1719997867853</Id>
+					<Name><![CDATA[line1]]></Name>
+					<X>10</X><Y>150</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>0</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16777216</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<BeginArrowSize>1</BeginArrowSize>
+					<BeginArrowStyle>0</BeginArrowStyle>
+					<EndArrowSize>1</EndArrowSize>
+					<EndArrowStyle>0</EndArrowStyle>
+					<Dx>240</Dx>
+					<Dy>0</Dy>
+					<Dz>0</Dz>
+				</Line>
+				<Text>
+					<Id>1719997867854</Id>
+					<Name><![CDATA[text8]]></Name>
+					<X>20</X><Y>160</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Objective:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1719997867855</Id>
+					<Name><![CDATA[text9]]></Name>
+					<X>170</X><Y>160</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<VisibleCode><![CDATA[getCurrentIteration() > 0]]></VisibleCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-12042869</Color>
+					<Text><![CDATA[?]]></Text>
+					<TextCode><![CDATA[format(getCurrentObjectiveValue())]]></TextCode>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>RIGHT</Alignment>
+				</Text>
+				<Text>
+					<Id>1719997867856</Id>
+					<Name><![CDATA[text10]]></Name>
+					<X>240</X><Y>160</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<VisibleCode><![CDATA[getBestIteration() > 0]]></VisibleCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-65536</Color>
+					<Text><![CDATA[?]]></Text>
+					<TextCode><![CDATA[format(getBestObjectiveValue())]]></TextCode>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>RIGHT</Alignment>
+				</Text>
+				<Line>
+					<Id>1719997867857</Id>
+					<Name><![CDATA[line2]]></Name>
+					<X>10</X><Y>180</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>0</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16777216</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<BeginArrowSize>1</BeginArrowSize>
+					<BeginArrowStyle>0</BeginArrowStyle>
+					<EndArrowSize>1</EndArrowSize>
+					<EndArrowStyle>0</EndArrowStyle>
+					<Dx>240</Dx>
+					<Dy>0</Dy>
+					<Dz>0</Dz>
+				</Line>
+				<Polyline>
+					<Id>1719997867858</Id>
+					<Name><![CDATA[polyline]]></Name>
+					<X>87</X><Y>160</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>0</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor/>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<BeginArrowSize>1</BeginArrowSize>
+					<BeginArrowStyle>0</BeginArrowStyle>
+					<EndArrowSize>1</EndArrowSize>
+					<EndArrowStyle>0</EndArrowStyle>
+					<FillColor>-65536</FillColor>
+					<FillMaterial>null</FillMaterial>
+					<Points>
+					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+					   <Point><X>0</X><Y>7</Y><Z>0</Z></Point>
+					   <Point><X>3</X><Y>7</Y><Z>0</Z></Point>
+					   <Point><X>-2</X><Y>12</Y><Z>0</Z></Point>
+					   <Point><X>-7</X><Y>7</Y><Z>0</Z></Point>
+					   <Point><X>-4</X><Y>7</Y><Z>0</Z></Point>
+					   <Point><X>-4</X><Y>0</Y><Z>0</Z></Point>
+					</Points>
+					<Closed>true</Closed>
+				</Polyline>
+				<Text>
+					<Id>1719997867859</Id>
+					<Name><![CDATA[text11]]></Name>
+					<X>20</X><Y>190</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777077</Color>
+					<Text><![CDATA[Parameters]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<RoundedRectangle>
+					<Id>1719997867860</Id>
+					<Name><![CDATA[roundRect]]></Name>
+					<X>180</X><Y>200</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>0</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor/>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>80</Width>
+					<Height>90</Height>
+					<Rotation>0.0</Rotation>
+					<FillColor>-6803</FillColor>
+					<FillMaterial>null</FillMaterial>
+					<ArcRadius>10</ArcRadius>
+				</RoundedRectangle>
+				<Text>
+					<Id>1719997867861</Id>
+					<Name><![CDATA[text15]]></Name>
+					<X>20</X><Y>210</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[ContactRate]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1719997867862</Id>
+					<Name><![CDATA[text16]]></Name>
+					<X>170</X><Y>210</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<VisibleCode><![CDATA[getCurrentIteration() > 0]]></VisibleCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-12042869</Color>
+					<Text><![CDATA[?]]></Text>
+					<TextCode><![CDATA[format(getCurrentParamValue(_oqvar_ContactRate))]]></TextCode>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>RIGHT</Alignment>
+				</Text>
+				<Text>
+					<Id>1719997867863</Id>
+					<Name><![CDATA[text17]]></Name>
+					<X>240</X><Y>210</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<VisibleCode><![CDATA[getBestIteration() > 0]]></VisibleCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-65536</Color>
+					<Text><![CDATA[?]]></Text>
+					<TextCode><![CDATA[format(getBestParamValue(_oqvar_ContactRate))]]></TextCode>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>RIGHT</Alignment>
+				</Text>
+				<Text>
+					<Id>1719997867864</Id>
+					<Name><![CDATA[text18]]></Name>
+					<X>20</X><Y>230</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[InfectionProbability]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1719997867865</Id>
+					<Name><![CDATA[text19]]></Name>
+					<X>170</X><Y>230</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<VisibleCode><![CDATA[getCurrentIteration() > 0]]></VisibleCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-12042869</Color>
+					<Text><![CDATA[?]]></Text>
+					<TextCode><![CDATA[format(getCurrentParamValue(_oqvar_InfectionProbability))]]></TextCode>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>RIGHT</Alignment>
+				</Text>
+				<Text>
+					<Id>1719997867866</Id>
+					<Name><![CDATA[text20]]></Name>
+					<X>240</X><Y>230</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<VisibleCode><![CDATA[getBestIteration() > 0]]></VisibleCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-65536</Color>
+					<Text><![CDATA[?]]></Text>
+					<TextCode><![CDATA[format(getBestParamValue(_oqvar_InfectionProbability))]]></TextCode>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>RIGHT</Alignment>
+				</Text>
+				<Text>
+					<Id>1719997867867</Id>
+					<Name><![CDATA[text27]]></Name>
+					<X>20</X><Y>260</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Copy the best solution
+to the clipboard]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>10</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Polyline>
+					<Id>1719997867868</Id>
+					<Name><![CDATA[polyline1]]></Name>
+					<X>160</X><Y>260</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>0</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor/>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<BeginArrowSize>1</BeginArrowSize>
+					<BeginArrowStyle>0</BeginArrowStyle>
+					<EndArrowSize>1</EndArrowSize>
+					<EndArrowStyle>0</EndArrowStyle>
+					<FillColor>-16777011</FillColor>
+					<FillMaterial>null</FillMaterial>
+					<Points>
+					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+					   <Point><X>10</X><Y>10</Y><Z>0</Z></Point>
+					   <Point><X>0</X><Y>20</Y><Z>0</Z></Point>
+					</Points>
+					<Closed>true</Closed>
+				</Polyline>
+				<Rectangle>
+					<Id>1163767477589</Id>
+					<Name><![CDATA[rect]]></Name>
+					<X>-220</X><Y>140</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>0</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor/>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>180</Width>
+					<Height>80</Height>
+					<Rotation>0.0</Rotation>
+					<FillColor>-3150450</FillColor>
+					<FillMaterial>null</FillMaterial>
+				</Rectangle>
+				<Text>
+					<Id>1163767477599</Id>
+					<Name><![CDATA[text28]]></Name>
+					<X>-210</X><Y>150</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[These data correspond to
+ContactRate = 1.5
+InfectionProbability = 0.4]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>10</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1163777234448</Id>
+					<Name><![CDATA[text29]]></Name>
+					<X>20</X><Y>320</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[The built-in OptQuest optimizer is used to calibrate
+an agent based model of contagious disease diffusion.
+In the model each person has 3 possible states:
+Susceptible, Infectious and Recovered (SIR). Initially
+all but few people are susceptible, and few – infectious.
+A person can contact another person, and in case one
+is susceptible and another – infectious, the first may
+get infected with a certain probability. The objective is
+to find the parameters of the agents (contact
+frequencies and infection probabilities) so that the
+output of the simulation model fits best with the
+historical data – the dynamics of infectious population
+(disease prevalence). As the model is stochastic, the
+calibration is done under uncertainty, and simulation
+replications are used. A separate 1st order Monte Carlo
+experiment is included to demonstrate the output of
+the agent based model.]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>11</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1163777604731</Id>
+					<Name><![CDATA[text30]]></Name>
+					<X>360</X><Y>120</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777077</Color>
+					<Text><![CDATA[Calibration progress]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Line>
+					<Id>1163777890981</Id>
+					<Name><![CDATA[line3]]></Name>
+					<X>20</X><Y>44</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>0</ZHeight>
+					<LineWidth>0</LineWidth>
+					<LineColor>-16777088</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<BeginArrowSize>1</BeginArrowSize>
+					<BeginArrowStyle>0</BeginArrowStyle>
+					<EndArrowSize>1</EndArrowSize>
+					<EndArrowStyle>0</EndArrowStyle>
+					<Dx>760</Dx>
+					<Dy>0</Dy>
+					<Dz>0</Dz>
+				</Line>
+				<Text>
+					<Id>1163778525184</Id>
+					<Name><![CDATA[text32]]></Name>
+					<X>360</X><Y>350</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777077</Color>
+					<Text><![CDATA[Historic data, best fitting and current simulation output]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1235485292781</Id>
+					<Name><![CDATA[text12]]></Name>
+					<X>240</X><Y>120</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<VisibleCode><![CDATA[getBestIteration() > 0 && !isBestSolutionFeasible()]]></VisibleCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-65536</Color>
+					<Text><![CDATA[infeasible]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>10</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>RIGHT</Alignment>
+				</Text>
+				<Text>
+					<Id>1235485774670</Id>
+					<Name><![CDATA[text13]]></Name>
+					<X>170</X><Y>130</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<VisibleCode><![CDATA[getCurrentIteration() > 0]]></VisibleCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-12042869</Color>
+					<Text><![CDATA[?]]></Text>
+					<TextCode><![CDATA[format(getCurrentReplication())]]></TextCode>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>RIGHT</Alignment>
+				</Text>
+				<Text>
+					<Id>1235485774674</Id>
+					<Name><![CDATA[text14]]></Name>
+					<X>20</X><Y>130</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Replication:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Image>
+					<Id>1536572158573</Id>
+					<Name><![CDATA[image1]]></Name>
+					<X>600</X><Y>50</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<OnClickCode><![CDATA[getExperimentHost().openWebSite("https://www.anylogic.com");]]></OnClickCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Width>200</Width>
+					<Height>75</Height>
+					<Rotation>0.0</Rotation>
+					<ImageFiles>
+						<ImageResourceReference>
+							<PackageName><![CDATA[sir_agent_based_calibration]]></PackageName>
+							<ClassName><![CDATA[AnyLogic model logo dark.png]]></ClassName>
+						</ImageResourceReference>
+					</ImageFiles>
+					<OriginalSize>false</OriginalSize>
+				</Image>
+				<Control Type="Button">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1719997867869</Id>
+					<Name><![CDATA[button1]]></Name>
+					<X>190</X><Y>260</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="60" Height="20">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<TextColor>-16777216</TextColor>
+						<Enabled>true</Enabled>
+						<EnableExpression><![CDATA[getBestIteration() > 0]]></EnableExpression>
+						<ActionCode><![CDATA[String s = "";
+s += "AverageIllnessDuration\t" + format(15) + "\n";
+s += "ContactRate\t" + format(getBestParamValue(_oqvar_ContactRate)) + "\n";
+s += "InfectionProbability\t" + format(getBestParamValue(_oqvar_InfectionProbability)) + "\n";
+s += "AreaSide\t" + format(100) + "\n";
+s += "TotalPopulation\t" + format(10000) + "\n";
+
+copyToClipboard( s );]]></ActionCode>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="11" Style="0"/>
+						<LabelText><![CDATA[copy]]></LabelText>
+					</ExtendedProperties>
+				</Control>
+    			<Plot>
+					<Id>1719997867870</Id>
+					<Name><![CDATA[plotObjective]]></Name>
+					<X>300</X><Y>120</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<AutoUpdate>false</AutoUpdate>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1412064000000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[MINUTE]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[1]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
+					</RecurrenceCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Width>480</Width>
+					<Height>230</Height>
+					<BackgroundColor/>
+					<BorderColor/>
+					<ChartArea>
+						<XOffset>80</XOffset>
+						<YOffset>20</YOffset>
+						<Width>380</Width>
+						<Height>150</Height>
+						<BackgroundColor>-1052687</BackgroundColor>
+						<BorderColor>-16777216</BorderColor>
+						<GridColor>-12566464</GridColor>
+					</ChartArea>
+					<Legend>
+						<Place>SOUTH</Place>
+						<TextColor>-16777216</TextColor>
+						<Size>30</Size>
+					</Legend>
+					<Labels>
+						<HorLabelsPosition>DEFAULT</HorLabelsPosition>
+						<VerLabelsPosition>DEFAULT</VerLabelsPosition>
+						<TextColor>-12566464</TextColor>
+					</Labels>
+					<ShowLegend>true</ShowLegend>
+					<VerScaleFromExpression><![CDATA[0]]></VerScaleFromExpression>
+					<VerScaleToExpression><![CDATA[1]]></VerScaleToExpression>
+					<VerScaleType>AUTO</VerScaleType>
+					<DrawLine>true</DrawLine>
+					<Interpolation>LINEAR</Interpolation>
+					<DatasetExpression>  
+						<Title><![CDATA[Current objective]]></Title>
+					<Id>1719997867821</Id>
+					<Expression><![CDATA[datasetCurrentObjective]]></Expression>
+					<Color>-16776961</Color>
+					<Expression2Flag>false</Expression2Flag>
+						<PointStyle>SQUARE</PointStyle>
+						<LineWidth>0.0</LineWidth>
+						<HorizontalAxisExpression><![CDATA[]]></HorizontalAxisExpression>
+					</DatasetExpression>
+					<DatasetExpression>  
+						<Title><![CDATA[Best feasible objective]]></Title>
+					<Id>1719997867822</Id>
+					<Expression><![CDATA[datasetBestFeasibleObjective]]></Expression>
+					<Color>-65536</Color>
+					<Expression2Flag>false</Expression2Flag>
+						<PointStyle>NONE</PointStyle>
+						<LineWidth>1.0</LineWidth>
+						<HorizontalAxisExpression><![CDATA[]]></HorizontalAxisExpression>
+					</DatasetExpression>
+					<SamplesToKeep>100</SamplesToKeep>
+					<HorScaleFromExpression><![CDATA[0]]></HorScaleFromExpression>
+					<HorScaleToExpression><![CDATA[1]]></HorScaleToExpression>
+					<HorScaleType>AUTO</HorScaleType>
+    			</Plot>
+    			<TimePlot>
+					<Id>1163768927422</Id>
+					<Name><![CDATA[plot]]></Name>
+					<X>300</X><Y>350</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<AutoUpdate>false</AutoUpdate>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1412064000000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[MINUTE]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[1]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
+					</RecurrenceCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Width>480</Width>
+					<Height>240</Height>
+					<BackgroundColor/>
+					<BorderColor/>
+					<ChartArea>
+						<XOffset>80</XOffset>
+						<YOffset>20</YOffset>
+						<Width>380</Width>
+						<Height>160</Height>
+						<BackgroundColor>-1052687</BackgroundColor>
+						<BorderColor>-16777216</BorderColor>
+						<GridColor>-12566464</GridColor>
+					</ChartArea>
+					<Legend>
+						<Place>SOUTH</Place>
+						<TextColor>-16777216</TextColor>
+						<Size>30</Size>
+					</Legend>
+					<Labels>
+						<HorLabelsPosition>DEFAULT</HorLabelsPosition>
+						<VerLabelsPosition>DEFAULT</VerLabelsPosition>
+						<TextColor>-12566464</TextColor>
+					</Labels>
+					<ShowLegend>true</ShowLegend>
+					<TimeWindowsMovementType>MOVEMENT_WITH_TIME</TimeWindowsMovementType>		
+					<TimeWindowUnits>MODEL_TIME_UNIT</TimeWindowUnits>
+					<VerScaleFromExpression><![CDATA[0]]></VerScaleFromExpression>
+					<VerScaleToExpression><![CDATA[10000]]></VerScaleToExpression>
+					<VerScaleType>FIXED</VerScaleType>
+					<DrawLine>true</DrawLine>
+					<Interpolation>LINEAR</Interpolation>
+					<DatasetExpression>  
+						<Title><![CDATA[Historic data]]></Title>
+					<Id>1719997867824</Id>
+					<Expression><![CDATA[dsInfectiousHistoric]]></Expression>
+					<Color>-10496</Color>
+					<Expression2Flag>false</Expression2Flag>
+						<PointStyle>NONE</PointStyle>
+						<LineWidth>2.0</LineWidth>
+					</DatasetExpression>
+					<DatasetExpression>  
+						<Title><![CDATA[Current output]]></Title>
+					<Id>1719997867825</Id>
+					<Expression><![CDATA[dsInfectiousCurrent]]></Expression>
+					<Color>-16776961</Color>
+					<Expression2Flag>false</Expression2Flag>
+						<PointStyle>NONE</PointStyle>
+						<LineWidth>1.0</LineWidth>
+					</DatasetExpression>
+					<DatasetExpression>  
+						<Title><![CDATA[Best output]]></Title>
+					<Id>1719997867826</Id>
+					<Expression><![CDATA[dsInfectiousBest]]></Expression>
+					<Color>-65536</Color>
+					<Expression2Flag>false</Expression2Flag>
+						<PointStyle>NONE</PointStyle>
+						<LineWidth>1.0</LineWidth>
+					</DatasetExpression>
+					<SamplesToKeep>100</SamplesToKeep>
+					<TimeWindowExpression><![CDATA[200]]></TimeWindowExpression>
+					<FillAreaUnderLine>false</FillAreaUnderLine>
+					<LabelFormat>MODEL_TIME_UNITS</LabelFormat>
+    			</TimePlot>
+			</Presentation>
+
+			<Parameter>	
+				<Id>1163671985842</Id>
+				<Type>FIXED</Type>
+				<Value Class="CodeValue">
+					<Code><![CDATA[15]]></Code>
+				</Value>
+				<Min Class="CodeValue">
+					<Code><![CDATA[15]]></Code>
+				</Min>
+				<Max Class="CodeValue">
+					<Code><![CDATA[15]]></Code>
+				</Max>
+				<Step Class="CodeValue">
+					<Code><![CDATA[0]]></Code>
+				</Step>
+			</Parameter>
+			<Parameter>	
+				<Id>1163671985844</Id>
+				<Type>CONTINUOUS</Type>
+				<Value Class="CodeValue">
+					<Code><![CDATA[1.5]]></Code>
+				</Value>
+				<Min Class="CodeValue">
+					<Code><![CDATA[0.5]]></Code>
+				</Min>
+				<Max Class="CodeValue">
+					<Code><![CDATA[5]]></Code>
+				</Max>
+				<Step Class="CodeValue">
+					<Code><![CDATA[0]]></Code>
+				</Step>
+			</Parameter>
+			<Parameter>	
+				<Id>1163671985851</Id>
+				<Type>CONTINUOUS</Type>
+				<Value Class="CodeValue">
+					<Code><![CDATA[0.4]]></Code>
+				</Value>
+				<Min Class="CodeValue">
+					<Code><![CDATA[0.1]]></Code>
+				</Min>
+				<Max Class="CodeValue">
+					<Code><![CDATA[0.8]]></Code>
+				</Max>
+				<Step Class="CodeValue">
+					<Code><![CDATA[0]]></Code>
+				</Step>
+			</Parameter>
+			<Parameter>	
+				<Id>1163673083289</Id>
+				<Type>FIXED</Type>
+				<Value Class="CodeValue">
+					<Code><![CDATA[10000]]></Code>
+				</Value>
+				<Min Class="CodeValue">
+					<Code><![CDATA[AreaSide * AreaSide]]></Code>
+				</Min>
+				<Max Class="CodeValue">
+					<Code><![CDATA[AreaSide * AreaSide]]></Code>
+				</Max>
+				<Step Class="CodeValue">
+					<Code><![CDATA[0]]></Code>
+				</Step>
+			</Parameter>
+			<ObjectiveFunctionCode><![CDATA[difference( dsInfectiousCurrent, dsInfectiousHistoric )]]></ObjectiveFunctionCode>
+			<Objective>MINIMIZE</Objective>
+			<OptimizationEngine>OPTQUEST</OptimizationEngine>
+			<AfterIterationCode><![CDATA[if( getCurrentIteration() == getBestIteration() )
+   dsInfectiousBest.fillFrom( dsInfectiousCurrent );]]></AfterIterationCode>
+			<AllowParallelEvaluations>true</AllowParallelEvaluations>
+			<ReplicationsProperties>
+				<UseReplication>true</UseReplication>
+				<FixedReplicationsNumber>true</FixedReplicationsNumber>
+				<ReplicationPerIteration>5</ReplicationPerIteration>
+				<MinimumReplication>10</MinimumReplication>
+				<MaximumReplication>10</MaximumReplication>
+				<ConfidenceLevel>LEVEL_80</ConfidenceLevel>
+				<ErrorPercent>0.5</ErrorPercent>
+			</ReplicationsProperties>
+			<PresentationProperties>
+				<EnableZoomAndPanning>false</EnableZoomAndPanning>
+				<Title><![CDATA[Calibration of SIR Agent Based Model]]></Title>	
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
+			</PresentationProperties>
+			<ModelTimeProperties>
+				<StopOption><![CDATA[Stop at specified time]]></StopOption>
+				<InitialDate><![CDATA[1163674368828]]></InitialDate>	
+				<InitialTime><![CDATA[0.0]]></InitialTime>	
+				<FinalDate><![CDATA[1180954368828]]></FinalDate>	
+				<FinalTime><![CDATA[200.0]]></FinalTime>	
+				<StopAfterIterationCount>true</StopAfterIterationCount>
+				<IterationCount>500</IterationCount>
+				<AutomaticStop>false</AutomaticStop>
+			</ModelTimeProperties>
+		</OptimizationExperiment>
+		<!--   =========  Parameter Variation Experiment   ========  -->
+		<ParamVariationExperiment ActiveObjectClassId="1163616625033">
+			<Id>1176665441403</Id>
+			<Name><![CDATA[MonteCarlo2DHistogram]]></Name>
+			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
+			<MaximumMemory>2048</MaximumMemory>
+			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
+			<CustomGeneratorCode>new Random()</CustomGeneratorCode>
+			<BeforeEachExperimentRunCode><![CDATA[dataInfectious2D.reset();]]></BeforeEachExperimentRunCode>
+			<AfterSimulationRunCode><![CDATA[dataInfectious2D.add( root.InfectiousDS );]]></AfterSimulationRunCode>
+			<SeedValue>1</SeedValue>
+			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
+			<VmArgs><![CDATA[]]></VmArgs>
+			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
+			<AnalysisData>
+    			<Histogram2DData>
+					<Id>1176665473240</Id>
+					<Name><![CDATA[dataInfectious2D]]></Name>
+					<X>-150</X><Y>100</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>false</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<AutoUpdate>false</AutoUpdate>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1412064000000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[MINUTE]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[1]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
+					</RecurrenceCode>
+					<FreezeXAxis>false</FreezeXAxis>
+					<HorizontalIntervals>80</HorizontalIntervals>
+					<VerticalIntervals>40</VerticalIntervals>
+					<VerticalRangeFromExpression><![CDATA[0]]></VerticalRangeFromExpression>
+					<VerticalRangeToExpression><![CDATA[8000]]></VerticalRangeToExpression>
+					<HorizontalRangeFromExpression><![CDATA[0]]></HorizontalRangeFromExpression>
+					<HorizontalRangeToExpression><![CDATA[200]]></HorizontalRangeToExpression>
+					<Envelope>0.25</Envelope>
+					<Envelope>0.5</Envelope>
+					<Envelope>0.75</Envelope>
+				</Histogram2DData>
+			</AnalysisData>
+
+			<Presentation>
+				<Text>
+					<Id>1176666840526</Id>
+					<Name><![CDATA[text1]]></Name>
+					<X>20</X><Y>10</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777077</Color>
+					<Text><![CDATA[Agent Based SIR Model - Monte Carlo Simulation]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>28</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Line>
+					<Id>1176666840576</Id>
+					<Name><![CDATA[line]]></Name>
+					<X>20</X><Y>44</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>0</ZHeight>
+					<LineWidth>0</LineWidth>
+					<LineColor>-16777088</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<BeginArrowSize>1</BeginArrowSize>
+					<BeginArrowStyle>0</BeginArrowStyle>
+					<EndArrowSize>1</EndArrowSize>
+					<EndArrowStyle>0</EndArrowStyle>
+					<Dx>760</Dx>
+					<Dy>0</Dy>
+					<Dz>0</Dz>
+				</Line>
+				<Text>
+					<Id>1176667052691</Id>
+					<Name><![CDATA[text2]]></Name>
+					<X>20</X><Y>510</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[This experiment performs multiple (100) runs of the Agent Based SIR Model with SAME (default) parameter values.
+As the model is essentially stochastic, each run results in a different output. In the chart above we display the summary of 
+simulation runs (namely, the dynamics of the Infectious population size) in the form of the 2D histogram. The color intensity
+of a chart spot corresponds to the size of the corresponding 2D histogram bin. 
+]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Image>
+					<Id>1536572191433</Id>
+					<Name><![CDATA[image1]]></Name>
+					<X>580</X><Y>60</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<OnClickCode><![CDATA[getExperimentHost().openWebSite("https://www.anylogic.com");]]></OnClickCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Width>200</Width>
+					<Height>75</Height>
+					<Rotation>0.0</Rotation>
+					<ImageFiles>
+						<ImageResourceReference>
+							<PackageName><![CDATA[sir_agent_based_calibration]]></PackageName>
+							<ClassName><![CDATA[AnyLogic model logo dark.png]]></ClassName>
+						</ImageResourceReference>
+					</ImageFiles>
+					<OriginalSize>false</OriginalSize>
+				</Image>
+    			<Histogram2D>
+					<Id>1176665481501</Id>
+					<Name><![CDATA[chart]]></Name>
+					<X>30</X><Y>130</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<AutoUpdate>false</AutoUpdate>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1412064000000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[MINUTE]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[1]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
+					</RecurrenceCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Width>720</Width>
+					<Height>370</Height>
+					<BackgroundColor/>
+					<BorderColor/>
+					<ChartArea>
+						<XOffset>60</XOffset>
+						<YOffset>20</YOffset>
+						<Width>640</Width>
+						<Height>290</Height>
+						<BackgroundColor>-1</BackgroundColor>
+						<BorderColor>-16777216</BorderColor>
+						<GridColor>-12566464</GridColor>
+					</ChartArea>
+					<Legend>
+						<Place>SOUTH</Place>
+						<TextColor>-16777216</TextColor>
+						<Size>30</Size>
+					</Legend>
+					<Labels>
+						<HorLabelsPosition>DEFAULT</HorLabelsPosition>
+						<VerLabelsPosition>DEFAULT</VerLabelsPosition>
+						<TextColor>-12566464</TextColor>
+					</Labels>
+					<ShowLegend>true</ShowLegend>
+					<ShowType>SHOW_BINS</ShowType>
+					<HistogramDataExpression>
+					<Id>1719997867836</Id>
+					<Expression><![CDATA[dataInfectious2D]]></Expression>
+					<Color>-9404272</Color>
+							<Title><![CDATA[Dynamics of Infectious Population]]></Title>
+					</HistogramDataExpression>
+    			</Histogram2D>
+			</Presentation>
+
+			<AllowParallelEvaluations>true</AllowParallelEvaluations>
+			<UseFreeformParameters>true</UseFreeformParameters>
+			<NumberOfRuns>200</NumberOfRuns>
+			<FreeformParamValue>	
+				<Id>1163671985842</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1163671985844</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1163671985851</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1163673083289</Id>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[10000]]></Code>
+				</Expression>
+			</FreeformParamValue>
+			<RangeVariationParamValue>	
+				<Id>1163671985842</Id>
+				<Type>FIXED</Type>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[15]]></Code>
+				</Expression>
+				<From Class="CodeValue">
+					<Code><![CDATA[0]]></Code>
+				</From>
+				<To Class="CodeValue">
+					<Code><![CDATA[10]]></Code>
+				</To>
+				<Step Class="CodeValue">
+					<Code><![CDATA[1]]></Code>
+				</Step>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1163671985844</Id>
+				<Type>FIXED</Type>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[1.0]]></Code>
+				</Expression>
+				<From Class="CodeValue">
+					<Code><![CDATA[0]]></Code>
+				</From>
+				<To Class="CodeValue">
+					<Code><![CDATA[10]]></Code>
+				</To>
+				<Step Class="CodeValue">
+					<Code><![CDATA[1]]></Code>
+				</Step>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1163671985851</Id>
+				<Type>FIXED</Type>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[0.8]]></Code>
+				</Expression>
+				<From Class="CodeValue">
+					<Code><![CDATA[0]]></Code>
+				</From>
+				<To Class="CodeValue">
+					<Code><![CDATA[10]]></Code>
+				</To>
+				<Step Class="CodeValue">
+					<Code><![CDATA[1]]></Code>
+				</Step>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1163673083289</Id>
+				<Type>FIXED</Type>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[10000]]></Code>
+				</Expression>
+				<From Class="CodeValue">
+					<Code><![CDATA[0]]></Code>
+				</From>
+				<To Class="CodeValue">
+					<Code><![CDATA[10]]></Code>
+				</To>
+				<Step Class="CodeValue">
+					<Code><![CDATA[1]]></Code>
+				</Step>
+			</RangeVariationParamValue>
+			<ModelTimeProperties>
+				<StopOption><![CDATA[Stop at specified time]]></StopOption>
+				<InitialDate><![CDATA[1176665441403]]></InitialDate>	
+				<InitialTime><![CDATA[0.0]]></InitialTime>	
+				<FinalDate><![CDATA[1193945441403]]></FinalDate>	
+				<FinalTime><![CDATA[200.0]]></FinalTime>	
+			</ModelTimeProperties>
+			<PresentationProperties>
+				<EnableZoomAndPanning>false</EnableZoomAndPanning>
+				<Title><![CDATA[SIR Agent Based : Monte Carlo Simulation]]></Title>
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
+			</PresentationProperties>
+			<ReplicationsProperties>
+				<UseReplication>false</UseReplication>
+				<FixedReplicationsNumber>true</FixedReplicationsNumber>
+				<ReplicationPerIteration>10</ReplicationPerIteration>
+				<MinimumReplication>2</MinimumReplication>
+				<MaximumReplication>10</MaximumReplication>
+				<ConfidenceLevel>LEVEL_80</ConfidenceLevel>
+				<ErrorPercent>0.5</ErrorPercent>
+				<ExpressionForConfidenceComputation><![CDATA[0]]></ExpressionForConfidenceComputation>
+			</ReplicationsProperties>
+		</ParamVariationExperiment>	
+	</Experiments>
+	<ModelResources>
+		<Resource>
+			<Path><![CDATA[AnyLogic model logo dark.png]]></Path>
+			<ReferencedFromUserCode>false</ReferencedFromUserCode>
+			<Location>FILE_SYSTEM</Location>
+		</Resource>
+	</ModelResources>
+    <RequiredLibraryReference>
+		<LibraryName><![CDATA[com.anylogic.libraries.modules.markup_descriptors]]></LibraryName>
+		<VersionMajor>1</VersionMajor>
+		<VersionMinor>0</VersionMinor>
+		<VersionBuild>0</VersionBuild>
+    </RequiredLibraryReference>
+	<CloudModelUuid><![CDATA[fef7c7c9-2cb1-449e-8950-7074d511e36e]]></CloudModelUuid>
+</Model>
+</AnyLogicWorkspace>

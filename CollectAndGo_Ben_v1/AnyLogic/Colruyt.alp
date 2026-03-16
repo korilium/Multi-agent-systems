@@ -18,7 +18,14 @@
 		<ActiveObjectClass>
 			<Id>1773430427526</Id>
 			<Name><![CDATA[Main]]></Name>
-			<StartupCode><![CDATA[// Street layout: Y goes from streetY (top wall) to streetY+streetWidth (bottom wall)
+			<StartupCode><![CDATA[// FIXED RANDOM SEED FOR REPRODUCIBILITY
+getEngine().randomSeed(12345);
+traceln(green, "========================================");
+traceln(green, "SIMULATION RUNNING WITH FIXED SEED: 12345");
+traceln(green, "Results are REPRODUCIBLE and verifiable.");
+traceln(green, "========================================");
+
+// Street layout: Y goes from streetY (top wall) to streetY+streetWidth (bottom wall)
 // Right-hand traffic (Belgian convention):
 //   Going right (fromLeft): bottom half (higher Y)
 //   Going left (!fromLeft): top half (lower Y)
@@ -191,6 +198,21 @@ for (DeliveryRobot robot : robots) {
 			<CurrentLevel>1773430427532</CurrentLevel>
 			<ConnectionsId>1773430427527</ConnectionsId>
 			<Variables>
+				<Variable Class="PlainVariable">
+					<Id>1773489000003</Id>
+					<Name><![CDATA[completedOrders]]></Name>
+					<X>700</X><Y>50</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
 				<Variable Class="Parameter">
 					<Id>1773483761885</Id>
 					<Name><![CDATA[behaviorMode]]></Name>
@@ -461,6 +483,8 @@ if (minDist < 999) {
 }]]></Action>
 				</Event>
 			</Events>
+			
+
 			<AnalysisData>
     			<DataSet>
 					<Id>1773484074995</Id>
@@ -623,7 +647,9 @@ if (minDist < 999) {
 					<ActiveObjectClass>
 						<PackageName><![CDATA[colruyt]]></PackageName>
 						<ClassName><![CDATA[PedestrianAgent]]></ClassName>
-					</ActiveObjectClass>
+					
+			
+</ActiveObjectClass>
 					<GenericParameterSubstitute>
 						<GenericParameterSubstituteReference>
 							<PackageName><![CDATA[colruyt]]></PackageName>
@@ -916,6 +942,23 @@ if (minDist < 999) {
 			</Presentation>
 
 				</Level>
+			
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			
+				
 			</Presentation>
 
 		</ActiveObjectClass>
@@ -1256,6 +1299,7 @@ if (minDist < 999) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties Width="130" Height="30">
+						<EntryAction><![CDATA[traceln(red, "PEDESTRIAN FROZE! Distance to truck: " + String.format("%.2f", nearestTruckEdgeDist) + "m");]]></EntryAction>
 						<FillColor>-65536</FillColor>
 					</Properties>
 				</StatechartElement>
@@ -1444,6 +1488,9 @@ double truckDist = 999;
 double truckAngle = 0;
 DeliveryRobot nearRobot = null;
 for (DeliveryRobot robot : main.robots) {
+    // Ignore robots that are currently parked (loading/unloading)
+    if (time() < robot.loadingPauseUntil) continue;
+    
     double d = distanceTo(robot);
     if (d < truckDist) {
         truckDist = d;
@@ -1806,6 +1853,37 @@ for (String m : mats) {
 			<CurrentLevel>1773483205817</CurrentLevel>
 			<ConnectionsId>1773483205812</ConnectionsId>
 			<Variables>
+							<Variable Class="PlainVariable">
+					<Id>1773489000001</Id>
+					<Name><![CDATA[isReturning]]></Name>
+					<X>50</X><Y>150</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[boolean]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[false]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1773489000002</Id>
+					<Name><![CDATA[loadingPauseUntil]]></Name>
+					<X>50</X><Y>180</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0.0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+			
 				<Variable Class="Parameter">
 					<Id>1773483205820</Id>
 					<Name><![CDATA[behaviorMode]]></Name>
@@ -2106,6 +2184,7 @@ for (String m : mats) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties Width="130" Height="30">
+						<EntryAction><![CDATA[traceln(blue, "ROBOT CRAWLING! Sensed obstacle at: " + String.format(java.util.Locale.US, "%.2f", nearestPedDist) + "m");]]></EntryAction>
 						<FillColor>-10496</FillColor>
 					</Properties>
 				</StatechartElement>
@@ -2310,6 +2389,9 @@ for (String m : mats) {
 						<Condition><![CDATA[false]]></Condition>
 					</Properties>
 					<Action><![CDATA[
+// Pause execution entirely if currently loading/unloading
+if (time() < loadingPauseUntil) return;
+
 // ============================================================
 // SECTION A: PERCEPTION — scan for nearest pedestrian
 // ============================================================
@@ -2543,20 +2625,87 @@ if (hasCandidateMove) {
 
 
 // ============================================================
-// SECTION E: ARRIVAL CHECK — end simulation when delivered
 // ============================================================
-// Use X position threshold rather than exact point distance,
-// because the movement clamp may prevent the robot from reaching
-// the exact target coordinates if pedestrians are nearby.
-if (getX() >= targetX - 10) {
-    double deliveryTime = time() - startTime;
-    main.deliveryTimeData.add(deliveryTime);
-    main.freezeCountData.add(freezeCount);
-    traceln("Delivery: " + deliveryTime + "s, freezes: " + freezeCount);
-    finishSimulation();
+// SECTION E: CONTINUOUS DELIVERY WORKFLOW
+// ============================================================
+// The robot pauses to load/unload, then reverses direction.
+
+// Arrival check logic (left-to-right uses targetX - 10, right-to-left uses targetX + 10)
+boolean hasArrived = (!isReturning && getX() >= targetX - 10) || (isReturning && getX() <= targetX + 10);
+
+if (hasArrived) {
+    if (!isReturning) {
+        // DELIVERED TO CUSTOMER (Right side)
+        double deliveryTime = time() - startTime;
+        main.deliveryTimeData.add(deliveryTime);
+        main.freezeCountData.add(freezeCount);
+        main.completedOrders++; // increment our continuous KPI
+        
+        traceln(green, "Delivery Completed! Time: " + String.format(java.util.Locale.US, "%.1f", deliveryTime) + "s, freezes: " + freezeCount + ". Total Deliveries: " + main.completedOrders);
+        
+        // Write batch data natively to experiment_results.csv using Java I/O
+        try (java.io.PrintWriter out = new java.io.PrintWriter(new java.io.FileWriter("experiment_results.csv", true))) {
+            out.println(String.format(
+                java.util.Locale.US, "%.1f,%d,%d,%d,%d,%.1f,%.2f,%.2f",
+                time(), behaviorMode, main.numPedestrians, main.completedOrders,
+                (int) main.freezeCountData.getYMax(), deliveryTime, 
+                main.avgPedSpeedData.getYMax(), main.minRobotPedDistData.getYMin()
+            ));
+        } catch (java.io.IOException e) {
+            traceln(red, "Error writing to CSV: " + e.getMessage());
+        }
+        
+        // Setup return trip (Drive right-to-left)
+        isReturning = true;
+        targetX = 5; // Left edge
+        heading = Math.PI; // Face left
+        freezeCount = 0;
+        loadingPauseUntil = time() + 15.0; // Unload groceries for 15 seconds
+        traceln("Unloading... paused for 15s");
+        
+    } else {
+        // PICKED UP NEW ORDER (Left side)
+        isReturning = false;
+        targetX = main.streetLength - 5; // Right edge
+        heading = 0; // Face right
+        startTime = time() + 30.0; // Start new timer AFTER loading
+        freezeCount = 0;
+        loadingPauseUntil = time() + 30.0; // Load new groceries for 30 seconds
+        traceln("Loading new order... paused for 30s");
+    }
 }]]></Action>
 				</Event>
 			</Events>
+			<Functions>
+				<TypicalFunctionDescription>
+					<Id>1773492000001</Id>
+					<Name><![CDATA[getActiveState]]></Name>
+					<ReturnType><![CDATA[String]]></ReturnType>
+					<Body><![CDATA[if (statechart.isStateActive(1773485639867)) {
+    return "NORMAL";
+} else if (statechart.isStateActive(1773485642114)) {
+    return "STOP";
+} else if (statechart.isStateActive(1773485651106)) {
+    return "CRAWL";
+}
+return "?";
+]]></Body>
+				</TypicalFunctionDescription>
+				<TypicalFunctionDescription>
+					<Id>1773492000002</Id>
+					<Name><![CDATA[getDistanceString]]></Name>
+					<ReturnType><![CDATA[String]]></ReturnType>
+					<Body><![CDATA[return String.format(java.util.Locale.US, "%.1f m", nearestPedDist);
+]]></Body>
+				</TypicalFunctionDescription>
+				<TypicalFunctionDescription>
+					<Id>1773492000003</Id>
+					<Name><![CDATA[getSpeedString]]></Name>
+					<ReturnType><![CDATA[String]]></ReturnType>
+					<Body><![CDATA[return String.format(java.util.Locale.US, "%.2f m/s", this.getSpeed());
+]]></Body>
+				</TypicalFunctionDescription>
+			</Functions>
 			<AgentLinks>
 				<AgentLink>
 					<Id>1773483205812</Id>
@@ -2614,6 +2763,93 @@ if (getX() >= targetX - 10) {
 					<LevelVisibility>DIM_NON_CURRENT</LevelVisibility>
 
 			<Presentation>
+				<Text>
+					<Id>1773492000004</Id>
+					<Name><![CDATA[txt_state]]></Name>
+					<X>-8</X><Y>-25</Y>
+					<Label><X>0</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Width>80</Width>
+					<Height>20</Height>
+					<Rotation>0</Rotation>
+					<FontName><![CDATA[Arial]]></FontName>
+					<FontSize>14</FontSize>
+					<FontStyle>1</FontStyle>
+					<Alignment>CENTER</Alignment>
+					<TextColor>-1</TextColor>
+					<BackgroundColor>-13421772</BackgroundColor>
+					<BorderColor>-16777216</BorderColor>
+					<BorderWidth>1</BorderWidth>
+					<FillOpacity>0.85</FillOpacity>
+					<FillShape>true</FillShape>
+					<ExpandToFitContent>false</ExpandToFitContent>
+					<TextDisplay>
+						<DisplayType>COMBINED</DisplayType>
+						<TextPart><![CDATA[\'State: \' + getActiveState()]]></TextPart>
+					</TextDisplay>
+					<PositionRelativeToAgent>true</PositionRelativeToAgent>
+				</Text>
+				<Text>
+					<Id>1773492000005</Id>
+					<Name><![CDATA[txt_distance]]></Name>
+					<X>-8</X><Y>-5</Y>
+					<Label><X>0</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Width>80</Width>
+					<Height>18</Height>
+					<Rotation>0</Rotation>
+					<FontName><![CDATA[Arial]]></FontName>
+					<FontSize>12</FontSize>
+					<FontStyle>0</FontStyle>
+					<Alignment>CENTER</Alignment>
+					<TextColor>-1</TextColor>
+					<BackgroundColor>-13421772</BackgroundColor>
+					<BorderColor>-16777216</BorderColor>
+					<BorderWidth>1</BorderWidth>
+					<FillOpacity>0.85</FillOpacity>
+					<FillShape>true</FillShape>
+					<ExpandToFitContent>false</ExpandToFitContent>
+					<TextDisplay>
+						<DisplayType>COMBINED</DisplayType>
+						<TextPart><![CDATA[\'Pd: \' + getDistanceString()]]></TextPart>
+					</TextDisplay>
+					<PositionRelativeToAgent>true</PositionRelativeToAgent>
+				</Text>
+				<Text>
+					<Id>1773492000006</Id>
+					<Name><![CDATA[txt_speed]]></Name>
+					<X>-8</X><Y>15</Y>
+					<Label><X>0</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Width>80</Width>
+					<Height>16</Height>
+					<Rotation>0</Rotation>
+					<FontName><![CDATA[Arial]]></FontName>
+					<FontSize>11</FontSize>
+					<FontStyle>0</FontStyle>
+					<Alignment>CENTER</Alignment>
+					<TextColor>-1</TextColor>
+					<BackgroundColor>-13421772</BackgroundColor>
+					<BorderColor>-16777216</BorderColor>
+					<BorderWidth>1</BorderWidth>
+					<FillOpacity>0.85</FillOpacity>
+					<FillShape>true</FillShape>
+					<ExpandToFitContent>false</ExpandToFitContent>
+					<TextDisplay>
+						<DisplayType>COMBINED</DisplayType>
+						<TextPart><![CDATA[\'Sp: \' + getSpeedString()]]></TextPart>
+					</TextDisplay>
+					<PositionRelativeToAgent>true</PositionRelativeToAgent>
+				</Text>
 				<Figure3D>
 					<Id>1773483205850</Id>
 					<Name><![CDATA[lorry]]></Name>

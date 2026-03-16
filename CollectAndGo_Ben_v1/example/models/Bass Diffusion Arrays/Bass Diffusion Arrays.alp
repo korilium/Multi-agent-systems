@@ -1,0 +1,1691 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+*************************************************
+	         AnyLogic Project File 
+*************************************************	         
+-->
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.3.1.201806181547" AlpVersion="8.3.1">
+<Model>
+	<Id>1151920147152</Id>
+	<Name><![CDATA[Bass Diffusion Arrays]]></Name>
+	<Description><![CDATA[A textbook System Dynamics model of product or innovation diffusion with arrays (subscripts). We consider male and female consumers with different sensitivity to advertizing and word of mouth and also different contact rates. ]]></Description>
+	<EngineVersion>6</EngineVersion>
+	<JavaPackageName><![CDATA[bass_diffusion_arrays]]></JavaPackageName>
+	<ModelTimeUnit><![CDATA[Month]]></ModelTimeUnit>
+	<Dimensions>
+		<!--   =========   Dimension   ========  -->
+		<Dimension>
+			<Id>1152281127275</Id>
+			<Name><![CDATA[Gender]]></Name>
+			<Type>enumeration</Type>
+			<Range><![CDATA[]]></Range>
+			<Element>
+				<Id>1152281141035</Id>
+				<Name><![CDATA[MALE]]></Name>
+				<Value>0</Value>
+			</Element>
+			<Element>
+				<Id>1152281141036</Id>
+				<Name><![CDATA[FEMALE]]></Name>
+				<Value>1</Value>
+			</Element>
+		</Dimension>
+	</Dimensions>
+	<ActiveObjectClasses>
+		<!--   =========   Active Object Class   ========  -->
+		<ActiveObjectClass>
+			<Id>1151920147153</Id>
+			<Name><![CDATA[Main]]></Name>
+			<ClientAreaTopLeft><X>46</X><Y>14</Y></ClientAreaTopLeft>
+			<Generic>false</Generic>
+			<GenericParameter>
+				<Id>1522165894720</Id>
+				<Name><![CDATA[1522165894720]]></Name>
+				<GenericParameterValue Class="CodeValue">
+					<Code><![CDATA[T]]></Code>
+				</GenericParameterValue>
+				<GenericParameterLabel><![CDATA[Generic parameters:]]></GenericParameterLabel>
+			</GenericParameter>
+			<FlowChartsUsage>ENTITY</FlowChartsUsage>
+			<SamplesToKeep>100</SamplesToKeep>
+			<LimitNumberOfArrayElements>false</LimitNumberOfArrayElements>
+			<ElementsLimitValue>100</ElementsLimitValue>
+			<MakeDefaultViewArea>false</MakeDefaultViewArea>
+			<SceneGridColor/>
+			<SceneBackgroundColor/>
+			<AgentProperties>
+	 			<SpaceType>CONTINUOUS</SpaceType>			
+				<EnvironmentDefinesInitialLocation>true</EnvironmentDefinesInitialLocation>
+				<RotateAnimationTowardsMovement>true</RotateAnimationTowardsMovement>
+				<RotateAnimationVertically>false</RotateAnimationVertically>
+				<VelocityCode Class="CodeUnitValue">
+					<Code><![CDATA[10]]></Code>
+					<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+				</VelocityCode>
+				<PhysicalLength Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalLength>
+				<PhysicalWidth Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalWidth>
+				<PhysicalHeight Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalHeight>
+			</AgentProperties>
+			<EnvironmentProperties>
+					<EnableSteps>false</EnableSteps>
+					<StepDurationCode Class="CodeUnitValue">
+						<Code><![CDATA[1.0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+					</StepDurationCode>
+					<SpaceType>CONTINUOUS</SpaceType>
+					<WidthCode><![CDATA[500]]></WidthCode>
+					<HeightCode><![CDATA[500]]></HeightCode>
+					<ZHeightCode><![CDATA[0]]></ZHeightCode>
+					<ColumnsCountCode><![CDATA[100]]></ColumnsCountCode>
+					<RowsCountCode><![CDATA[100]]></RowsCountCode>
+					<NeigborhoodType>MOORE</NeigborhoodType>
+					<LayoutType>USER_DEF</LayoutType>
+					<LayoutTypeApplyOnStartup>true</LayoutTypeApplyOnStartup>
+					<NetworkType>USER_DEF</NetworkType>
+					<NetworkTypeApplyOnStartup>true</NetworkTypeApplyOnStartup>
+					<ConnectionsPerAgentCode><![CDATA[2]]></ConnectionsPerAgentCode>
+					<ConnectionsRangeCode><![CDATA[50]]></ConnectionsRangeCode>
+					<NeighborLinkFractionCode><![CDATA[0.95]]></NeighborLinkFractionCode>
+					<MCode><![CDATA[10]]></MCode>
+			</EnvironmentProperties>
+			<DatasetsCreationProperties>
+				<AutoCreate>true</AutoCreate>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1412236800000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[MONTH]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[0.1]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[MONTH]]></Unit>
+					</RecurrenceCode>
+			</DatasetsCreationProperties>
+			<ScaleRuler>
+				<Id>1412157212097</Id>
+				<Name><![CDATA[scale]]></Name>
+				<X>0</X><Y>-150</Y>
+				<PublicFlag>false</PublicFlag>
+				<PresentationFlag>false</PresentationFlag>
+				<ShowLabel>false</ShowLabel>
+				<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+				<Length>100</Length>
+				<Rotation>0</Rotation>
+				<ScaleType>BASED_ON_LENGTH</ScaleType>
+				<ModelLength>10</ModelLength>
+				<LengthUnits>METER</LengthUnits>
+				<Scale>10</Scale>
+				<InheritedFromParentAgentType>true</InheritedFromParentAgentType>
+			</ScaleRuler>
+			<ConnectionsId>1412157212096</ConnectionsId>
+			<Variables>
+				<Variable Class="AuxVariable">
+					<Id>1152176460786</Id>
+					<Name><![CDATA[AdoptionFromAd]]></Name>
+					<X>240</X><Y>140</Y>
+					<Label><X>-60</X><Y>20</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties External="false" Constant="false" Array="true">
+						<Color/>
+						<Array>
+							<Dimension>
+								<PackageName><![CDATA[bass_diffusion_arrays]]></PackageName>
+								<ClassName><![CDATA[Gender]]></ClassName>
+							</Dimension>
+							<CustomExpression>
+								<Coordinate>
+									<PackageName><![CDATA[bass_diffusion_arrays]]></PackageName>
+									<ClassName><![CDATA[Gender]]></ClassName>
+								</Coordinate>
+								<Expression><![CDATA[PotentialAdopters[ Gender ] * AdEffectiveness[ Gender ]]]></Expression>
+							</CustomExpression>
+						</Array>
+					</Properties>
+
+				</Variable>
+				<Variable Class="AuxVariable">
+					<Id>1152176716794</Id>
+					<Name><![CDATA[AdoptionFromWOM]]></Name>
+					<X>320</X><Y>140</Y>
+					<Label><X>0</X><Y>-30</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties External="false" Constant="false" Array="true">
+						<Color/>
+						<Array>
+							<Dimension>
+								<PackageName><![CDATA[bass_diffusion_arrays]]></PackageName>
+								<ClassName><![CDATA[Gender]]></ClassName>
+							</Dimension>
+							<CustomExpression>
+								<Coordinate>
+									<PackageName><![CDATA[bass_diffusion_arrays]]></PackageName>
+									<ClassName><![CDATA[Gender]]></ClassName>
+								</Coordinate>
+								<Expression><![CDATA[( Adopters[ MALE ] * ContactRate[ MALE ] + 
+  Adopters[ FEMALE ] * ContactRate[ FEMALE ] ) * 
+AdoptionFraction[ Gender ] *
+PotentialAdopters[ Gender ] / TotalPopulation.sum()
+]]></Expression>
+							</CustomExpression>
+						</Array>
+					</Properties>
+
+				</Variable>
+				<Variable Class="StockVariable">
+					<Id>1152176365549</Id>
+					<Name><![CDATA[PotentialAdopters]]></Name>
+					<X>180</X><Y>60</Y>
+					<Label><X>-65</X><Y>-30</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties Array="true">
+					<EquationStyle>custom</EquationStyle>
+					<Width>20</Width>
+					<Height>20</Height>
+						<Expression><![CDATA[-AdotionRate]]></Expression>
+						<InitialValue><![CDATA[TotalPopulation]]></InitialValue>
+						<Color/>
+						<Array>
+							<Dimension>
+								<PackageName><![CDATA[bass_diffusion_arrays]]></PackageName>
+								<ClassName><![CDATA[Gender]]></ClassName>
+							</Dimension>
+							<CustomExpression>
+								<Coordinate>
+									<PackageName><![CDATA[bass_diffusion_arrays]]></PackageName>
+									<ClassName><![CDATA[Gender]]></ClassName>
+								</Coordinate>
+								<Expression><![CDATA[- AdoptionRate[ Gender ]]]></Expression>
+							</CustomExpression>
+						</Array>
+					</Properties>
+				</Variable>
+				<Variable Class="StockVariable">
+					<Id>1152176378408</Id>
+					<Name><![CDATA[Adopters]]></Name>
+					<X>390</X><Y>60</Y>
+					<Label><X>-20</X><Y>-30</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties Array="true">
+					<EquationStyle>custom</EquationStyle>
+					<Width>20</Width>
+					<Height>20</Height>
+						<Color/>
+						<Array>
+							<Dimension>
+								<PackageName><![CDATA[bass_diffusion_arrays]]></PackageName>
+								<ClassName><![CDATA[Gender]]></ClassName>
+							</Dimension>
+							<CustomExpression>
+								<Coordinate>
+									<PackageName><![CDATA[bass_diffusion_arrays]]></PackageName>
+									<ClassName><![CDATA[Gender]]></ClassName>
+								</Coordinate>
+								<Expression><![CDATA[AdoptionRate[ Gender ]]]></Expression>
+							</CustomExpression>
+						</Array>
+					</Properties>
+				</Variable>
+				<Variable Class="Flow">
+					<Id>1152176392588</Id>
+					<Name><![CDATA[AdoptionRate]]></Name>
+					<X>180</X><Y>60</Y>
+					<Label><X>-40</X><Y>-30</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SourceId="1152176365549" TargetId="1152176378408" External="false" Constant="false" Array="true">
+						<Color/>
+						<Array>
+							<Dimension>
+								<PackageName><![CDATA[bass_diffusion_arrays]]></PackageName>
+								<ClassName><![CDATA[Gender]]></ClassName>
+							</Dimension>
+							<CustomExpression>
+								<Coordinate>
+									<PackageName><![CDATA[bass_diffusion_arrays]]></PackageName>
+									<ClassName><![CDATA[Gender]]></ClassName>
+								</Coordinate>
+								<Expression><![CDATA[AdoptionFromAd[ Gender ] + AdoptionFromWOM[ Gender ]]]></Expression>
+							</CustomExpression>
+						</Array>
+						<ValveIndex>1</ValveIndex>
+						<Points>
+							<Point><X>0</X><Y>0</Y></Point>
+							<Point><X>105</X><Y>0</Y></Point>
+							<Point><X>210</X><Y>0</Y></Point>
+						</Points>
+					</Properties>
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1152176433687</Id>
+					<Name><![CDATA[TotalPopulation]]></Name>
+					<X>380</X><Y>220</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[HyperArray]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>true</SdArray>
+						<Dimension>
+							<PackageName><![CDATA[bass_diffusion_arrays]]></PackageName>
+							<ClassName><![CDATA[Gender]]></ClassName>
+						</Dimension>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[{10000, 10000}]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>0</Id>
+							<Label><![CDATA[Total Population (per gender)]]></Label>
+							<EditorContolType>HYPER_ARRAY_EDITOR</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1152176474336</Id>
+					<Name><![CDATA[AdEffectiveness]]></Name>
+					<X>140</X><Y>180</Y>
+					<Label><X>-50</X><Y>20</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[HyperArray]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>true</SdArray>
+						<Dimension>
+							<PackageName><![CDATA[bass_diffusion_arrays]]></PackageName>
+							<ClassName><![CDATA[Gender]]></ClassName>
+						</Dimension>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[{0.015, 0.032}]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>0</Id>
+							<Label><![CDATA[Advertisement  Effectiveness]]></Label>
+							<EditorContolType>HYPER_ARRAY_EDITOR</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1152176748199</Id>
+					<Name><![CDATA[ContactRate]]></Name>
+					<X>440</X><Y>140</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[HyperArray]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>true</SdArray>
+						<Dimension>
+							<PackageName><![CDATA[bass_diffusion_arrays]]></PackageName>
+							<ClassName><![CDATA[Gender]]></ClassName>
+						</Dimension>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[{80, 120}]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>0</Id>
+							<Label><![CDATA[Contact Rate]]></Label>
+							<EditorContolType>HYPER_ARRAY_EDITOR</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1152176762981</Id>
+					<Name><![CDATA[AdoptionFraction]]></Name>
+					<X>420</X><Y>180</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[HyperArray]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>true</SdArray>
+						<Dimension>
+							<PackageName><![CDATA[bass_diffusion_arrays]]></PackageName>
+							<ClassName><![CDATA[Gender]]></ClassName>
+						</Dimension>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[{0.011, 0.023}]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>0</Id>
+							<Label><![CDATA[Adoption Fraction]]></Label>
+							<EditorContolType>HYPER_ARRAY_EDITOR</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+			</Variables>
+			<Dependences>
+				<Link SourceId="1152176762981" TargetId="1152176716794" Polarity="null">
+					<Height>10.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-100</X><Y>-40</Y></Direction>
+					<Id>1305112309587</Id>
+					<Name><![CDATA[AdoptionFraction - AdoptionFromWOM]]></Name>
+					<X>420</X><Y>180</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1152176748199" TargetId="1152176716794" Polarity="null">
+					<Height>10.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-120</X><Y>0</Y></Direction>
+					<Id>1305112309588</Id>
+					<Name><![CDATA[ContactRate - AdoptionFromWOM]]></Name>
+					<X>440</X><Y>140</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1152176474336" TargetId="1152176460786" Polarity="null">
+					<Height>10.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>100</X><Y>-40</Y></Direction>
+					<Id>1305112309589</Id>
+					<Name><![CDATA[AdEffectiveness - AdoptionFromAd]]></Name>
+					<X>140</X><Y>180</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1152176365549" TargetId="1152176716794" Polarity="null">
+					<Height>10.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>140</X><Y>80</Y></Direction>
+					<Id>1305112309590</Id>
+					<Name><![CDATA[PotentialAdopters - AdoptionFromWOM]]></Name>
+					<X>180</X><Y>60</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1152176378408" TargetId="1152176716794" Polarity="null">
+					<Height>10.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-70</X><Y>80</Y></Direction>
+					<Id>1305112309591</Id>
+					<Name><![CDATA[Adopters - AdoptionFromWOM]]></Name>
+					<X>390</X><Y>60</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1152176433687" TargetId="1152176716794" Polarity="null">
+					<Height>10.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-60</X><Y>-80</Y></Direction>
+					<Id>1305112309592</Id>
+					<Name><![CDATA[TotalPopulation - AdoptionFromWOM]]></Name>
+					<X>380</X><Y>220</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1152176716794" TargetId="1152176392588" Polarity="null">
+					<Height>10.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-40</X><Y>-80</Y></Direction>
+					<Id>1305112309593</Id>
+					<Name><![CDATA[AdoptionFromWOM - AdoptionRate]]></Name>
+					<X>320</X><Y>140</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1152176460786" TargetId="1152176392588" Polarity="null">
+					<Height>10.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>40</X><Y>-80</Y></Direction>
+					<Id>1305112309594</Id>
+					<Name><![CDATA[AdoptionFromAd - AdoptionRate]]></Name>
+					<X>240</X><Y>140</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1152176365549" TargetId="1152176460786" Polarity="null">
+					<Height>10.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>60</X><Y>80</Y></Direction>
+					<Id>1305112309595</Id>
+					<Name><![CDATA[PotentialAdopters - AdoptionFromAd]]></Name>
+					<X>180</X><Y>60</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1152176433687" TargetId="1152176365549" Polarity="null">
+					<Height>94.9657550168184</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-200</X><Y>-160</Y></Direction>
+					<Id>1305112309596</Id>
+					<Name><![CDATA[TotalPopulation - PotentialAdopters]]></Name>
+					<X>380</X><Y>220</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+			</Dependences>
+			<AgentLinks>
+				<AgentLink>
+					<Id>1412157212096</Id>
+					<Name><![CDATA[connections]]></Name>
+					<X>50</X><Y>-50</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<HandleReceiveInConnections>false</HandleReceiveInConnections>
+					<AgentLinkType>COLLECTION_OF_LINKS</AgentLinkType>
+					<AgentLinkBidirectional>true</AgentLinkBidirectional>
+					<MessageType><![CDATA[Object]]></MessageType>
+					<LineStyle>SOLID</LineStyle>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16777216</LineColor>
+					<LineZOrder>UNDER_AGENTS</LineZOrder>
+					<LineArrow>NONE</LineArrow>
+					<LineArrowPosition>END</LineArrowPosition>
+				</AgentLink>
+			</AgentLinks>
+
+
+			<Charts>
+    			<TimeStackChart>
+					<Id>1165447132448</Id>
+					<Name><![CDATA[maleAndFemaleAdoptersPerMonths]]></Name>
+					<X>40</X><Y>250</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<AutoUpdate>true</AutoUpdate>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1412236800000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[MONTH]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[0.1]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[MONTH]]></Unit>
+					</RecurrenceCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Width>530</Width>
+					<Height>250</Height>
+					<BackgroundColor/>
+					<BorderColor/>
+					<ChartArea>
+						<XOffset>40</XOffset>
+						<YOffset>20</YOffset>
+						<Width>470</Width>
+						<Height>160</Height>
+						<BackgroundColor>-1</BackgroundColor>
+						<BorderColor>-16777216</BorderColor>
+						<GridColor>-12566464</GridColor>
+					</ChartArea>
+					<Legend>
+						<Place>SOUTH</Place>
+						<TextColor>-16777216</TextColor>
+						<Size>50</Size>
+					</Legend>
+					<Labels>
+						<HorLabelsPosition>DEFAULT</HorLabelsPosition>
+						<VerLabelsPosition>DEFAULT</VerLabelsPosition>
+						<TextColor>-12566464</TextColor>
+					</Labels>
+					<ShowLegend>true</ShowLegend>
+					<TimeWindowsMovementType>MOVEMENT_WITH_DATA</TimeWindowsMovementType>		
+					<TimeWindowUnits>MODEL_TIME_UNIT</TimeWindowUnits>
+					<TimeWindowExpression><![CDATA[10]]></TimeWindowExpression>
+					<DatasetExpression>
+					<Expression><![CDATA[dsPotentialAdoptersMALE]]></Expression>
+					<Color>-12156236</Color>
+					<Expression2><![CDATA[PotentialAdopters.get( MALE )]]></Expression2>
+					<Expression2Flag>true</Expression2Flag>  
+							<Title><![CDATA[Potential Adopters [MALE]]]></Title>
+					</DatasetExpression>
+					<DatasetExpression>
+					<Expression><![CDATA[dsAdoptersMALE]]></Expression>
+					<Color>-5192482</Color>
+					<Expression2><![CDATA[Adopters.get( MALE )]]></Expression2>
+					<Expression2Flag>true</Expression2Flag>  
+							<Title><![CDATA[Adopters [MALE]]]></Title>
+					</DatasetExpression>
+					<DatasetExpression>
+					<Expression><![CDATA[PotentialAdopters.get( FEMALE )]]></Expression>
+					<Color>-1886720</Color>
+					<Expression2><![CDATA[PotentialAdopters.get( FEMALE )]]></Expression2>
+					<Expression2Flag>true</Expression2Flag>  
+							<Title><![CDATA[Potential Adopters [FEMALE]]]></Title>
+					</DatasetExpression>
+					<DatasetExpression>
+					<Expression><![CDATA[dsAdoptersFEMALE]]></Expression>
+					<Color>-115403</Color>
+					<Expression2><![CDATA[Adopters.get( FEMALE )]]></Expression2>
+					<Expression2Flag>true</Expression2Flag>  
+							<Title><![CDATA[Adopters [FEMALE]]]></Title>
+					</DatasetExpression>
+					<SamplesToKeep>101</SamplesToKeep>
+					<VerScaleToExpression><![CDATA[1]]></VerScaleToExpression>
+					<VerScaleType>HUNDRED_PERCENTS</VerScaleType>
+					<LabelFormat>MODEL_TIME_UNITS</LabelFormat>
+    			</TimeStackChart>
+			</Charts>
+
+		</ActiveObjectClass>
+	</ActiveObjectClasses>	
+	<DifferentialEquationsMethod>EULER</DifferentialEquationsMethod>
+	<MixedEquationsMethod>RK45_NEWTON</MixedEquationsMethod>
+	<AlgebraicEquationsMethod>MODIFIED_NEWTON</AlgebraicEquationsMethod>
+	<AbsoluteAccuracy>1.0E-5</AbsoluteAccuracy>
+	<FixedTimeStep>0.001</FixedTimeStep>
+	<RelativeAccuracy>1.0E-5</RelativeAccuracy>
+	<TimeAccuracy>1.0E-5</TimeAccuracy>
+	<Frame>
+		<Width>700</Width>
+		<Height>500</Height>
+	</Frame>
+	<Database>
+		<Logging>false</Logging>
+		<AutoExport>false</AutoExport>
+		<ImportSettings>
+		</ImportSettings>
+		<ExportSettings>
+			<ExportExcelFilePath><![CDATA[]]></ExportExcelFilePath>
+		</ExportSettings>
+	</Database>
+	
+	<RunConfiguration ActiveObjectClassId="1151920147153">
+		<Id>1522165894737</Id>
+		<Name><![CDATA[RunConfiguration]]></Name>
+		<ModelTimeProperties>
+			<StopOption><![CDATA[Stop at specified time]]></StopOption>
+			<InitialDate><![CDATA[1151920147152]]></InitialDate>	
+			<InitialTime><![CDATA[0.0]]></InitialTime>	
+			<FinalDate><![CDATA[1152784147152]]></FinalDate>	
+			<FinalTime><![CDATA[10.0]]></FinalTime>	
+		</ModelTimeProperties>
+		<AnimationProperties>
+			<StopNever>false</StopNever>
+			<ExecutionMode>realTimeScaled</ExecutionMode>
+			<RealTimeScale>1.0</RealTimeScale>
+			<EnableZoomAndPanning>false</EnableZoomAndPanning>
+			<EnableDeveloperPanel>true</EnableDeveloperPanel>
+			<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
+		</AnimationProperties>
+		<Inputs>		
+		</Inputs>
+		<Outputs>
+    		<RunConfigurationOutput>
+				<Id>0</Id>
+				<Name><![CDATA[Male and female adopters per months]]></Name>
+				<OutputReference>
+					<PackageName><![CDATA[bass_diffusion_arrays]]></PackageName>
+					<ClassName><![CDATA[Main]]></ClassName>
+					<ItemName><![CDATA[maleAndFemaleAdoptersPerMonths]]></ItemName>
+				</OutputReference>
+    		</RunConfigurationOutput>
+		</Outputs>
+	</RunConfiguration>
+	<Experiments>	
+		<!--   =========   Simulation Experiment   ========  -->
+		<SimulationExperiment ActiveObjectClassId="1151920147153">
+			<Id>1151920147154</Id>
+			<Name><![CDATA[Simulation]]></Name>
+			<ClientAreaTopLeft><X>18</X><Y>54</Y></ClientAreaTopLeft>
+			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
+			<MaximumMemory>64</MaximumMemory>
+			<RandomNumberGenerationType>fixedSeed</RandomNumberGenerationType>
+			<CustomGeneratorCode>new Random()</CustomGeneratorCode>
+			<SeedValue>1</SeedValue>
+			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
+			<VmArgs><![CDATA[]]></VmArgs>
+			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
+			<SnapshotFile></SnapshotFile>
+			<Variables>
+				<Variable Class="PlainVariable">
+					<Id>1165450089359</Id>
+					<Name><![CDATA[AdEffectiveness]]></Name>
+					<X>-50</X><Y>150</Y>
+					<Label><X>-105</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[HyperArray]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[new HyperArray( new double[]{0.015, 0.032}, Gender )]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1165452160148</Id>
+					<Name><![CDATA[ContactRate]]></Name>
+					<X>-50</X><Y>200</Y>
+					<Label><X>-85</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[HyperArray]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[new HyperArray( new double[]{80, 120}, Gender )]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1165452570618</Id>
+					<Name><![CDATA[AdoptionFraction]]></Name>
+					<X>-50</X><Y>250</Y>
+					<Label><X>-115</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[HyperArray]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[new HyperArray( new double[]{0.023, 0.011}, Gender )]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+			</Variables>
+
+			<Shapes>
+				<Rectangle>
+					<Id>1152177204896</Id>
+					<Name><![CDATA[rect]]></Name>
+					<X>0</X><Y>0</Y>
+					<Label><X>10</X><Y>5</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Lock>true</Lock>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor/>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>700</Width>
+					<Height>500</Height>
+					<Rotation>0.0</Rotation>
+					<FillColor>-1250087</FillColor>
+					<FillMaterial>null</FillMaterial>
+				</Rectangle>
+				<RoundedRectangle>
+					<Id>1165475332913</Id>
+					<Name><![CDATA[roundRect1]]></Name>
+					<X>360</X><Y>140</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-10447423</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>310</Width>
+					<Height>140</Height>
+					<Rotation>0.0</Rotation>
+					<FillColor/>
+					<FillMaterial>null</FillMaterial>
+					<ArcRadius>10</ArcRadius>
+				</RoundedRectangle>
+				<RoundedRectangle>
+					<Id>1165475294877</Id>
+					<Name><![CDATA[roundRect]]></Name>
+					<X>30</X><Y>140</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-10447423</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>310</Width>
+					<Height>140</Height>
+					<Rotation>0.0</Rotation>
+					<FillColor/>
+					<FillMaterial>null</FillMaterial>
+					<ArcRadius>10</ArcRadius>
+				</RoundedRectangle>
+				<Text>
+					<Id>1152177102799</Id>
+					<Name><![CDATA[text]]></Name>
+					<X>30</X><Y>20</Y>
+					<Label><X>45</X><Y>13</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777077</Color>
+					<Text><![CDATA[Bass Diffusion]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>22</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1152177119874</Id>
+					<Name><![CDATA[text1]]></Name>
+					<X>670</X><Y>20</Y>
+					<Label><X>265</X><Y>13</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-12156236</Color>
+					<Text><![CDATA[SD Model [array version]]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>22</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>RIGHT</Alignment>
+				</Text>
+				<Rectangle>
+					<Id>1165448871518</Id>
+					<Name><![CDATA[rect2]]></Name>
+					<X>60</X><Y>120</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor/>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>50</Width>
+					<Height>40</Height>
+					<Rotation>0.0</Rotation>
+					<FillColor>-1250087</FillColor>
+					<FillMaterial>null</FillMaterial>
+				</Rectangle>
+				<Rectangle>
+					<Id>1165448941660</Id>
+					<Name><![CDATA[rect3]]></Name>
+					<X>390</X><Y>120</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor/>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>60</Width>
+					<Height>40</Height>
+					<Rotation>0.0</Rotation>
+					<FillColor>-1250087</FillColor>
+					<FillMaterial>null</FillMaterial>
+				</Rectangle>
+				<Text>
+					<Id>1165449140205</Id>
+					<Name><![CDATA[text4]]></Name>
+					<X>70</X><Y>135</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777077</Color>
+					<Text><![CDATA[Male]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>11</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1165449203437</Id>
+					<Name><![CDATA[text5]]></Name>
+					<X>400</X><Y>135</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777077</Color>
+					<Text><![CDATA[Female]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>11</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1165449450011</Id>
+					<Name><![CDATA[text6]]></Name>
+					<X>50</X><Y>170</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777077</Color>
+					<Text><![CDATA[Ad effectiveness:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>11</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1165450751645</Id>
+					<Name><![CDATA[text9]]></Name>
+					<X>380</X><Y>170</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777077</Color>
+					<Text><![CDATA[Ad effectiveness:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>11</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1165450915679</Id>
+					<Name><![CDATA[text10]]></Name>
+					<X>50</X><Y>205</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777077</Color>
+					<Text><![CDATA[Contact rate]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>11</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1165450915710</Id>
+					<Name><![CDATA[text13]]></Name>
+					<X>380</X><Y>205</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777077</Color>
+					<Text><![CDATA[Contact rate]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>11</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1165450937863</Id>
+					<Name><![CDATA[text14]]></Name>
+					<X>50</X><Y>240</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777077</Color>
+					<Text><![CDATA[Adoption fraction:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>11</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1165450937873</Id>
+					<Name><![CDATA[text17]]></Name>
+					<X>380</X><Y>240</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777077</Color>
+					<Text><![CDATA[Adoption fraction:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>11</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Rectangle>
+					<Id>1165476034301</Id>
+					<Name><![CDATA[rect4]]></Name>
+					<X>305</X><Y>170</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<VisibleCode><![CDATA[AdEffectiveness.get(MALE) > AdEffectiveness.get(FEMALE)]]></VisibleCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16734464</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>10</Width>
+					<Height>10</Height>
+					<Rotation>0.0</Rotation>
+					<FillColor>-16711936</FillColor>
+					<FillMaterial>null</FillMaterial>
+				</Rectangle>
+				<Rectangle>
+					<Id>1165476089972</Id>
+					<Name><![CDATA[rect5]]></Name>
+					<X>635</X><Y>170</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<VisibleCode><![CDATA[AdEffectiveness.get(MALE) < AdEffectiveness.get(FEMALE)]]></VisibleCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16734464</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>10</Width>
+					<Height>10</Height>
+					<Rotation>0.0</Rotation>
+					<FillColor>-16711936</FillColor>
+					<FillMaterial>null</FillMaterial>
+				</Rectangle>
+				<Rectangle>
+					<Id>1165476434497</Id>
+					<Name><![CDATA[rect6]]></Name>
+					<X>305</X><Y>205</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<VisibleCode><![CDATA[ContactRate.get(MALE) > ContactRate.get(FEMALE)]]></VisibleCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16734464</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>10</Width>
+					<Height>10</Height>
+					<Rotation>0.0</Rotation>
+					<FillColor>-16711936</FillColor>
+					<FillMaterial>null</FillMaterial>
+				</Rectangle>
+				<Rectangle>
+					<Id>1165476455868</Id>
+					<Name><![CDATA[rect7]]></Name>
+					<X>305</X><Y>240</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<VisibleCode><![CDATA[AdoptionFraction.get(MALE) > AdoptionFraction.get(FEMALE)]]></VisibleCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16734464</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>10</Width>
+					<Height>10</Height>
+					<Rotation>0.0</Rotation>
+					<FillColor>-16711936</FillColor>
+					<FillMaterial>null</FillMaterial>
+				</Rectangle>
+				<Rectangle>
+					<Id>1165476491980</Id>
+					<Name><![CDATA[rect8]]></Name>
+					<X>635</X><Y>205</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<VisibleCode><![CDATA[ContactRate.get(MALE) < ContactRate.get(FEMALE)]]></VisibleCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16734464</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>10</Width>
+					<Height>10</Height>
+					<Rotation>0.0</Rotation>
+					<FillColor>-16711936</FillColor>
+					<FillMaterial>null</FillMaterial>
+				</Rectangle>
+				<Rectangle>
+					<Id>1165476518117</Id>
+					<Name><![CDATA[rect9]]></Name>
+					<X>635</X><Y>240</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<VisibleCode><![CDATA[AdoptionFraction.get(MALE) < AdoptionFraction.get(FEMALE)]]></VisibleCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16734464</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>10</Width>
+					<Height>10</Height>
+					<Rotation>0.0</Rotation>
+					<FillColor>-16711936</FillColor>
+					<FillMaterial>null</FillMaterial>
+				</Rectangle>
+				<Image>
+					<Id>1529055136018</Id>
+					<Name><![CDATA[image1]]></Name>
+					<X>20</X><Y>410</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<OnClickCode><![CDATA[getExperimentHost().openWebSite("https://www.anylogic.com");]]></OnClickCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Width>200</Width>
+					<Height>75</Height>
+					<Rotation>0.0</Rotation>
+					<ImageFiles>
+						<ImageFile><![CDATA[AnyLogic model logo dark.png]]></ImageFile>
+					</ImageFiles>
+					<OriginalSize>false</OriginalSize>
+				</Image>
+			</Shapes>
+			<Controls>
+				<Control Type="Button">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1165449968906</Id>
+					<Name><![CDATA[button1]]></Name>
+					<X>180</X><Y>165</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<BasicProperties Width="35" Height="20">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<TextColor>-16777216</TextColor>
+						<Enabled>true</Enabled>
+						<ActionCode><![CDATA[AdEffectiveness.set( limitMin( 0, AdEffectiveness.get(MALE) - 0.001 ), MALE );
+editAdEffectivenessMALE.setValueToDefault();]]></ActionCode>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="10" Style="0"/>
+						<LabelText><![CDATA[-]]></LabelText>
+					</ExtendedProperties>
+				</Control>
+				<Control Type="Button">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1165450028102</Id>
+					<Name><![CDATA[button2]]></Name>
+					<X>270</X><Y>165</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<BasicProperties Width="31" Height="20">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<TextColor>-16777216</TextColor>
+						<Enabled>true</Enabled>
+						<ActionCode><![CDATA[AdEffectiveness.set( limitMax( AdEffectiveness.get(MALE) + 0.001, 0.05 ), MALE );
+editAdEffectivenessMALE.setValueToDefault();]]></ActionCode>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="10" Style="0"/>
+						<LabelText><![CDATA[+]]></LabelText>
+					</ExtendedProperties>
+				</Control>
+				<Control Type="Button">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1165450751633</Id>
+					<Name><![CDATA[button3]]></Name>
+					<X>600</X><Y>165</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<BasicProperties Width="31" Height="20">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<TextColor>-16777216</TextColor>
+						<Enabled>true</Enabled>
+						<ActionCode><![CDATA[AdEffectiveness.set( limitMax( AdEffectiveness.get(FEMALE) + 0.001, 0.05 ), FEMALE );
+editAdEffectivenessFEMALE.setValueToDefault();]]></ActionCode>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="10" Style="0"/>
+						<LabelText><![CDATA[+]]></LabelText>
+					</ExtendedProperties>
+				</Control>
+				<Control Type="Button">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1165450751653</Id>
+					<Name><![CDATA[button4]]></Name>
+					<X>510</X><Y>165</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<BasicProperties Width="35" Height="20">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<TextColor>-16777216</TextColor>
+						<Enabled>true</Enabled>
+						<ActionCode><![CDATA[AdEffectiveness.set( limitMin( 0, AdEffectiveness.get(FEMALE) - 0.001 ), FEMALE );
+editAdEffectivenessFEMALE.setValueToDefault();]]></ActionCode>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="10" Style="0"/>
+						<LabelText><![CDATA[-]]></LabelText>
+					</ExtendedProperties>
+				</Control>
+				<Control Type="Button">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1165450915669</Id>
+					<Name><![CDATA[button5]]></Name>
+					<X>270</X><Y>200</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<BasicProperties Width="31" Height="20">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<TextColor>-16777216</TextColor>
+						<Enabled>true</Enabled>
+						<ActionCode><![CDATA[ContactRate.set( limitMax( ContactRate.get(MALE) + 1, 150 ), MALE );
+editContactRateMALE.setValueToDefault();]]></ActionCode>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="10" Style="0"/>
+						<LabelText><![CDATA[+]]></LabelText>
+					</ExtendedProperties>
+				</Control>
+				<Control Type="Button">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1165450915681</Id>
+					<Name><![CDATA[button6]]></Name>
+					<X>180</X><Y>200</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<BasicProperties Width="35" Height="20">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<TextColor>-16777216</TextColor>
+						<Enabled>true</Enabled>
+						<ActionCode><![CDATA[ContactRate.set( limitMin( 0, ContactRate.get(MALE) - 1 ), MALE );
+editContactRateMALE.setValueToDefault();]]></ActionCode>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="10" Style="0"/>
+						<LabelText><![CDATA[-]]></LabelText>
+					</ExtendedProperties>
+				</Control>
+				<Control Type="Button">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1165450915689</Id>
+					<Name><![CDATA[button7]]></Name>
+					<X>510</X><Y>200</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<BasicProperties Width="35" Height="20">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<TextColor>-16777216</TextColor>
+						<Enabled>true</Enabled>
+						<ActionCode><![CDATA[ContactRate.set( limitMin( 0, ContactRate.get(FEMALE) - 1 ), FEMALE );
+editContactRateFEMALE.setValueToDefault();]]></ActionCode>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="10" Style="0"/>
+						<LabelText><![CDATA[-]]></LabelText>
+					</ExtendedProperties>
+				</Control>
+				<Control Type="Button">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1165450915699</Id>
+					<Name><![CDATA[button8]]></Name>
+					<X>600</X><Y>200</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<BasicProperties Width="31" Height="20">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<TextColor>-16777216</TextColor>
+						<Enabled>true</Enabled>
+						<ActionCode><![CDATA[ContactRate.set( limitMax( ContactRate.get(FEMALE) + 1, 150 ), FEMALE );
+editContactRateFEMALE.setValueToDefault();]]></ActionCode>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="10" Style="0"/>
+						<LabelText><![CDATA[+]]></LabelText>
+					</ExtendedProperties>
+				</Control>
+				<Control Type="Button">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1165450937861</Id>
+					<Name><![CDATA[button9]]></Name>
+					<X>600</X><Y>235</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<BasicProperties Width="31" Height="20">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<TextColor>-16777216</TextColor>
+						<Enabled>true</Enabled>
+						<ActionCode><![CDATA[AdoptionFraction.set( limitMax( AdoptionFraction.get(FEMALE) + 0.001, 0.05 ), FEMALE );
+editAdoptionFractionFEMALE.setValueToDefault();]]></ActionCode>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="10" Style="0"/>
+						<LabelText><![CDATA[+]]></LabelText>
+					</ExtendedProperties>
+				</Control>
+				<Control Type="Button">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1165450937867</Id>
+					<Name><![CDATA[button10]]></Name>
+					<X>510</X><Y>235</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<BasicProperties Width="35" Height="20">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<TextColor>-16777216</TextColor>
+						<Enabled>true</Enabled>
+						<ActionCode><![CDATA[AdoptionFraction.set( limitMin( 0, AdoptionFraction.get(FEMALE) - 0.001 ), FEMALE );
+editAdoptionFractionFEMALE.setValueToDefault();]]></ActionCode>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="10" Style="0"/>
+						<LabelText><![CDATA[-]]></LabelText>
+					</ExtendedProperties>
+				</Control>
+				<Control Type="Button">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1165450937875</Id>
+					<Name><![CDATA[button11]]></Name>
+					<X>270</X><Y>235</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<BasicProperties Width="31" Height="20">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<TextColor>-16777216</TextColor>
+						<Enabled>true</Enabled>
+						<ActionCode><![CDATA[AdoptionFraction.set( limitMax( AdoptionFraction.get(MALE) + 0.001, 0.05 ), MALE );
+editAdoptionFractionMALE.setValueToDefault();]]></ActionCode>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="10" Style="0"/>
+						<LabelText><![CDATA[+]]></LabelText>
+					</ExtendedProperties>
+				</Control>
+				<Control Type="Button">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1165450937877</Id>
+					<Name><![CDATA[button12]]></Name>
+					<X>180</X><Y>235</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<BasicProperties Width="35" Height="20">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<TextColor>-16777216</TextColor>
+						<Enabled>true</Enabled>
+						<ActionCode><![CDATA[AdoptionFraction.set( limitMin( 0, AdoptionFraction.get(MALE) - 0.001 ), MALE );
+editAdoptionFractionMALE.setValueToDefault();]]></ActionCode>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="10" Style="0"/>
+						<LabelText><![CDATA[-]]></LabelText>
+					</ExtendedProperties>
+				</Control>
+				<Control Type="EditBox">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1165453058689</Id>
+					<Name><![CDATA[editAdEffectivenessFEMALE]]></Name>
+					<X>551</X><Y>165</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<BasicProperties Width="44" Height="20">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<FillColor>-989556</FillColor>
+						<TextColor>-16777077</TextColor>
+						<Enabled>true</Enabled>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="11" Style="0"/>
+						<DefaultValueCode><![CDATA[AdEffectivenessFEMALE]]></DefaultValueCode>
+						<MinValue><![CDATA[0]]></MinValue>
+						<MaxValue><![CDATA[0.05]]></MaxValue>
+						<LinkTo>true</LinkTo>
+						<Link>AdEffectiveness[FEMALE]</Link>
+					</ExtendedProperties>
+				</Control>
+				<Control Type="EditBox">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1165474590598</Id>
+					<Name><![CDATA[editContactRateFEMALE]]></Name>
+					<X>551</X><Y>200</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<BasicProperties Width="44" Height="20">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<FillColor>-989556</FillColor>
+						<TextColor>-16777077</TextColor>
+						<Enabled>true</Enabled>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="11" Style="0"/>
+						<DefaultValueCode><![CDATA[ContactRate.get(FEMALE)]]></DefaultValueCode>
+						<MinValue><![CDATA[0]]></MinValue>
+						<MaxValue><![CDATA[150]]></MaxValue>
+						<LinkTo>true</LinkTo>
+						<Link>ContactRate[FEMALE]</Link>
+					</ExtendedProperties>
+				</Control>
+				<Control Type="EditBox">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1165474631875</Id>
+					<Name><![CDATA[editAdoptionFractionFEMALE]]></Name>
+					<X>550</X><Y>235</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<BasicProperties Width="44" Height="20">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<FillColor>-989556</FillColor>
+						<TextColor>-16777077</TextColor>
+						<Enabled>true</Enabled>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="11" Style="0"/>
+						<DefaultValueCode><![CDATA[AdoptionFraction.get(FEMALE)]]></DefaultValueCode>
+						<MinValue><![CDATA[0]]></MinValue>
+						<MaxValue><![CDATA[0.05]]></MaxValue>
+						<LinkTo>true</LinkTo>
+						<Link>AdoptionFraction[FEMALE]</Link>
+					</ExtendedProperties>
+				</Control>
+				<Control Type="EditBox">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1165475575732</Id>
+					<Name><![CDATA[editAdoptionFractionMALE]]></Name>
+					<X>220</X><Y>235</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<BasicProperties Width="44" Height="20">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<FillColor>-989556</FillColor>
+						<TextColor>-16777077</TextColor>
+						<Enabled>true</Enabled>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="11" Style="0"/>
+						<DefaultValueCode><![CDATA[AdoptionFraction.get(MALE)]]></DefaultValueCode>
+						<LinkTo>true</LinkTo>
+						<Link>AdoptionFraction[MALE]</Link>
+					</ExtendedProperties>
+				</Control>
+				<Control Type="EditBox">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1165475575734</Id>
+					<Name><![CDATA[editAdEffectivenessMALE]]></Name>
+					<X>221</X><Y>165</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<BasicProperties Width="44" Height="20">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<FillColor>-989556</FillColor>
+						<TextColor>-16777077</TextColor>
+						<Enabled>true</Enabled>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="11" Style="0"/>
+						<DefaultValueCode><![CDATA[AdEffectivenessMALE]]></DefaultValueCode>
+						<MinValue><![CDATA[0]]></MinValue>
+						<MaxValue><![CDATA[0.05]]></MaxValue>
+						<LinkTo>true</LinkTo>
+						<Link>AdEffectiveness[MALE]</Link>
+					</ExtendedProperties>
+				</Control>
+				<Control Type="EditBox">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1165475575742</Id>
+					<Name><![CDATA[editContactRateMALE]]></Name>
+					<X>221</X><Y>200</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<BasicProperties Width="44" Height="20">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<FillColor>-989556</FillColor>
+						<TextColor>-16777077</TextColor>
+						<Enabled>true</Enabled>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="11" Style="0"/>
+						<DefaultValueCode><![CDATA[ContactRate.get(MALE)]]></DefaultValueCode>
+						<MinValue><![CDATA[0]]></MinValue>
+						<MaxValue><![CDATA[150]]></MaxValue>
+						<LinkTo>true</LinkTo>
+						<Link>ContactRate[MALE]</Link>
+					</ExtendedProperties>
+				</Control>
+			</Controls>
+
+			<Parameters>			
+				<Parameter>
+					<ParameterName><![CDATA[TotalPopulation]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[AdEffectiveness]]></ParameterName>
+					<ParameterValue Class="CodeValue">
+						<Code><![CDATA[AdEffectiveness]]></Code>
+					</ParameterValue>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[ContactRate]]></ParameterName>
+					<ParameterValue Class="CodeValue">
+						<Code><![CDATA[ContactRate]]></Code>
+					</ParameterValue>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[AdoptionFraction]]></ParameterName>
+					<ParameterValue Class="CodeValue">
+						<Code><![CDATA[AdoptionFraction]]></Code>
+					</ParameterValue>
+				</Parameter>
+			</Parameters>			
+			<PresentationProperties>
+				<EnableZoomAndPanning>false</EnableZoomAndPanning>
+				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
+				<Title><![CDATA[Simulation]]></Title>	
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
+				<RealTimeScale>1.0</RealTimeScale>
+			</PresentationProperties>
+			<ModelTimeProperties>
+				<StopOption><![CDATA[Stop at specified time]]></StopOption>
+				<InitialDate><![CDATA[1151920147152]]></InitialDate>	
+				<InitialTime><![CDATA[0.0]]></InitialTime>	
+				<FinalDate><![CDATA[1177840147152]]></FinalDate>	
+				<FinalTime><![CDATA[10.0]]></FinalTime>	
+			</ModelTimeProperties>
+		</SimulationExperiment>	
+	</Experiments>
+	<CloudModelUuid><![CDATA[2d67f56a-a7ad-4cc9-900f-858af48f7371]]></CloudModelUuid>
+</Model>
+</AnyLogicWorkspace>
