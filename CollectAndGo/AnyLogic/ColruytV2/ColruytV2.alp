@@ -18,6 +18,138 @@
 		<ActiveObjectClass>
 			<Id>1774376502077</Id>
 			<Name><![CDATA[Main]]></Name>
+			<StartupCode><![CDATA[// ===== POPULATE globalNodes =====
+globalNodes.add(new NodeLoc(node1.getX(), node1.getY()));
+globalNodes.add(new NodeLoc(node2.getX(), node2.getY()));
+globalNodes.add(new NodeLoc(node3.getX(), node3.getY()));
+globalNodes.add(new NodeLoc(node4.getX(), node4.getY()));
+globalNodes.add(new NodeLoc(node5.getX(), node5.getY()));
+globalNodes.add(new NodeLoc(node6.getX(), node6.getY()));
+globalNodes.add(new NodeLoc(node7.getX(), node7.getY()));
+globalNodes.add(new NodeLoc(node8.getX(), node8.getY()));
+globalNodes.add(new NodeLoc(node9.getX(), node9.getY()));
+globalNodes.add(new NodeLoc(node10.getX(), node10.getY()));
+globalNodes.add(new NodeLoc(node11.getX(), node11.getY()));
+globalNodes.add(new NodeLoc(node12.getX(), node12.getY()));
+globalNodes.add(new NodeLoc(node13.getX(), node13.getY()));
+globalNodes.add(new NodeLoc(node14.getX(), node14.getY()));
+globalNodes.add(new NodeLoc(node15.getX(), node15.getY()));
+globalNodes.add(new NodeLoc(node16.getX(), node16.getY()));
+globalNodes.add(new NodeLoc(node17.getX(), node17.getY()));
+globalNodes.add(new NodeLoc(node18.getX(), node18.getY()));
+globalNodes.add(new NodeLoc(node19.getX(), node19.getY()));
+globalNodes.add(new NodeLoc(node20.getX(), node20.getY()));
+globalNodes.add(new NodeLoc(node21.getX(), node21.getY()));
+globalNodes.add(new NodeLoc(node22.getX(), node22.getY()));
+globalNodes.add(new NodeLoc(node23.getX(), node23.getY()));
+globalNodes.add(new NodeLoc(node24.getX(), node24.getY()));
+globalNodes.add(new NodeLoc(node25.getX(), node25.getY()));
+globalNodes.add(new NodeLoc(node26.getX(), node26.getY()));
+globalNodes.add(new NodeLoc(node27.getX(), node27.getY()));
+globalNodes.add(new NodeLoc(node28.getX(), node28.getY()));
+globalNodes.add(new NodeLoc(node29.getX(), node29.getY()));
+globalNodes.add(new NodeLoc(node30.getX(), node30.getY()));
+globalNodes.add(new NodeLoc(node31.getX(), node31.getY()));
+globalNodes.add(new NodeLoc(node32.getX(), node32.getY()));
+globalNodes.add(new NodeLoc(node33.getX(), node33.getY()));
+globalNodes.add(new NodeLoc(node34.getX(), node34.getY()));
+globalNodes.add(new NodeLoc(node35.getX(), node35.getY()));
+globalNodes.add(new NodeLoc(node36.getX(), node36.getY()));
+globalNodes.add(new NodeLoc(node37.getX(), node37.getY()));
+globalNodes.add(new NodeLoc(node38.getX(), node38.getY()));
+globalNodes.add(new NodeLoc(node39.getX(), node39.getY()));
+globalNodes.add(new NodeLoc(node40.getX(), node40.getY()));
+globalNodes.add(new NodeLoc(node41.getX(), node41.getY()));
+globalNodes.add(new NodeLoc(node42.getX(), node42.getY()));
+globalNodes.add(new NodeLoc(node43.getX(), node43.getY()));
+globalNodes.add(new NodeLoc(node44.getX(), node44.getY()));
+globalNodes.add(new NodeLoc(node45.getX(), node45.getY()));
+globalNodes.add(new NodeLoc(node46.getX(), node46.getY()));
+globalNodes.add(new NodeLoc(node47.getX(), node47.getY()));
+globalNodes.add(new NodeLoc(node48.getX(), node48.getY()));
+globalNodes.add(new NodeLoc(node49.getX(), node49.getY()));
+globalNodes.add(new NodeLoc(node50.getX(), node50.getY()));
+ 
+// ===== SET CROWDEDNESS =====
+// Ring road – center area (busy)
+globalNodes.get(6).crowdedness = 8;   // node7
+globalNodes.get(7).crowdedness = 7;   // node8
+globalNodes.get(8).crowdedness = 7;   // node9
+globalNodes.get(9).crowdedness = 5;   // node10
+globalNodes.get(10).crowdedness = 5;  // node11
+// Cross road (moderate)
+globalNodes.get(0).crowdedness = 4;   // node1
+globalNodes.get(1).crowdedness = 4;   // node2
+globalNodes.get(2).crowdedness = 6;   // node3
+globalNodes.get(3).crowdedness = 6;   // node4
+globalNodes.get(4).crowdedness = 5;   // node5
+globalNodes.get(5).crowdedness = 5;   // node6
+globalNodes.get(12).crowdedness = 5;  // node13
+// Outer ring (quiet)
+globalNodes.get(29).crowdedness = 2;  // node30
+globalNodes.get(38).crowdedness = 1;  // node39
+globalNodes.get(44).crowdedness = 1;  // node45
+ 
+// ===== BUILD ADJACENCY GRAPH =====
+com.anylogic.engine.markup.Wall[] allWalls =
+    {wall, wall1, wall2, wall3};
+double wallThreshold = 3.0;
+double maxEdgeDist = 100.0;
+ 
+for (int i = 0; i < globalNodes.size(); i++) {
+  for (int j = i+1; j < globalNodes.size(); j++){
+    NodeLoc a = globalNodes.get(i);
+    NodeLoc b = globalNodes.get(j);
+    double dist = Math.sqrt(
+        Math.pow(a.x-b.x,2)+Math.pow(a.y-b.y,2));
+    if (dist > maxEdgeDist) continue;
+ 
+    boolean blocked = false;
+    int numSamples = Math.max(5,(int)(dist/5.0));
+    for (int s=1; s<numSamples && !blocked; s++){
+      double t = (double) s / numSamples;
+      double sx = a.x + t*(b.x - a.x);
+      double sy = a.y + t*(b.y - a.y);
+      for (var w : allWalls) {
+        Point pWall = new Point();
+        w.getNearestPoint(sx, sy, pWall);
+        double dw = Math.sqrt(
+            Math.pow(sx-pWall.getX(),2)
+          + Math.pow(sy-pWall.getY(),2));
+        if (dw < wallThreshold) {
+          blocked = true; break;
+        }
+      }
+    }
+    if (!blocked) {
+      a.edges.add(new NodeLoc.Edge(b, dist));
+      b.edges.add(new NodeLoc.Edge(a, dist));
+    }
+  }
+}
+traceln("Adjacency graph: "
+      + globalNodes.size() + " nodes");
+ 
+// ===== SPAWN INITIAL PEDESTRIANS =====
+int initialCount =
+    (int)(pedestrianArrivalRate() * 20);
+for (int i = 0; i < initialCount; i++) {
+    add_pedestrian();
+}
+]]></StartupCode>
+			<DestroyCode><![CDATA[// Stop spawning
+eventSpawnPedestrian.reset();
+source.set_arrivalType(source.MANUAL);
+ 
+// Halt all active pedestrians
+for (Pedestrian p : pedestrians) {
+    p.stop();
+}
+ 
+// Halt the robot
+if (robot != null) {
+    robot.stop();
+}]]></DestroyCode>
 			<Generic>false</Generic>
 			<GenericParameter>
 				<Id>1774376502082</Id>
@@ -121,7 +253,108 @@
 						<Type><![CDATA[List<NodeLoc>]]></Type>        
 					</Properties>
 				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1774786655687</Id>
+					<Name><![CDATA[globalNodes]]></Name>
+					<X>400</X><Y>650</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[List<NodeLoc>]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[new ArrayList<>()]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1774786711353</Id>
+					<Name><![CDATA[pedestrians]]></Name>
+					<X>400</X><Y>690</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[ArrayList<Pedestrian>]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[new ArrayList<>()]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
 			</Variables>
+			<Events>
+				<Event>
+					<Id>1774787373102</Id>
+					<Name><![CDATA[eventSpawnPedestrian]]></Name>
+					<X>400</X><Y>860</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties TriggerType="timeout" Mode="cyclic">
+						<Timeout Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+						</Timeout>
+						<Rate Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="RateUnits"><![CDATA[PER_SECOND]]></Unit>
+						</Rate>
+						<Id>1774787373100</Id>
+						<OccurrenceAtTime>true</OccurrenceAtTime>
+						<OccurrenceDate>1774857600000</OccurrenceDate>
+						<OccurrenceTime Class="CodeUnitValue">
+							<Code><![CDATA[0]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+						</OccurrenceTime>
+						<RecurrenceCode Class="CodeUnitValue">
+							<Code><![CDATA[1.0 / pedestrianArrivalRate()]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[MINUTE]]></Unit>
+						</RecurrenceCode>
+						<Condition><![CDATA[false]]></Condition>
+					</Properties>
+					<Action><![CDATA[add_pedestrian();]]></Action>
+				</Event>
+			</Events>
+			<Functions>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1774787253439</Id>
+					<Name><![CDATA[pedestrianArrivalRate]]></Name>
+					<X>400</X><Y>780</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[double hour = time(HOUR) % 24;
+if (hour < 7)        return 4.0;
+else if (hour < 9)   return 15.0;
+else if (hour < 12)  return 6.0;
+else if (hour < 14)  return 20.0;
+else if (hour < 17)  return 6.0;
+else if (hour < 19)  return 10.0;
+else                 return 3.0;]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1774787335600</Id>
+					<Name><![CDATA[removePedestrian]]></Name>
+					<X>400</X><Y>820</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[ped]]></Name>
+						<Type><![CDATA[Pedestrian]]></Type>
+					</Parameter>
+					<Body><![CDATA[remove_pedestrian(ped);]]></Body>
+				</Function>
+			</Functions>
 			<AgentLinks>
 				<AgentLink>
 					<Id>1774376502078</Id>
@@ -386,6 +619,60 @@
 					<InitializationType>SPECIFIED_NUMBER</InitializationType>
 					<InitializationDatabaseTableQuery>
 						<Id>1774468990409</Id>
+						<TableReference>
+						</TableReference>
+					</InitializationDatabaseTableQuery>
+					<InitializationDatabaseType>ONE_AGENT_PER_DATABASE_RECORD</InitializationDatabaseType>
+					<QuantityColumn>
+					</QuantityColumn>
+				</EmbeddedObject>
+				<EmbeddedObject>
+					<Id>1774787156052</Id>
+					<Name><![CDATA[pedestrian]]></Name>
+					<X>400</X><Y>740</Y>
+					<Label><X>-35</X><Y>-30</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<PresentationId>1774787158272</PresentationId>
+					<ActiveObjectClass>
+						<PackageName><![CDATA[colruytv2]]></PackageName>
+						<ClassName><![CDATA[Pedestrian]]></ClassName>
+					</ActiveObjectClass>
+					<GenericParameterSubstitute>
+						<GenericParameterSubstituteReference>
+							<PackageName><![CDATA[colruytv2]]></PackageName>
+							<ClassName><![CDATA[Pedestrian]]></ClassName>
+							<ItemName><![CDATA[1774786769861]]></ItemName>
+						</GenericParameterSubstituteReference>
+					</GenericParameterSubstitute>
+					<Parameters>
+						<Parameter>
+							<Name><![CDATA[parDestinationNode]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[parSpeed]]></Name>
+						</Parameter>
+					</Parameters>
+					<ReplicationFlag>true</ReplicationFlag>
+					<Replication Class="CodeValue">
+						<Code><![CDATA[100]]></Code>
+					</Replication>
+					<CollectionType>ARRAY_LIST_BASED</CollectionType>
+					<InEnvironment>true</InEnvironment>
+					<InitialLocationType>XYZ</InitialLocationType>
+					<ColumnCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ColumnCode>
+					<RowCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</RowCode>
+					<LocationNameCode Class="CodeValue">
+						<Code><![CDATA[""]]></Code>
+					</LocationNameCode>
+					<InitializationType>EMPTY</InitializationType>
+					<InitializationDatabaseTableQuery>
+						<Id>1774787156050</Id>
 						<TableReference>
 						</TableReference>
 					</InitializationDatabaseTableQuery>
@@ -1858,6 +2145,24 @@
 						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
 					</SpeedLimitValue>
 				</PointNode>
+				<EmbeddedObjectPresentation>
+					<Id>1774787158272</Id>
+					<Name><![CDATA[pedestrian_presentation]]></Name>
+					<X>0</X><Y>0</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<ScaleType>AUTOMATICALLY_CALCULATED</ScaleType>
+					<GISScaleForRealEmbeddedObjectPresentationSize>1000</GISScaleForRealEmbeddedObjectPresentationSize>
+					<GISScaleForFixedEmbeddedObjectPresentationSize>1000000000</GISScaleForFixedEmbeddedObjectPresentationSize>
+					<Latitude>0.0</Latitude>
+					<Longitude>0.0</Longitude>
+				</EmbeddedObjectPresentation>
 			</Presentation>
 
 				</Level>
@@ -2444,6 +2749,457 @@ Math.sqrt(Math.pow(goalNode.x - getX(),2) + Math.pow(goalNode.y - getX(),2))=0
 			</Presentation>
 
 		</ActiveObjectClass>
+		<!--   =========   Active Object Class   ========  -->
+		<ActiveObjectClass>
+			<Id>1774786769856</Id>
+			<Name><![CDATA[Pedestrian]]></Name>
+			<Generic>false</Generic>
+			<GenericParameter>
+				<Id>1774786769861</Id>
+				<Name><![CDATA[1774786769861]]></Name>
+				<GenericParameterValue Class="CodeValue">
+					<Code><![CDATA[T extends Agent]]></Code>
+				</GenericParameterValue>
+				<GenericParameterLabel><![CDATA[Generic parameter:]]></GenericParameterLabel>
+			</GenericParameter>
+			<FlowChartsUsage>ENTITY</FlowChartsUsage>
+			<SamplesToKeep>100</SamplesToKeep>
+			<LimitNumberOfArrayElements>false</LimitNumberOfArrayElements>
+			<ElementsLimitValue>100</ElementsLimitValue>
+			<MakeDefaultViewArea>true</MakeDefaultViewArea>
+			<SceneGridColor/>
+			<SceneBackgroundColor>-4144960</SceneBackgroundColor>
+			<SceneSkybox>null</SceneSkybox>
+			<AgentProperties>
+				<EnvironmentDefinesInitialLocation>true</EnvironmentDefinesInitialLocation>
+				<RotateAnimationTowardsMovement>true</RotateAnimationTowardsMovement>
+				<RotateAnimationVertically>false</RotateAnimationVertically>
+				<VelocityCode Class="CodeUnitValue">
+					<Code><![CDATA[1.2]]></Code>
+					<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+				</VelocityCode>
+				<PhysicalLength Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalLength>
+				<PhysicalWidth Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalWidth>
+				<PhysicalHeight Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalHeight>
+			</AgentProperties>
+			<EnvironmentProperties>
+					<EnableSteps>false</EnableSteps>
+					<StepDurationCode Class="CodeUnitValue">
+						<Code><![CDATA[1.0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+					</StepDurationCode>
+					<SpaceType>CONTINUOUS</SpaceType>
+					<WidthCode><![CDATA[500]]></WidthCode>
+					<HeightCode><![CDATA[500]]></HeightCode>
+					<ZHeightCode><![CDATA[0]]></ZHeightCode>
+					<ColumnsCountCode><![CDATA[100]]></ColumnsCountCode>
+					<RowsCountCode><![CDATA[100]]></RowsCountCode>
+					<NeigborhoodType>MOORE</NeigborhoodType>
+					<LayoutType>USER_DEF</LayoutType>
+					<NetworkType>USER_DEF</NetworkType>
+					<ConnectionsPerAgentCode><![CDATA[2]]></ConnectionsPerAgentCode>
+					<ConnectionsRangeCode><![CDATA[50]]></ConnectionsRangeCode>
+					<NeighborLinkFractionCode><![CDATA[0.95]]></NeighborLinkFractionCode>
+					<MCode><![CDATA[10]]></MCode>
+			</EnvironmentProperties>
+			<DatasetsCreationProperties>
+				<AutoCreate>true</AutoCreate>
+					<Id>1774786769855</Id>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1774857600000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[1]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+					</RecurrenceCode>
+			</DatasetsCreationProperties>
+			<ScaleRuler>
+				<Id>1774786769859</Id>
+				<Name><![CDATA[scale]]></Name>
+				<X>0</X><Y>-10</Y>
+				<PublicFlag>false</PublicFlag>
+				<PresentationFlag>false</PresentationFlag>
+				<ShowLabel>false</ShowLabel>
+				<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+				<Length>25</Length>
+				<Rotation>0</Rotation>
+				<ScaleType>BASED_ON_LENGTH</ScaleType>
+				<ModelLength>10</ModelLength>
+				<LengthUnits>METER</LengthUnits>
+				<Scale>10</Scale>
+				<InheritedFromParentAgentType>true</InheritedFromParentAgentType>
+			</ScaleRuler>
+			<CurrentLevel>1774786769862</CurrentLevel>
+			<ConnectionsId>1774786769857</ConnectionsId>
+			<Variables>
+				<Variable Class="Parameter">
+					<Id>1774786862469</Id>
+					<Name><![CDATA[parDestinationNode]]></Name>
+					<X>40</X><Y>40</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[NodeLoc]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<ParameterEditor>
+							<Id>1774786862467</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1774786894226</Id>
+					<Name><![CDATA[parSpeed]]></Name>
+					<X>40</X><Y>70</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[1.2]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1774786894224</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+			</Variables>
+			<StatechartElements>
+				<StatechartElement Class="State" ParentState="ROOT_NODE">
+					<Id>1774786926425</Id>
+					<Name><![CDATA[stWalking]]></Name>
+					<X>170</X><Y>170</Y>
+					<Label><X>25</X><Y>15</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties Width="100" Height="30">
+						<EntryAction><![CDATA[Main main = (Main) getOwner();
+ 
+// Register in active pedestrians list
+if (!main.pedestrians.contains(this)) {
+    main.pedestrians.add(this);
+}
+ 
+// === 1. INITIALIZE (only on first entry) ===
+if (parDestinationNode == null) {
+    // Spawn at weighted-random node (crowdedness)
+    double totalWeight = 0;
+    for (NodeLoc n : main.globalNodes)
+        totalWeight += n.crowdedness;
+    double r = Math.random() * totalWeight;
+    double cumulative = 0;
+    NodeLoc currentNode = main.globalNodes.get(0);
+    for (NodeLoc n : main.globalNodes) {
+        cumulative += n.crowdedness;
+        if (r < cumulative) {
+            currentNode = n; break;
+        }
+    }
+    setXY(currentNode.x, currentNode.y);
+ 
+    // Random speed 0.8 – 1.6 m/s
+    parSpeed = 0.8 + (Math.random() * 0.8);
+ 
+    // Pick distant destination (>50m away)
+    java.util.List<NodeLoc> candidates =
+        new java.util.ArrayList<>();
+    for (NodeLoc n : main.globalNodes) {
+        double dist = Math.sqrt(
+            Math.pow(n.x - getX(), 2)
+          + Math.pow(n.y - getY(), 2));
+        if (n != currentNode && dist > 50)
+            candidates.add(n);
+    }
+    if (candidates.isEmpty())
+        candidates.addAll(main.globalNodes);
+    int idx = (int)(Math.random()
+                   * candidates.size());
+    parDestinationNode = candidates.get(idx);
+}
+ 
+// === 2. FIND CLOSEST GRAPH NODE ===
+NodeLoc currentNode = null;
+double closestDist = Double.MAX_VALUE;
+for (NodeLoc n : main.globalNodes) {
+    double d = Math.sqrt(
+        Math.pow(n.x - getX(), 2)
+      + Math.pow(n.y - getY(), 2));
+    if (d < closestDist) {
+        closestDist = d; currentNode = n;
+    }
+}
+ 
+// === 3. GREEDY EDGE SELECTION ===
+NodeLoc nextGraphNode = null;
+if (currentNode != null
+        && !currentNode.edges.isEmpty()) {
+    NodeLoc bestNext = null;
+    double bestProgress = -Double.MAX_VALUE;
+    double dCurToDest = Math.sqrt(
+        Math.pow(parDestinationNode.x - getX(), 2)
+      + Math.pow(parDestinationNode.y - getY(), 2));
+    for (NodeLoc.Edge e : currentNode.edges) {
+        double dNext = Math.sqrt(
+            Math.pow(e.target.x
+                   - parDestinationNode.x, 2)
+          + Math.pow(e.target.y
+                   - parDestinationNode.y, 2));
+        double progress = dCurToDest - dNext;
+        if (progress > bestProgress) {
+            bestProgress = progress;
+            bestNext = e.target;
+        }
+    }
+    nextGraphNode = (bestNext != null)
+        ? bestNext
+        : currentNode.edges.get(0).target;
+} else {
+    nextGraphNode = parDestinationNode;
+}
+ 
+// === 4. MOVE ===
+moveTo(nextGraphNode.x, nextGraphNode.y, parSpeed);
+]]></EntryAction>
+						<FillColor>-16711936</FillColor>
+					</Properties>
+				</StatechartElement>
+				<StatechartElement Class="State" ParentState="ROOT_NODE">
+					<Id>1774786943943</Id>
+					<Name><![CDATA[stArrived]]></Name>
+					<X>170</X><Y>240</Y>
+					<Label><X>20</X><Y>15</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties Width="100" Height="30">
+						<EntryAction><![CDATA[Main main = (Main) getOwner();
+if (main.pedestrians.contains(this)) {
+    main.pedestrians.remove(this);
+}
+main.remove_pedestrian(this);]]></EntryAction>
+						<FillColor>-10496</FillColor>
+					</Properties>
+				</StatechartElement>
+				<StatechartElement Class="EntryPoint" ParentState="ROOT_NODE">
+					<Id>1774786917341</Id>
+					<Name><![CDATA[statechart]]></Name>
+					<X>220</X><Y>130</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Points>
+						<Point><X>0</X><Y>0</Y></Point>
+						<Point><X>0</X><Y>40</Y></Point>
+					</Points>
+					<Properties Target="1774786926425">
+					</Properties>	
+				</StatechartElement>
+				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
+					<Id>1774786970722</Id>
+					<Name><![CDATA[transition]]></Name>
+					<X>220</X><Y>200</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Points>
+						<Point><X>0</X><Y>0</Y></Point>
+						<Point><X>0</X><Y>40</Y></Point>
+					</Points>
+					<IconOffset>20.0</IconOffset>
+					<Properties Source="1774786926425" Target="1774786943943" Trigger="condition">
+						<Timeout Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+						</Timeout>
+						<Condition><![CDATA[Math.sqrt(
+    Math.pow(parDestinationNode.x - getX(), 2)
+  + Math.pow(parDestinationNode.y - getY(), 2)
+) < 5.0]]></Condition>
+						<Rate Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="RateUnits"><![CDATA[PER_SECOND]]></Unit>
+						</Rate>
+						<MessageType><![CDATA[Object]]></MessageType>
+						<DefaultTransition>true</DefaultTransition>
+						<FilterType><![CDATA[unconditionally]]></FilterType>
+						<EqualsExpression><![CDATA["text"]]></EqualsExpression>
+						<SatisfiesExpression><![CDATA[true]]></SatisfiesExpression>
+					</Properties>	
+				</StatechartElement>
+				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
+					<Id>1774786978127</Id>
+					<Name><![CDATA[transition1]]></Name>
+					<X>270</X><Y>180</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Points>
+						<Point><X>0</X><Y>0</Y></Point>
+						<Point><X>40</X><Y>0</Y></Point>
+						<Point><X>40</X><Y>10</Y></Point>
+						<Point><X>0</X><Y>10</Y></Point>
+					</Points>
+					<IconOffset>20.0</IconOffset>
+					<Properties Source="1774786926425" Target="1774786926425" Trigger="arrival">
+						<Timeout Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+						</Timeout>
+						<Condition><![CDATA[true]]></Condition>
+						<Rate Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="RateUnits"><![CDATA[PER_SECOND]]></Unit>
+						</Rate>
+						<MessageType><![CDATA[Object]]></MessageType>
+						<DefaultTransition>true</DefaultTransition>
+						<FilterType><![CDATA[unconditionally]]></FilterType>
+						<EqualsExpression><![CDATA["text"]]></EqualsExpression>
+						<SatisfiesExpression><![CDATA[true]]></SatisfiesExpression>
+					</Properties>	
+				</StatechartElement>
+			</StatechartElements>
+			<AgentLinks>
+				<AgentLink>
+					<Id>1774786769857</Id>
+					<Name><![CDATA[connections]]></Name>
+					<X>50</X><Y>-50</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<HandleReceiveInConnections>false</HandleReceiveInConnections>
+					<AgentLinkType>COLLECTION_OF_LINKS</AgentLinkType>
+					<AgentLinkBidirectional>true</AgentLinkBidirectional>
+					<MessageType><![CDATA[Object]]></MessageType>
+					<StatechartReference>
+						<PackageName><![CDATA[colruytv2]]></PackageName>
+						<ClassName><![CDATA[Pedestrian]]></ClassName>
+						<ItemName><![CDATA[statechart]]></ItemName>
+					</StatechartReference>
+					<LineStyle>SOLID</LineStyle>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16777216</LineColor>
+					<LineZOrder>UNDER_AGENTS</LineZOrder>
+					<LineArrow>NONE</LineArrow>
+					<LineArrowPosition>END</LineArrowPosition>
+				</AgentLink>
+			</AgentLinks>
+
+			<ContainerLinks>
+				<ContainerLink>
+					<Id>1774787158275</Id>
+					<Name><![CDATA[main]]></Name>
+					<X>50</X><Y>-100</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<ActiveObjectClass>
+						<PackageName><![CDATA[colruytv2]]></PackageName>
+						<ClassName><![CDATA[Main]]></ClassName>
+					</ActiveObjectClass>
+				</ContainerLink>
+			</ContainerLinks>
+
+			<Presentation>
+				<Level>
+					<Id>1774786769862</Id>
+					<Name><![CDATA[level]]></Name>
+					<X>0</X><Y>0</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<LevelVisibility>DIM_NON_CURRENT</LevelVisibility>
+
+			<Presentation>
+				<Figure3D>
+					<Id>1774786769882</Id>
+					<Name><![CDATA[person]]></Name>
+					<X>1</X><Y>0</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<X>1</X><Y>0</Y><Z>0</Z>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<ResourceReference>
+						<PackageName><![CDATA[colruytv2]]></PackageName>
+						<ClassName><![CDATA[3d/person.dae]]></ClassName>
+					</ResourceReference>
+					<ColorTable>
+						<ColorMapping>
+							<Name><![CDATA[Material__3__Surf]]></Name>
+							<OriginalColor>-3355444</OriginalColor>
+						</ColorMapping>
+						<ColorMapping>
+							<Name><![CDATA[Material__5__Surf]]></Name>
+							<OriginalColor>-3355444</OriginalColor>
+						</ColorMapping>
+						<ColorMapping>
+							<Name><![CDATA[Material__6__Surf]]></Name>
+							<OriginalColor>-4083577</OriginalColor>
+						</ColorMapping>
+						<ColorMapping>
+							<Name><![CDATA[Material__2__Surf]]></Name>
+							<OriginalColor>-13355980</OriginalColor>
+						</ColorMapping>
+						<ColorMapping>
+							<Name><![CDATA[Material__4__Surf]]></Name>
+							<OriginalColor>-13355980</OriginalColor>
+						</ColorMapping>
+						<ColorMapping>
+							<Name><![CDATA[Material__1__Surf]]></Name>
+							<OriginalColor>-5279952</OriginalColor>
+						</ColorMapping>
+					</ColorTable>
+					<AutoScale>true</AutoScale>
+					<Scale>1.3</Scale>
+					<Rotation>0.0</Rotation>
+					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
+					<ApplyShading>true</ApplyShading>
+					<InternalLighting>OFF</InternalLighting>
+					<IgnoreSceneLights>false</IgnoreSceneLights>
+</Figure3D>
+			</Presentation>
+
+				</Level>
+			</Presentation>
+
+		</ActiveObjectClass>
 	</ActiveObjectClasses>
 	<DifferentialEquationsMethod>EULER</DifferentialEquationsMethod>
 	<MixedEquationsMethod>RK45_NEWTON</MixedEquationsMethod>
@@ -2565,6 +3321,7 @@ public class NodeLoc implements Serializable {
     public double x, y;               // coordinates
     public List<Edge> edges;          // connections to other nodes
     public Agent pointMarkup;         // AnyLogic Point Markup
+    public double crowdedness = 1;    // spawn weight; higher = busier area
 
     // Constructor
     public NodeLoc(double x, double y) {
@@ -2597,6 +3354,12 @@ public class NodeLoc implements Serializable {
 		<Resource>
 			<Id>1774385139233</Id>
 			<Path><![CDATA[3d/tractor_3.dae]]></Path>
+			<ReferencedFromUserCode>false</ReferencedFromUserCode>
+			<Location>FILE_SYSTEM</Location>
+		</Resource>
+		<Resource>
+			<Id>1774786598438</Id>
+			<Path><![CDATA[3d/person.dae]]></Path>
 			<ReferencedFromUserCode>false</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
