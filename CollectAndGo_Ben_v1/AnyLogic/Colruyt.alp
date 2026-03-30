@@ -4,7 +4,7 @@
 	         AnyLogic Project File
 *************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.8.202602271015" AlpVersion="8.9.7">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.8.202602271013" AlpVersion="8.9.7">
 <Model>
 	<Id>1773430427522</Id>
 	<Name><![CDATA[Colruyt]]></Name>
@@ -425,7 +425,6 @@ if (count > 0) {
         totalDev / count);
 }]]></Action>
 				</Event>
-			
 				<Event>
 					<Id>1773500000005</Id>
 					<Name><![CDATA[eventAdditionalKPIs]]></Name>
@@ -483,8 +482,6 @@ if (minDist < 999) {
 }]]></Action>
 				</Event>
 			</Events>
-			
-
 			<AnalysisData>
     			<DataSet>
 					<Id>1773484074995</Id>
@@ -561,7 +558,7 @@ if (minDist < 999) {
 					<FreezeXAxis>true</FreezeXAxis>
 					<SamplesToKeep>100</SamplesToKeep>
 				</DataSet>
-			    			<DataSet>
+    			<DataSet>
 					<Id>1773500000001</Id>
 					<Name><![CDATA[avgPedSpeedData]]></Name>
 					<X>390</X><Y>430</Y>
@@ -647,9 +644,7 @@ if (minDist < 999) {
 					<ActiveObjectClass>
 						<PackageName><![CDATA[colruyt]]></PackageName>
 						<ClassName><![CDATA[PedestrianAgent]]></ClassName>
-					
-			
-</ActiveObjectClass>
+					</ActiveObjectClass>
 					<GenericParameterSubstitute>
 						<GenericParameterSubstituteReference>
 							<PackageName><![CDATA[colruyt]]></PackageName>
@@ -942,23 +937,6 @@ if (minDist < 999) {
 			</Presentation>
 
 				</Level>
-			
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-			
-				
 			</Presentation>
 
 		</ActiveObjectClass>
@@ -1853,7 +1831,7 @@ for (String m : mats) {
 			<CurrentLevel>1773483205817</CurrentLevel>
 			<ConnectionsId>1773483205812</ConnectionsId>
 			<Variables>
-							<Variable Class="PlainVariable">
+				<Variable Class="PlainVariable">
 					<Id>1773489000001</Id>
 					<Name><![CDATA[isReturning]]></Name>
 					<X>50</X><Y>150</Y>
@@ -1883,7 +1861,6 @@ for (String m : mats) {
 						</InitialValue>
 					</Properties>
 				</Variable>
-			
 				<Variable Class="Parameter">
 					<Id>1773483205820</Id>
 					<Name><![CDATA[behaviorMode]]></Name>
@@ -2676,36 +2653,6 @@ if (hasArrived) {
 }]]></Action>
 				</Event>
 			</Events>
-			<Functions>
-				<TypicalFunctionDescription>
-					<Id>1773492000001</Id>
-					<Name><![CDATA[getActiveState]]></Name>
-					<ReturnType><![CDATA[String]]></ReturnType>
-					<Body><![CDATA[if (statechart.isStateActive(1773485639867)) {
-    return "NORMAL";
-} else if (statechart.isStateActive(1773485642114)) {
-    return "STOP";
-} else if (statechart.isStateActive(1773485651106)) {
-    return "CRAWL";
-}
-return "?";
-]]></Body>
-				</TypicalFunctionDescription>
-				<TypicalFunctionDescription>
-					<Id>1773492000002</Id>
-					<Name><![CDATA[getDistanceString]]></Name>
-					<ReturnType><![CDATA[String]]></ReturnType>
-					<Body><![CDATA[return String.format(java.util.Locale.US, "%.1f m", nearestPedDist);
-]]></Body>
-				</TypicalFunctionDescription>
-				<TypicalFunctionDescription>
-					<Id>1773492000003</Id>
-					<Name><![CDATA[getSpeedString]]></Name>
-					<ReturnType><![CDATA[String]]></ReturnType>
-					<Body><![CDATA[return String.format(java.util.Locale.US, "%.2f m/s", this.getSpeed());
-]]></Body>
-				</TypicalFunctionDescription>
-			</Functions>
 			<AgentLinks>
 				<AgentLink>
 					<Id>1773483205812</Id>
@@ -2772,25 +2719,17 @@ return "?";
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<Width>80</Width>
-					<Height>20</Height>
-					<Rotation>0</Rotation>
-					<FontName><![CDATA[Arial]]></FontName>
-					<FontSize>14</FontSize>
-					<FontStyle>1</FontStyle>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[null]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>10</Size>
+						<Style>0</Style>
+					</Font>
 					<Alignment>CENTER</Alignment>
-					<TextColor>-1</TextColor>
-					<BackgroundColor>-13421772</BackgroundColor>
-					<BorderColor>-16777216</BorderColor>
-					<BorderWidth>1</BorderWidth>
-					<FillOpacity>0.85</FillOpacity>
-					<FillShape>true</FillShape>
-					<ExpandToFitContent>false</ExpandToFitContent>
-					<TextDisplay>
-						<DisplayType>COMBINED</DisplayType>
-						<TextPart><![CDATA[\'State: \' + getActiveState()]]></TextPart>
-					</TextDisplay>
-					<PositionRelativeToAgent>true</PositionRelativeToAgent>
 				</Text>
 				<Text>
 					<Id>1773492000005</Id>
@@ -2801,25 +2740,17 @@ return "?";
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<Width>80</Width>
-					<Height>18</Height>
-					<Rotation>0</Rotation>
-					<FontName><![CDATA[Arial]]></FontName>
-					<FontSize>12</FontSize>
-					<FontStyle>0</FontStyle>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[null]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>10</Size>
+						<Style>0</Style>
+					</Font>
 					<Alignment>CENTER</Alignment>
-					<TextColor>-1</TextColor>
-					<BackgroundColor>-13421772</BackgroundColor>
-					<BorderColor>-16777216</BorderColor>
-					<BorderWidth>1</BorderWidth>
-					<FillOpacity>0.85</FillOpacity>
-					<FillShape>true</FillShape>
-					<ExpandToFitContent>false</ExpandToFitContent>
-					<TextDisplay>
-						<DisplayType>COMBINED</DisplayType>
-						<TextPart><![CDATA[\'Pd: \' + getDistanceString()]]></TextPart>
-					</TextDisplay>
-					<PositionRelativeToAgent>true</PositionRelativeToAgent>
 				</Text>
 				<Text>
 					<Id>1773492000006</Id>
@@ -2830,25 +2761,17 @@ return "?";
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<Width>80</Width>
-					<Height>16</Height>
-					<Rotation>0</Rotation>
-					<FontName><![CDATA[Arial]]></FontName>
-					<FontSize>11</FontSize>
-					<FontStyle>0</FontStyle>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[null]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>10</Size>
+						<Style>0</Style>
+					</Font>
 					<Alignment>CENTER</Alignment>
-					<TextColor>-1</TextColor>
-					<BackgroundColor>-13421772</BackgroundColor>
-					<BorderColor>-16777216</BorderColor>
-					<BorderWidth>1</BorderWidth>
-					<FillOpacity>0.85</FillOpacity>
-					<FillShape>true</FillShape>
-					<ExpandToFitContent>false</ExpandToFitContent>
-					<TextDisplay>
-						<DisplayType>COMBINED</DisplayType>
-						<TextPart><![CDATA[\'Sp: \' + getSpeedString()]]></TextPart>
-					</TextDisplay>
-					<PositionRelativeToAgent>true</PositionRelativeToAgent>
 				</Text>
 				<Figure3D>
 					<Id>1773483205850</Id>
@@ -3227,93 +3150,6 @@ for (int i = 1; i < main.robots.size(); i++) {
 			</ModelTimeProperties>
 			<BypassInitialScreen>true</BypassInitialScreen>
 		</SimulationExperiment>	
-	
-		<!--   =========   Parameter Variation Experiment   ========  -->
-		<ParameterVariationExperiment ActiveObjectClassId="1773430427526">
-			<Id>1773500000010</Id>
-			<Name><![CDATA[BehaviorSensitivity]]></Name>
-			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
-			<MaximumMemory>512</MaximumMemory>
-			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
-			<CustomGeneratorCode>new Random()</CustomGeneratorCode>
-			<SeedValue>1</SeedValue>
-			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
-			<VmArgs><![CDATA[]]></VmArgs>
-			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
-
-			<Presentation>
-				<Text>
-					<Id>1773500000011</Id>
-					<Name><![CDATA[text]]]></Name>
-					<X>50</X><Y>30</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-					<Color>-12490271</Color>
-					<Text><![CDATA[Behavior Sensitivity Analysis]]></Text>
-					<Font>
-						<Name>SansSerif</Name>
-						<Size>24</Size>
-						<Style>0</Style>
-					</Font>
-					<Alignment>LEFT</Alignment>
-				</Text>
-			</Presentation>
-
-			<Parameters>
-				<Parameter>
-					<ParameterName><![CDATA[behaviorMode]]></ParameterName>
-					<Expression><![CDATA[0]]></Expression>
-					<Type>RANGE</Type>
-					<RangeFrom><![CDATA[0]]></RangeFrom>
-					<RangeTo><![CDATA[1]]></RangeTo>
-					<RangeStep><![CDATA[1]]></RangeStep>
-				</Parameter>
-				<Parameter>
-					<ParameterName><![CDATA[numPedestrians]]></ParameterName>
-					<Expression><![CDATA[25]]></Expression>
-					<Type>SET</Type>
-					<DiscretePropertyValues><![CDATA[{25, 50, 100, 150, 200}]]></DiscretePropertyValues>
-				</Parameter>
-				<Parameter>
-					<ParameterName><![CDATA[numRobots]]></ParameterName>
-				</Parameter>
-				<Parameter>
-					<ParameterName><![CDATA[streetLength]]></ParameterName>
-				</Parameter>
-				<Parameter>
-					<ParameterName><![CDATA[streetWidth]]></ParameterName>
-				</Parameter>
-				<Parameter>
-					<ParameterName><![CDATA[streetY]]></ParameterName>
-				</Parameter>
-				<Parameter>
-					<ParameterName><![CDATA[coordinationMode]]></ParameterName>
-				</Parameter>
-			</Parameters>
-			<NumberOfRuns>30</NumberOfRuns>
-			<PresentationProperties>
-				<EnableZoomAndPanning>true</EnableZoomAndPanning>
-				<ExecutionMode><![CDATA[virtualTimeFast]]></ExecutionMode>
-				<Title><![CDATA[Colruyt : BehaviorSensitivity]]></Title>
-				<EnableDeveloperPanel>true</EnableDeveloperPanel>
-				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
-				<RealTimeScale>1.0</RealTimeScale>
-			</PresentationProperties>
-			<ModelTimeProperties>
-				<StopOption><![CDATA[Stop at specified time]]></StopOption>
-				<InitialDate><![CDATA[1773360000000]]></InitialDate>
-				<InitialTime><![CDATA[0.0]]></InitialTime>
-				<FinalDate><![CDATA[1776038400000]]></FinalDate>
-				<FinalTime><![CDATA[600.0]]></FinalTime>
-			</ModelTimeProperties>
-			<BypassInitialScreen>true</BypassInitialScreen>
-		</ParameterVariationExperiment>	
 	</Experiments>
 	<ModelResources>
 		<Resource>
