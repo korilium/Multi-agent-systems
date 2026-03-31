@@ -88,12 +88,89 @@ if not has_del_mode:
     ET.SubElement(param_edit, 'MaxSliderValue').text = '100'
     ET.SubElement(param_edit, 'DelimeterType').text = 'NO_DELIMETER'
 
+def add_main_variable(name, ttype, default_code):
+    has_var = any(v.find('Name') is not None and v.find('Name').text == name for v in main_vars.findall('Variable'))
+    if not has_var:
+        var_el = ET.SubElement(main_vars, 'Variable', {'Class': 'PlainVariable'})
+        ET.SubElement(var_el, 'Id').text = generate_id()
+        ET.SubElement(var_el, 'Name').text = name
+        ET.SubElement(var_el, 'X').text = '50'
+        ET.SubElement(var_el, 'Y').text = str(80 + len(main_vars)*30)
+        label = ET.SubElement(var_el, 'Label'); ET.SubElement(label, 'X').text = '10'; ET.SubElement(label, 'Y').text = '0'
+        ET.SubElement(var_el, 'PublicFlag').text = 'false'
+        ET.SubElement(var_el, 'PresentationFlag').text = 'true'
+        ET.SubElement(var_el, 'ShowLabel').text = 'true'
+        props = ET.SubElement(var_el, 'Properties', {'SaveInSnapshot': 'true', 'Constant': 'false', 'AccessType': 'public', 'StaticVariable': 'false'})
+        ET.SubElement(props, 'Type').text = ttype
+        if default_code:
+            dv = ET.SubElement(props, 'InitialValue', {'Class': 'CodeValue'})
+            ET.SubElement(dv, 'Code').text = default_code
+
+add_main_variable('orderId', 'int', '0')
+add_main_variable('robotsFinished', 'int', '0')
+add_main_variable('dispatchedRobots', 'int', '1')
+add_main_variable('currentStart', 'NodeLoc', 'null')
+add_main_variable('currentDest', 'NodeLoc', 'null')
+add_main_variable('forcedStartNode', 'NodeLoc', 'null')
+
+# 1.5 Add spawnDelayEvent to Main
+main_events = main_class.find('Events')
+if main_events is None:
+    main_events = ET.SubElement(main_class, 'Events')
+
+if not any(ev.find('Name') is not None and ev.find('Name').text == 'spawnDelayEvent' for ev in main_events.findall('Event')):
+    ev_el = ET.SubElement(main_events, 'Event')
+    ET.SubElement(ev_el, 'Id').text = generate_id()
+    ET.SubElement(ev_el, 'Name').text = 'spawnDelayEvent'
+    ET.SubElement(ev_el, 'X').text = '250'; ET.SubElement(ev_el, 'Y').text = '50'
+    lbl = ET.SubElement(ev_el, 'Label'); ET.SubElement(lbl, 'X').text = '10'; ET.SubElement(lbl, 'Y').text = '0'
+    ET.SubElement(ev_el, 'PublicFlag').text = 'false'
+    ET.SubElement(ev_el, 'PresentationFlag').text = 'true'
+    ET.SubElement(ev_el, 'ShowLabel').text = 'true'
+    props = ET.SubElement(ev_el, 'Properties', {'TriggerType': 'timeout', 'Mode': 'userControls'})
+    to = ET.SubElement(props, 'Timeout', {'Class': 'CodeUnitValue'}); ET.SubElement(to, 'Code').text = '1'; ET.SubElement(to, 'Unit', {'Class': 'TimeUnits'}).text = 'SECOND'
+    rt = ET.SubElement(props, 'Rate', {'Class': 'CodeUnitValue'}); ET.SubElement(rt, 'Code').text = '1'; ET.SubElement(rt, 'Unit', {'Class': 'RateUnits'}).text = 'PER_SECOND'
+    ET.SubElement(props, 'OccurrenceAtTime').text = 'true'
+    ET.SubElement(props, 'OccurrenceDate').text = '1778000000000'
+    ot = ET.SubElement(props, 'OccurrenceTime', {'Class': 'CodeUnitValue'}); ET.SubElement(ot, 'Code').text = '1'; ET.SubElement(ot, 'Unit', {'Class': 'TimeUnits'}).text = 'SECOND'
+    rc = ET.SubElement(props, 'RecurrenceCode', {'Class': 'CodeUnitValue'}); ET.SubElement(rc, 'Code').text = '1'; ET.SubElement(rc, 'Unit', {'Class': 'TimeUnits'}).text = 'SECOND'
+    ET.SubElement(props, 'Condition').text = 'false'
+    ET.SubElement(ev_el, 'Action').text = """robotsFinished = 0;
+// hide old
+ovalStart.setX(-100); ovalDest.setX(-100);
+
+if (forcedStartNode != null) currentStart = forcedStartNode;
+else if (currentStart == null) currentStart = globalNodes.get(0); // init
+
+java.util.List<NodeLoc> candidates = new java.util.ArrayList<>();
+for (NodeLoc n : globalNodes) {
+    if (n == null || currentStart == null) continue;
+    double dist = Math.sqrt(Math.pow(n.x - currentStart.x, 2) + Math.pow(n.y - currentStart.y, 2));
+    if (dist > 80) candidates.add(n);
+}
+if (candidates.isEmpty()) candidates.addAll(globalNodes);
+currentDest = candidates.get((int)(Math.random() * candidates.size()));
+
+ovalStart.setX(currentStart.x); ovalStart.setY(currentStart.y);
+ovalDest.setX(currentDest.x); ovalDest.setY(currentDest.y);
+
+dispatchedRobots = (deliveryMode == 2) ? 2 : 1;
+orderId++; // trigger slaves
+traceln("--- COORDINATOR: TRIGGERING ORDER " + orderId + " (Mode: " + deliveryMode + ", Expecting " + dispatchedRobots + " completions) ---");
+robot.onChange();
+if (robot2 != null) robot2.onChange();
+"""
+
 # 2. Main StartupCode injection
 startup_code_el = main_class.find('StartupCode')
 if startup_code_el is not None:
     code = startup_code_el.text or ""
-    if 'robot.parDeliveryMode' not in code:
-        code += "\n// Robot starts at node1 — fixed depot\nrobot.setXY(node1.getX(), node1.getY());\nrobot.parDeliveryMode = deliveryMode;\n"
+    if 'spawnDelayEvent.restart()' not in code:
+        code += """\n// Robots start at node1 — fixed depot
+robot.setXY(node1.getX(), node1.getY());
+robot2.setXY(node1.getX(), node1.getY());
+currentStart = globalNodes.get(0);
+spawnDelayEvent.restart();\n"""
         startup_code_el.text = code
 
 # 3. Add Parameters to Robot
@@ -142,6 +219,13 @@ add_robot_param('parDestinationNode', 'NodeLoc', 'null')
 add_robot_param('parDeliveryMode', 'int', '0')
 add_robot_param('ordersCompleted', 'int', '0')
 
+# Metrics
+add_robot_param('timeOrderStart', 'double', '0.0')
+add_robot_param('timeReachedDest', 'double', '0.0')
+add_robot_param('expectedOutTime', 'double', '0.0')
+add_robot_param('expectedInTime', 'double', '0.0')
+add_robot_param('myOrderId', 'int', '0')
+
 # Path arrays
 add_robot_param('plannedRoute', 'java.util.List<NodeLoc>', 'new java.util.ArrayList<>()')
 add_robot_param('routeLines', 'java.util.List<com.anylogic.engine.presentation.ShapeLine>', 'new java.util.ArrayList<>()')
@@ -149,19 +233,47 @@ add_robot_param('routeLines', 'java.util.List<com.anylogic.engine.presentation.S
 # Update embedded robot in main
 embedded = main_class.find('EmbeddedObjects')
 if embedded is not None:
+    robot_obj = None
     for obj in embedded.findall('EmbeddedObject'):
         name = obj.find('Name')
         if name is not None and name.text == 'robot':
+            robot_obj = obj
             params = obj.find('Parameters')
             if params is not None:
                 def add_emb_param(pname):
-                    found = any(p.find('Name') is not None and p.find('Name').text == pname for p in params.findall('Parameter'))
-                    if not found:
+                    if not any(p.find('Name') is not None and p.find('Name').text == pname for p in params.findall('Parameter')):
                         p = ET.SubElement(params, 'Parameter')
                         ET.SubElement(p, 'Name').text = pname
                 add_emb_param('parStartNode')
                 add_emb_param('parDestinationNode')
                 add_emb_param('parDeliveryMode')
+
+    if robot_obj is not None:
+        has_r2 = any(o.find('Name') is not None and o.find('Name').text == 'robot2' for o in embedded.findall('EmbeddedObject'))
+        if not has_r2:
+            robot2 = copy.deepcopy(robot_obj)
+            robot2.find('Id').text = generate_id()
+            robot2.find('Name').text = 'robot2'
+            new_pres_id = generate_id()
+            robot2.find('PresentationId').text = new_pres_id
+            embedded.append(robot2)
+            
+            # Duplicate presentation
+            for lvl in main_class.findall('.//Level'):
+                lpres = lvl.find('Presentation')
+                if lpres is not None:
+                    for pres_obj in lpres.findall('EmbeddedObjectPresentation'):
+                        pname = pres_obj.find('Name')
+                        if pname is not None and pname.text == 'robot_presentation':
+                            pres2 = copy.deepcopy(pres_obj)
+                            pres2.find('Id').text = new_pres_id
+                            pres2.find('Name').text = 'robot2_presentation'
+                            try:
+                                old_y = float(pres2.find('Y').text)
+                                pres2.find('Y').text = str(old_y - 20) # visually shift up slightly
+                            except: pass
+                            lpres.append(pres2)
+                            break
 
 # 3.5. Add Ovals to Main Presentation
 pres = main_class.find('Presentation')
@@ -192,13 +304,40 @@ if level is not None:
         ET.SubElement(txt, 'Z').text = '0'
         ET.SubElement(txt, 'Rotation').text = '0.0'
         ET.SubElement(txt, 'Color').text = '-16776961'
-        ET.SubElement(txt, 'Text').text = '"[ CLICK TO TOGGLE MODE ]\\nCurrent: " + (deliveryMode == 0 ? "CENTRE" : "RING ROAD")'
+        ET.SubElement(txt, 'Text').text = '"[ CLICK TO TOGGLE MODE ]\\nCurrent: " + (deliveryMode == 0 ? "CENTRE" : (deliveryMode == 1 ? "RING ROAD" : "DUAL RACE"))'
         font = ET.SubElement(txt, 'Font')
         ET.SubElement(font, 'Name').text = 'SansSerif'
         ET.SubElement(font, 'Size').text = '18'
         ET.SubElement(font, 'Style').text = '1'
         ET.SubElement(txt, 'Alignment').text = 'LEFT'
-        ET.SubElement(txt, 'OnClickCode').text = 'deliveryMode = (deliveryMode == 0) ? 1 : 0;'
+        ET.SubElement(txt, 'OnClickCode').text = 'deliveryMode = (deliveryMode + 1) % 3;'
+
+    if not any(t.find('Name') is not None and t.find('Name').text == 'textRandomizeStart' for t in lpres.findall('Text')):
+        txt2 = ET.SubElement(lpres, 'Text')
+        ET.SubElement(txt2, 'Id').text = generate_id()
+        ET.SubElement(txt2, 'Name').text = 'textRandomizeStart'
+        ET.SubElement(txt2, 'X').text = '400'
+        ET.SubElement(txt2, 'Y').text = '20'
+        lbl2 = ET.SubElement(txt2, 'Label'); ET.SubElement(lbl2, 'X').text = '0'; ET.SubElement(lbl2, 'Y').text = '0'
+        ET.SubElement(txt2, 'PublicFlag').text = 'true'
+        ET.SubElement(txt2, 'PresentationFlag').text = 'true'
+        ET.SubElement(txt2, 'ShowLabel').text = 'false'
+        ET.SubElement(txt2, 'DrawMode').text = 'SHAPE_DRAW_2D'
+        ET.SubElement(txt2, 'Z').text = '0'
+        ET.SubElement(txt2, 'Rotation').text = '0.0'
+        ET.SubElement(txt2, 'Color').text = '-16711936'
+        ET.SubElement(txt2, 'Text').text = '"[ MANUAL OVERRIDE: CLICK TO CYCLE NEXT START NODE ]"'
+        font2 = ET.SubElement(txt2, 'Font')
+        ET.SubElement(font2, 'Name').text = 'SansSerif'
+        ET.SubElement(font2, 'Size').text = '16'
+        ET.SubElement(font2, 'Style').text = '1'
+        ET.SubElement(txt2, 'Alignment').text = 'LEFT'
+        ET.SubElement(txt2, 'OnClickCode').text = """
+int currentIdx = globalNodes.indexOf(forcedStartNode != null ? forcedStartNode : currentStart);
+if (currentIdx == -1) currentIdx = 0;
+forcedStartNode = globalNodes.get((currentIdx + 1) % globalNodes.size());
+traceln("USER OVERRIDE: Next race will strictly start from Node index " + ((currentIdx + 1) % globalNodes.size()) + " (X:" + forcedStartNode.x + " Y:" + forcedStartNode.y + ")");
+"""
 
     # Check if ovalStart exists
     if not any(o.find('Name') is not None and o.find('Name').text == 'ovalStart' for o in lpres.findall('Oval')):
@@ -249,7 +388,7 @@ if robot_funcs is None:
 
 for f in list(robot_funcs.findall('Function')):
     nm = f.find('Name')
-    if nm is not None and nm.text in ('findClosestNode', 'chooseNextNode'):
+    if nm is not None and nm.text in ('findClosestNode', 'chooseNextNode', 'calculateExpectedTime'):
         robot_funcs.remove(f)
 
 f1 = ET.SubElement(robot_funcs, 'Function', {'AccessType': 'default', 'StaticFunction': 'false'})
@@ -393,6 +532,29 @@ ET.SubElement(f4, 'Body').text = """for (com.anylogic.engine.presentation.ShapeL
 }
 routeLines.clear();"""
 
+f_exp = ET.SubElement(robot_funcs, 'Function', {'AccessType': 'default', 'StaticFunction': 'false'})
+ET.SubElement(f_exp, 'ReturnModificator').text = 'RETURNS_VALUE'
+ET.SubElement(f_exp, 'ReturnType').text = 'double'
+ET.SubElement(f_exp, 'Id').text = generate_id()
+ET.SubElement(f_exp, 'Name').text = 'calculateExpectedTime'
+ET.SubElement(f_exp, 'X').text = '50'; ET.SubElement(f_exp, 'Y').text = '420'
+l_exp = ET.SubElement(f_exp, 'Label'); ET.SubElement(l_exp, 'X').text = '10'; ET.SubElement(l_exp, 'Y').text = '0'
+ET.SubElement(f_exp, 'PublicFlag').text = 'false'
+ET.SubElement(f_exp, 'PresentationFlag').text = 'true'
+ET.SubElement(f_exp, 'ShowLabel').text = 'true'
+p_es = ET.SubElement(f_exp, 'Parameter'); ET.SubElement(p_es, 'Name').text = 's'; ET.SubElement(p_es, 'Type').text = 'NodeLoc'
+p_ee = ET.SubElement(f_exp, 'Parameter'); ET.SubElement(p_ee, 'Name').text = 'e'; ET.SubElement(p_ee, 'Type').text = 'NodeLoc'
+p_em = ET.SubElement(f_exp, 'Parameter'); ET.SubElement(p_em, 'Name').text = 'mode'; ET.SubElement(p_em, 'Type').text = 'int'
+ET.SubElement(f_exp, 'Body').text = """java.util.List<NodeLoc> p = calculatePath(s, e, mode);
+if (p.isEmpty()) return 0.0;
+double d = 0;
+NodeLoc last = findClosestNode(s.x, s.y);
+for (NodeLoc n : p) {
+    d += Math.sqrt(Math.pow(n.x - last.x, 2) + Math.pow(n.y - last.y, 2));
+    last = n;
+}
+return d / 10.0;"""
+
 # 4.5. Add pollEvent to Robot to trigger onChange()
 revents = robot_class.find('Events')
 if revents is None:
@@ -486,31 +648,36 @@ if sce is not None:
     ET.SubElement(sp1, 'ShowLabel').text = 'true'
     props_pu = ET.SubElement(sp1, 'Properties', {'Width': '100', 'Height': '50'})
     ET.SubElement(props_pu, 'FillColor').text = '-10496'
-    ET.SubElement(props_pu, 'EntryAction').text = """// Snap to depot
-setXY(parStartNode.x, parStartNode.y);
-goalNode = parStartNode;
+    ET.SubElement(props_pu, 'EntryAction').text = """traceln("Robot " + (this==main.robot?"1":"2") + " explicitly entered stPickup. Sleep rule? " + ((this==main.robot2 && main.deliveryMode!=2)?"YES":"NO"));
+if (main.orderId > myOrderId) {
+    myOrderId = main.orderId;
+    timeOrderStart = time();
 
-// Pick a random destination (different from start)
-java.util.List<NodeLoc> candidates = new java.util.ArrayList<>();
-for (NodeLoc n : main.globalNodes) {
-    if (n == null || parStartNode == null) continue;
-    double dist = Math.sqrt(
-        Math.pow(n.x - parStartNode.x, 2) +
-        Math.pow(n.y - parStartNode.y, 2));
-    if (dist > 80) candidates.add(n);  // must be far enough
-}
-if (candidates.isEmpty()) candidates.addAll(main.globalNodes);
-if (!candidates.isEmpty()) {
-    parDestinationNode = candidates.get((int)(Math.random() * candidates.size()));
-    traceln("New delivery → destination: " + parDestinationNode.x + ", " + parDestinationNode.y);
-    main.ovalStart.setX(parStartNode.x);
-    main.ovalStart.setY(parStartNode.y);
-    main.ovalDest.setX(parDestinationNode.x);
-    main.ovalDest.setY(parDestinationNode.y);
-    
-    // Dijkstra path calculation
-    plannedRoute = calculatePath(parStartNode, parDestinationNode, parDeliveryMode);
-    drawRoute(plannedRoute, parStartNode, java.awt.Color.BLUE);
+    setXY(main.currentStart.x, main.currentStart.y);
+    parStartNode = main.currentStart;
+    parDestinationNode = main.currentDest;
+    goalNode = parStartNode;
+
+    if (main.deliveryMode == 2) {
+        if (this == main.robot) parDeliveryMode = 0;
+        if (this == main.robot2) parDeliveryMode = 1;
+    } else {
+        parDeliveryMode = main.deliveryMode;
+    }
+
+    if (this == main.robot2 && main.deliveryMode != 2) {
+        if (plannedRoute != null) plannedRoute.clear();
+    } else {
+        expectedOutTime = calculateExpectedTime(parStartNode, parDestinationNode, parDeliveryMode);
+        expectedInTime = calculateExpectedTime(parDestinationNode, parStartNode, parDeliveryMode);
+
+        plannedRoute = calculatePath(parStartNode, parDestinationNode, parDeliveryMode);
+
+        if (this == main.robot) drawRoute(plannedRoute, parStartNode, java.awt.Color.BLUE);
+        if (this == main.robot2) drawRoute(plannedRoute, parStartNode, java.awt.Color.MAGENTA);
+    }
+} else {
+    traceln("Robot " + (this==main.robot?"1":"2") + " aborted Pickup logic because orderId <= myOrderId");
 }"""
 
     # stDeliver
@@ -525,12 +692,17 @@ if (!candidates.isEmpty()) {
     ET.SubElement(sp2, 'ShowLabel').text = 'true'
     props_dl = ET.SubElement(sp2, 'Properties', {'Width': '100', 'Height': '50'})
     ET.SubElement(props_dl, 'FillColor').text = '-10496'
-    ET.SubElement(props_dl, 'EntryAction').text = """if (parDestinationNode == null) return;
-
-if (plannedRoute != null && !plannedRoute.isEmpty()) {
-    NodeLoc nextNode = plannedRoute.remove(0);
-    goalNode = nextNode;
-    moveTo(nextNode.x, nextNode.y);
+    ET.SubElement(props_dl, 'EntryAction').text = """traceln("Robot " + (this==main.robot?"1":"2") + " entered stDeliver. plannedRoute length: " + (plannedRoute!=null ? plannedRoute.size() : "null"));
+if (parDestinationNode != null) {
+    if (plannedRoute != null && !plannedRoute.isEmpty()) {
+        NodeLoc nextNode = plannedRoute.remove(0);
+        goalNode = nextNode;
+        // dynamic speed modification
+        setSpeed(10.0 / (1.0 + goalNode.crowdedness * 0.3));
+        moveTo(nextNode.x, nextNode.y);
+    } else {
+        traceln("Robot " + (this==main.robot?"1":"2") + " stDeliver condition check! Distance to goal: " + Math.sqrt(Math.pow(goalNode.x-getX(),2)+Math.pow(goalNode.y-getY(),2)));
+    }
 }"""
 
     # stReturn
@@ -545,17 +717,26 @@ if (plannedRoute != null && !plannedRoute.isEmpty()) {
     ET.SubElement(sp3, 'ShowLabel').text = 'true'
     props_rt = ET.SubElement(sp3, 'Properties', {'Width': '100', 'Height': '50'})
     ET.SubElement(props_rt, 'FillColor').text = '-10496'
-    ET.SubElement(props_rt, 'EntryAction').text = """if (parStartNode == null) return;
+    ET.SubElement(props_rt, 'EntryAction').text = """traceln("Robot " + (this==main.robot?"1":"2") + " entered stReturn.");
+if (parStartNode != null) {
+    if (this == main.robot2 && main.deliveryMode != 2) {
+        if (plannedRoute != null) plannedRoute.clear();
+    } else {
+        timeReachedDest = time();
 
-if (plannedRoute == null || plannedRoute.isEmpty()) {
-    plannedRoute = calculatePath(findClosestNode(getX(), getY()), parStartNode, parDeliveryMode);
-    drawRoute(plannedRoute, findClosestNode(getX(), getY()), java.awt.Color.RED);
-}
+        if (plannedRoute == null || plannedRoute.isEmpty()) {
+            plannedRoute = calculatePath(findClosestNode(getX(), getY()), parStartNode, parDeliveryMode);
+            java.awt.Color c = (this == main.robot) ? java.awt.Color.RED : java.awt.Color.ORANGE;
+            drawRoute(plannedRoute, findClosestNode(getX(), getY()), c);
+        }
 
-if (plannedRoute != null && !plannedRoute.isEmpty()) {
-    NodeLoc nextNode = plannedRoute.remove(0);
-    goalNode = nextNode;
-    moveTo(nextNode.x, nextNode.y);
+        if (plannedRoute != null && !plannedRoute.isEmpty()) {
+            NodeLoc nextNode = plannedRoute.remove(0);
+            goalNode = nextNode;
+            setSpeed(10.0 / (1.0 + goalNode.crowdedness * 0.3));
+            moveTo(nextNode.x, nextNode.y);
+        }
+    }
 }"""
 
     # stComplete
@@ -571,11 +752,29 @@ if (plannedRoute != null && !plannedRoute.isEmpty()) {
     props_cp = ET.SubElement(sp4, 'Properties', {'Width': '100', 'Height': '50'})
     ET.SubElement(props_cp, 'FillColor').text = '-10496'
     ET.SubElement(props_cp, 'EntryAction').text = """clearRoute();
-ordersCompleted++;
-traceln("Order #" + ordersCompleted + " complete at time " + time());
-main.ovalStart.setX(-100);
-main.ovalDest.setX(-100); // hide them offscreen
-parDestinationNode = null;"""
+
+if (this == main.robot2 && main.deliveryMode != 2) {
+    traceln("Ghost Robot2 skipped instantly.");
+} else {
+    double actualOut = timeReachedDest - timeOrderStart;
+    double actualIn = time() - timeReachedDest;
+    double totalTime = time() - timeOrderStart;
+
+    String rName = (this == main.robot) ? "Robot1 (Mode " + parDeliveryMode + ")" : "Robot2 (Mode " + parDeliveryMode + ")";
+    traceln(rName + " COMPLETE! " + 
+            "| Out: " + String.format("%.1f", actualOut) + "s (Exp: " + String.format("%.1f", expectedOutTime) + "s) " +
+            "| In: " + String.format("%.1f", actualIn) + "s (Exp: " + String.format("%.1f", expectedInTime) + "s) " +
+            "| Total: " + String.format("%.1f", totalTime) + "s");
+
+    ordersCompleted++;
+    main.robotsFinished++;
+    traceln(rName + " incremented robotsFinished to: " + main.robotsFinished + "/" + main.dispatchedRobots);
+
+    if (main.robotsFinished >= main.dispatchedRobots) {
+        traceln("All dispatched robots (" + main.dispatchedRobots + ") finished! Restarting map delivery coordinator...");
+        main.spawnDelayEvent.restart();
+    }
+}"""
 
     def add_transition(id_src, id_dst, trigger_type, timeout_code, cond_code, pts, name='t'):
         t_el = ET.SubElement(sce, 'StatechartElement', {'Class': 'Transition', 'ParentState': 'ROOT_NODE'})
@@ -611,15 +810,15 @@ parDestinationNode = null;"""
         ET.SubElement(props, 'SatisfiesExpression').text = 'true'
 
     # Transitions
-    add_transition(id_in, id_pu, 'timeout', '0.1', None, [(350, 130), (350, 150)], 'trInitPickup')
+    add_transition(id_in, id_pu, 'condition', None, 'main.orderId > myOrderId', [(350, 130), (350, 150)], 'trInitPickup')
     add_transition(id_pu, id_dl, 'timeout', '0.1', None, [(350, 200), (350, 250)], 'trPickupDeliver')
-    add_transition(id_dl, id_rt, 'condition', None, 'plannedRoute.isEmpty() && goalNode != null && Math.sqrt(Math.pow(goalNode.x - getX(),2) + Math.pow(goalNode.y - getY(),2)) < 5.0 && Math.sqrt(Math.pow(parDestinationNode.x - getX(), 2) + Math.pow(parDestinationNode.y - getY(), 2)) < 8.0', [(400, 275), (450, 275)], 'trDeliverReturn')
+    add_transition(id_dl, id_rt, 'condition', None, 'plannedRoute.isEmpty() && goalNode != null && Math.sqrt(Math.pow(goalNode.x - getX(),2) + Math.pow(goalNode.y - getY(),2)) < 5.0 && (Math.sqrt(Math.pow(parDestinationNode.x - getX(), 2) + Math.pow(parDestinationNode.y - getY(), 2)) < 8.0 || (this == main.robot2 && main.deliveryMode != 2))', [(400, 275), (450, 275)], 'trDeliverReturn')
     add_transition(id_dl, id_dl, 'condition', None, '!plannedRoute.isEmpty() && goalNode != null && Math.sqrt(Math.pow(goalNode.x - getX(),2) + Math.pow(goalNode.y - getY(),2)) < 5.0', [(350, 300), (330, 320), (370, 320), (350, 300)], 'trDeliverLoop')
 
-    add_transition(id_rt, id_cp, 'condition', None, 'plannedRoute.isEmpty() && goalNode != null && Math.sqrt(Math.pow(goalNode.x - getX(),2) + Math.pow(goalNode.y - getY(),2)) < 5.0 && Math.sqrt(Math.pow(parStartNode.x - getX(), 2) + Math.pow(parStartNode.y - getY(), 2)) < 8.0', [(500, 250), (500, 200)], 'trReturnComplete')
+    add_transition(id_rt, id_cp, 'condition', None, 'plannedRoute.isEmpty() && goalNode != null && Math.sqrt(Math.pow(goalNode.x - getX(),2) + Math.pow(goalNode.y - getY(),2)) < 5.0 && (Math.sqrt(Math.pow(parStartNode.x - getX(), 2) + Math.pow(parStartNode.y - getY(), 2)) < 8.0 || (this == main.robot2 && main.deliveryMode != 2))', [(500, 250), (500, 200)], 'trReturnComplete')
     add_transition(id_rt, id_rt, 'condition', None, '!plannedRoute.isEmpty() && goalNode != null && Math.sqrt(Math.pow(goalNode.x - getX(),2) + Math.pow(goalNode.y - getY(),2)) < 5.0', [(500, 300), (480, 320), (520, 320), (500, 300)], 'trReturnLoop')
 
-    add_transition(id_cp, id_pu, 'timeout', '1', None, [(450, 175), (400, 175)], 'trCompletePickup')
+    add_transition(id_cp, id_in, 'timeout', '0.1', None, [(400, 150), (370, 115)], 'trCompleteInit')
 
 indent(root)
 

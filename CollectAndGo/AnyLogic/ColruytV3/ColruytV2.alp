@@ -137,9 +137,11 @@ for (int i = 0; i < initialCount; i++) {
     add_pedestrian();
 }
 
-// Robot starts at node1 — fixed depot
+// Robots start at node1 — fixed depot
 robot.setXY(node1.getX(), node1.getY());
-robot.parDeliveryMode = deliveryMode;
+robot2.setXY(node1.getX(), node1.getY());
+currentStart = globalNodes.get(0);
+spawnDelayEvent.restart();
 ]]></StartupCode>
 			<DestroyCode><![CDATA[// Stop spawning
 eventSpawnPedestrian.reset();
@@ -287,10 +289,100 @@ if (robot != null) {
 						</InitialValue>
 					</Properties>
 				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1776019818603</Id>
+					<Name><![CDATA[orderId]]></Name>
+					<X>50</X><Y>230</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1775988101138</Id>
+					<Name><![CDATA[robotsFinished]]></Name>
+					<X>50</X><Y>260</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1778418321428</Id>
+					<Name><![CDATA[dispatchedRobots]]></Name>
+					<X>50</X><Y>290</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[1]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1776899652343</Id>
+					<Name><![CDATA[currentStart]]></Name>
+					<X>50</X><Y>320</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[NodeLoc]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[null]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1778868831752</Id>
+					<Name><![CDATA[currentDest]]></Name>
+					<X>50</X><Y>350</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[NodeLoc]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[null]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1779454903709</Id>
+					<Name><![CDATA[forcedStartNode]]></Name>
+					<X>50</X><Y>380</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[NodeLoc]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[null]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
 				<Variable Class="Parameter">
-					<Id>1775001312391</Id>
+					<Id>1779056862521</Id>
 					<Name><![CDATA[deliveryMode]]></Name>
-					<X>40</X><Y>10</Y>
+					<X>50</X><Y>50</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -303,7 +395,7 @@ if (robot != null) {
 							<Code><![CDATA[0]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
-							<Id>1779317873770</Id>
+							<Id>1779509869206</Id>
 							<EditorContolType>TEXT_BOX</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
@@ -344,6 +436,62 @@ if (robot != null) {
 						<Condition><![CDATA[false]]></Condition>
 					</Properties>
 					<Action><![CDATA[add_pedestrian();]]></Action>
+				</Event>
+				<Event>
+					<Id>1777486615394</Id>
+					<Name><![CDATA[spawnDelayEvent]]></Name>
+					<X>250</X><Y>50</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties TriggerType="timeout" Mode="userControls">
+						<Timeout Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+						</Timeout>
+						<Rate Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="RateUnits"><![CDATA[PER_SECOND]]></Unit>
+						</Rate>
+						<Id>0</Id>
+						<OccurrenceAtTime>true</OccurrenceAtTime>
+						<OccurrenceDate>1778000000000</OccurrenceDate>
+						<OccurrenceTime Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+						</OccurrenceTime>
+						<RecurrenceCode Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+						</RecurrenceCode>
+						<Condition><![CDATA[false]]></Condition>
+					</Properties>
+					<Action><![CDATA[robotsFinished = 0;
+// hide old
+ovalStart.setX(-100); ovalDest.setX(-100);
+
+if (forcedStartNode != null) currentStart = forcedStartNode;
+else if (currentStart == null) currentStart = globalNodes.get(0); // init
+
+java.util.List<NodeLoc> candidates = new java.util.ArrayList<>();
+for (NodeLoc n : globalNodes) {
+    if (n == null || currentStart == null) continue;
+    double dist = Math.sqrt(Math.pow(n.x - currentStart.x, 2) + Math.pow(n.y - currentStart.y, 2));
+    if (dist > 80) candidates.add(n);
+}
+if (candidates.isEmpty()) candidates.addAll(globalNodes);
+currentDest = candidates.get((int)(Math.random() * candidates.size()));
+
+ovalStart.setX(currentStart.x); ovalStart.setY(currentStart.y);
+ovalDest.setX(currentDest.x); ovalDest.setY(currentDest.y);
+
+dispatchedRobots = (deliveryMode == 2) ? 2 : 1;
+orderId++; // trigger slaves
+traceln("--- COORDINATOR: TRIGGERING ORDER " + orderId + " (Mode: " + deliveryMode + ", Expecting " + dispatchedRobots + " completions) ---");
+robot.onChange();
+if (robot2 != null) robot2.onChange();
+]]></Action>
 				</Event>
 			</Events>
 			<Functions>
@@ -707,6 +855,66 @@ else                 return 3.0;]]></Body>
 					<InitializationType>EMPTY</InitializationType>
 					<InitializationDatabaseTableQuery>
 						<Id>1774787156050</Id>
+						<TableReference>
+						</TableReference>
+					</InitializationDatabaseTableQuery>
+					<InitializationDatabaseType>ONE_AGENT_PER_DATABASE_RECORD</InitializationDatabaseType>
+					<QuantityColumn>
+					</QuantityColumn>
+				</EmbeddedObject>
+				<EmbeddedObject>
+					<Id>1779061132915</Id>
+					<Name><![CDATA[robot2]]></Name>
+					<X>30</X><Y>650</Y>
+					<Label><X>-20</X><Y>-30</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<PresentationId>1776026943115</PresentationId>
+					<ActiveObjectClass>
+						<PackageName><![CDATA[colruytv2]]></PackageName>
+						<ClassName><![CDATA[Robot]]></ClassName>
+					</ActiveObjectClass>
+					<GenericParameterSubstitute>
+						<GenericParameterSubstituteReference>
+							<PackageName><![CDATA[colruytv2]]></PackageName>
+							<ClassName><![CDATA[Robot]]></ClassName>
+							<ItemName><![CDATA[1774461084595]]></ItemName>
+						</GenericParameterSubstituteReference>
+					</GenericParameterSubstitute>
+					<Parameters>
+						<Parameter>
+							<Name><![CDATA[goalNode]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[parDestinationNode]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[parStartNode]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[parDeliveryMode]]></Name>
+						</Parameter>
+					</Parameters>
+					<ReplicationFlag>false</ReplicationFlag>
+					<Replication Class="CodeValue">
+						<Code><![CDATA[100]]></Code>
+					</Replication>
+					<CollectionType>ARRAY_LIST_BASED</CollectionType>
+					<InEnvironment>true</InEnvironment>
+					<InitialLocationType>XYZ</InitialLocationType>
+					<ColumnCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ColumnCode>
+					<RowCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</RowCode>
+					<LocationNameCode Class="CodeValue">
+						<Code><![CDATA[""]]></Code>
+					</LocationNameCode>
+					<InitializationType>SPECIFIED_NUMBER</InitializationType>
+					<InitializationDatabaseTableQuery>
+						<Id>1774461134861</Id>
 						<TableReference>
 						</TableReference>
 					</InitializationDatabaseTableQuery>
@@ -1182,7 +1390,7 @@ else                 return 3.0;]]></Body>
 				<PointNode>
 					<Id>1774465797415</Id>
 					<Name><![CDATA[node12]]></Name>
-					<X>650</X><Y>300</Y>
+					<X>640</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2082,7 +2290,7 @@ else                 return 3.0;]]></Body>
 				<PointNode>
 					<Id>1774557093108</Id>
 					<Name><![CDATA[node47]]></Name>
-					<X>200</X><Y>300</Y>
+					<X>210</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2197,21 +2405,42 @@ else                 return 3.0;]]></Body>
 					<Latitude>0.0</Latitude>
 					<Longitude>0.0</Longitude>
 				</EmbeddedObjectPresentation>
+				<EmbeddedObjectPresentation>
+					<Id>1776026943115</Id>
+					<Name><![CDATA[robot2_presentation]]></Name>
+					<X>400</X><Y>260</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<ScaleType>AUTOMATICALLY_CALCULATED</ScaleType>
+					<GISScaleForRealEmbeddedObjectPresentationSize>1000</GISScaleForRealEmbeddedObjectPresentationSize>
+					<GISScaleForFixedEmbeddedObjectPresentationSize>1000000000</GISScaleForFixedEmbeddedObjectPresentationSize>
+					<Latitude>0.0</Latitude>
+					<Longitude>0.0</Longitude>
+				</EmbeddedObjectPresentation>
 				<Text>
-					<Id>1777836304099</Id>
+					<Id>1775511533996</Id>
 					<Name><![CDATA[textModeToggle]]></Name>
-					<X>30</X><Y>-30</Y>
+					<X>690</X><Y>80</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<OnClickCode><![CDATA[deliveryMode = (deliveryMode == 0) ? 1 : 0;]]></OnClickCode>
+					<OnClickCode><![CDATA[deliveryMode = (deliveryMode + 1) % 3;]]></OnClickCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-16776961</Color>
-					<Text><![CDATA["[ CLICK TO TOGGLE MODE ] deliveryMode == 0 is shortest route, == 1 is ring route)]]></Text>
+					<Text><![CDATA["[ CLICK TO TOGGLE MODE ]
+deliveryMode == 0 Shortest Route Only
+deliveryMode == 1 Ring Route Only
+deliveryMode == 2 Two Route ]]></Text>
 					<Font>
 						<Name>SansSerif</Name>
 						<Size>18</Size>
@@ -2219,8 +2448,36 @@ else                 return 3.0;]]></Body>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
+				<Text>
+					<Id>1779038701558</Id>
+					<Name><![CDATA[textRandomizeStart]]></Name>
+					<X>680</X><Y>20</Y>
+					<Label><X>0</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<OnClickCode><![CDATA[
+int currentIdx = globalNodes.indexOf(forcedStartNode != null ? forcedStartNode : currentStart);
+if (currentIdx == -1) currentIdx = 0;
+forcedStartNode = globalNodes.get((currentIdx + 1) % globalNodes.size());
+traceln("USER OVERRIDE: Next race will strictly start from Node index " + ((currentIdx + 1) % globalNodes.size()) + " (X:" + forcedStartNode.x + " Y:" + forcedStartNode.y + ")");
+]]></OnClickCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16711936</Color>
+					<Text><![CDATA["[ MANUAL OVERRIDE: 
+CLICK TO CYCLE NEXT START NODE ]"]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>16</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
 				<Oval>
-					<Id>1777543667483</Id>
+					<Id>1776665370761</Id>
 					<Name><![CDATA[ovalStart]]></Name>
 					<X>0</X><Y>0</Y>
 					<Label><X>0</X><Y>0</Y></Label>
@@ -2242,7 +2499,7 @@ else                 return 3.0;]]></Body>
 					<FillMaterial>null</FillMaterial>
 				</Oval>
 				<Oval>
-					<Id>1776416426105</Id>
+					<Id>1777938390163</Id>
 					<Name><![CDATA[ovalDest]]></Name>
 					<X>0</X><Y>0</Y>
 					<Label><X>0</X><Y>0</Y></Label>
@@ -2411,7 +2668,7 @@ else                 return 3.0;]]></Body>
 					</Properties>
 				</Variable>
 				<Variable Class="PlainVariable">
-					<Id>1776205222594</Id>
+					<Id>1775403550796</Id>
 					<Name><![CDATA[ordersCompleted]]></Name>
 					<X>50</X><Y>360</Y>
 					<Label><X>10</X><Y>0</Y></Label>
@@ -2426,9 +2683,84 @@ else                 return 3.0;]]></Body>
 					</Properties>
 				</Variable>
 				<Variable Class="PlainVariable">
-					<Id>1779480318700</Id>
-					<Name><![CDATA[plannedRoute]]></Name>
+					<Id>1779358339791</Id>
+					<Name><![CDATA[timeOrderStart]]></Name>
 					<X>50</X><Y>390</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0.0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1776122991829</Id>
+					<Name><![CDATA[timeReachedDest]]></Name>
+					<X>50</X><Y>420</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0.0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1776550889373</Id>
+					<Name><![CDATA[expectedOutTime]]></Name>
+					<X>50</X><Y>450</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0.0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1777523940945</Id>
+					<Name><![CDATA[expectedInTime]]></Name>
+					<X>50</X><Y>480</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0.0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1776390055352</Id>
+					<Name><![CDATA[myOrderId]]></Name>
+					<X>50</X><Y>510</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1778498389991</Id>
+					<Name><![CDATA[plannedRoute]]></Name>
+					<X>50</X><Y>540</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2441,9 +2773,9 @@ else                 return 3.0;]]></Body>
 					</Properties>
 				</Variable>
 				<Variable Class="PlainVariable">
-					<Id>1778348996300</Id>
+					<Id>1778184326389</Id>
 					<Name><![CDATA[routeLines]]></Name>
-					<X>50</X><Y>420</Y>
+					<X>50</X><Y>570</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2501,7 +2833,7 @@ else                 return 3.0;]]></Body>
 					</Properties>                 
 				</Variable>
 				<Variable Class="Parameter">
-					<Id>1777056644271</Id>
+					<Id>1776911662780</Id>
 					<Name><![CDATA[parStartNode]]></Name>
 					<X>50</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
@@ -2516,7 +2848,7 @@ else                 return 3.0;]]></Body>
 							<Code><![CDATA[new NodeLoc(main.node1.getX(), main.node1.getY())]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
-							<Id>1778241835707</Id>
+							<Id>1777235212292</Id>
 							<EditorContolType>TEXT_BOX</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
@@ -2525,7 +2857,7 @@ else                 return 3.0;]]></Body>
 					</Properties>                 
 				</Variable>
 				<Variable Class="Parameter">
-					<Id>1779455568248</Id>
+					<Id>1777429003966</Id>
 					<Name><![CDATA[parDeliveryMode]]></Name>
 					<X>50</X><Y>330</Y>
 					<Label><X>10</X><Y>0</Y></Label>
@@ -2540,7 +2872,7 @@ else                 return 3.0;]]></Body>
 							<Code><![CDATA[0]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
-							<Id>1778441118672</Id>
+							<Id>1775055815808</Id>
 							<EditorContolType>TEXT_BOX</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
@@ -2551,7 +2883,7 @@ else                 return 3.0;]]></Body>
 			</Variables>
 			<StatechartElements>
 				<StatechartElement Class="State" ParentState="ROOT_NODE">
-					<Id>1779665270399</Id>
+					<Id>1775186276161</Id>
 					<Name><![CDATA[stInit]]></Name>
 					<X>300</X><Y>80</Y>
 					<Label><X>10</X><Y>10</Y></Label>
@@ -2563,7 +2895,7 @@ else                 return 3.0;]]></Body>
 					</Properties>
 				</StatechartElement>
 				<StatechartElement Class="State" ParentState="ROOT_NODE">
-					<Id>1779986278334</Id>
+					<Id>1779640062186</Id>
 					<Name><![CDATA[stPickup]]></Name>
 					<X>300</X><Y>150</Y>
 					<Label><X>10</X><Y>10</Y></Label>
@@ -2571,37 +2903,42 @@ else                 return 3.0;]]></Body>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties Width="100" Height="50">
-						<EntryAction><![CDATA[// Snap to depot
-setXY(parStartNode.x, parStartNode.y);
-goalNode = parStartNode;
+						<EntryAction><![CDATA[traceln("Robot " + (this==main.robot?"1":"2") + " explicitly entered stPickup. Sleep rule? " + ((this==main.robot2 && main.deliveryMode!=2)?"YES":"NO"));
+if (main.orderId > myOrderId) {
+    myOrderId = main.orderId;
+    timeOrderStart = time();
 
-// Pick a random destination (different from start)
-java.util.List<NodeLoc> candidates = new java.util.ArrayList<>();
-for (NodeLoc n : main.globalNodes) {
-    if (n == null || parStartNode == null) continue;
-    double dist = Math.sqrt(
-        Math.pow(n.x - parStartNode.x, 2) +
-        Math.pow(n.y - parStartNode.y, 2));
-    if (dist > 80) candidates.add(n);  // must be far enough
-}
-if (candidates.isEmpty()) candidates.addAll(main.globalNodes);
-if (!candidates.isEmpty()) {
-    parDestinationNode = candidates.get((int)(Math.random() * candidates.size()));
-    traceln("New delivery → destination: " + parDestinationNode.x + ", " + parDestinationNode.y);
-    main.ovalStart.setX(parStartNode.x);
-    main.ovalStart.setY(parStartNode.y);
-    main.ovalDest.setX(parDestinationNode.x);
-    main.ovalDest.setY(parDestinationNode.y);
-    
-    // Dijkstra path calculation
-    plannedRoute = calculatePath(parStartNode, parDestinationNode, parDeliveryMode);
-    drawRoute(plannedRoute, parStartNode, java.awt.Color.BLUE);
+    setXY(main.currentStart.x, main.currentStart.y);
+    parStartNode = main.currentStart;
+    parDestinationNode = main.currentDest;
+    goalNode = parStartNode;
+
+    if (main.deliveryMode == 2) {
+        if (this == main.robot) parDeliveryMode = 0;
+        if (this == main.robot2) parDeliveryMode = 1;
+    } else {
+        parDeliveryMode = main.deliveryMode;
+    }
+
+    if (this == main.robot2 && main.deliveryMode != 2) {
+        if (plannedRoute != null) plannedRoute.clear();
+    } else {
+        expectedOutTime = calculateExpectedTime(parStartNode, parDestinationNode, parDeliveryMode);
+        expectedInTime = calculateExpectedTime(parDestinationNode, parStartNode, parDeliveryMode);
+
+        plannedRoute = calculatePath(parStartNode, parDestinationNode, parDeliveryMode);
+
+        if (this == main.robot) drawRoute(plannedRoute, parStartNode, java.awt.Color.BLUE);
+        if (this == main.robot2) drawRoute(plannedRoute, parStartNode, java.awt.Color.MAGENTA);
+    }
+} else {
+    traceln("Robot " + (this==main.robot?"1":"2") + " aborted Pickup logic because orderId <= myOrderId");
 }]]></EntryAction>
 						<FillColor>-10496</FillColor>
 					</Properties>
 				</StatechartElement>
 				<StatechartElement Class="State" ParentState="ROOT_NODE">
-					<Id>1776879769460</Id>
+					<Id>1776689338483</Id>
 					<Name><![CDATA[stDeliver]]></Name>
 					<X>300</X><Y>250</Y>
 					<Label><X>10</X><Y>10</Y></Label>
@@ -2609,18 +2946,23 @@ if (!candidates.isEmpty()) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties Width="100" Height="50">
-						<EntryAction><![CDATA[if (parDestinationNode == null) return;
-
-if (plannedRoute != null && !plannedRoute.isEmpty()) {
-    NodeLoc nextNode = plannedRoute.remove(0);
-    goalNode = nextNode;
-    moveTo(nextNode.x, nextNode.y);
+						<EntryAction><![CDATA[traceln("Robot " + (this==main.robot?"1":"2") + " entered stDeliver. plannedRoute length: " + (plannedRoute!=null ? plannedRoute.size() : "null"));
+if (parDestinationNode != null) {
+    if (plannedRoute != null && !plannedRoute.isEmpty()) {
+        NodeLoc nextNode = plannedRoute.remove(0);
+        goalNode = nextNode;
+        // dynamic speed modification
+        setSpeed(10.0 / (1.0 + goalNode.crowdedness * 0.3));
+        moveTo(nextNode.x, nextNode.y);
+    } else {
+        traceln("Robot " + (this==main.robot?"1":"2") + " stDeliver condition check! Distance to goal: " + Math.sqrt(Math.pow(goalNode.x-getX(),2)+Math.pow(goalNode.y-getY(),2)));
+    }
 }]]></EntryAction>
 						<FillColor>-10496</FillColor>
 					</Properties>
 				</StatechartElement>
 				<StatechartElement Class="State" ParentState="ROOT_NODE">
-					<Id>1779324025082</Id>
+					<Id>1778249431667</Id>
 					<Name><![CDATA[stReturn]]></Name>
 					<X>450</X><Y>250</Y>
 					<Label><X>10</X><Y>10</Y></Label>
@@ -2628,23 +2970,32 @@ if (plannedRoute != null && !plannedRoute.isEmpty()) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties Width="100" Height="50">
-						<EntryAction><![CDATA[if (parStartNode == null) return;
+						<EntryAction><![CDATA[traceln("Robot " + (this==main.robot?"1":"2") + " entered stReturn.");
+if (parStartNode != null) {
+    if (this == main.robot2 && main.deliveryMode != 2) {
+        if (plannedRoute != null) plannedRoute.clear();
+    } else {
+        timeReachedDest = time();
 
-if (plannedRoute == null || plannedRoute.isEmpty()) {
-    plannedRoute = calculatePath(findClosestNode(getX(), getY()), parStartNode, parDeliveryMode);
-    drawRoute(plannedRoute, findClosestNode(getX(), getY()), java.awt.Color.RED);
-}
+        if (plannedRoute == null || plannedRoute.isEmpty()) {
+            plannedRoute = calculatePath(findClosestNode(getX(), getY()), parStartNode, parDeliveryMode);
+            java.awt.Color c = (this == main.robot) ? java.awt.Color.RED : java.awt.Color.ORANGE;
+            drawRoute(plannedRoute, findClosestNode(getX(), getY()), c);
+        }
 
-if (plannedRoute != null && !plannedRoute.isEmpty()) {
-    NodeLoc nextNode = plannedRoute.remove(0);
-    goalNode = nextNode;
-    moveTo(nextNode.x, nextNode.y);
+        if (plannedRoute != null && !plannedRoute.isEmpty()) {
+            NodeLoc nextNode = plannedRoute.remove(0);
+            goalNode = nextNode;
+            setSpeed(10.0 / (1.0 + goalNode.crowdedness * 0.3));
+            moveTo(nextNode.x, nextNode.y);
+        }
+    }
 }]]></EntryAction>
 						<FillColor>-10496</FillColor>
 					</Properties>
 				</StatechartElement>
 				<StatechartElement Class="State" ParentState="ROOT_NODE">
-					<Id>1778610650859</Id>
+					<Id>1777592317820</Id>
 					<Name><![CDATA[stComplete]]></Name>
 					<X>450</X><Y>150</Y>
 					<Label><X>10</X><Y>10</Y></Label>
@@ -2653,11 +3004,29 @@ if (plannedRoute != null && !plannedRoute.isEmpty()) {
 					<ShowLabel>true</ShowLabel>
 					<Properties Width="100" Height="50">
 						<EntryAction><![CDATA[clearRoute();
-ordersCompleted++;
-traceln("Order #" + ordersCompleted + " complete at time " + time());
-main.ovalStart.setX(-100);
-main.ovalDest.setX(-100); // hide them offscreen
-parDestinationNode = null;]]></EntryAction>
+
+if (this == main.robot2 && main.deliveryMode != 2) {
+    traceln("Ghost Robot2 skipped instantly.");
+} else {
+    double actualOut = timeReachedDest - timeOrderStart;
+    double actualIn = time() - timeReachedDest;
+    double totalTime = time() - timeOrderStart;
+
+    String rName = (this == main.robot) ? "Robot1 (Mode " + parDeliveryMode + ")" : "Robot2 (Mode " + parDeliveryMode + ")";
+    traceln(rName + " COMPLETE! " + 
+            "| Out: " + String.format("%.1f", actualOut) + "s (Exp: " + String.format("%.1f", expectedOutTime) + "s) " +
+            "| In: " + String.format("%.1f", actualIn) + "s (Exp: " + String.format("%.1f", expectedInTime) + "s) " +
+            "| Total: " + String.format("%.1f", totalTime) + "s");
+
+    ordersCompleted++;
+    main.robotsFinished++;
+    traceln(rName + " incremented robotsFinished to: " + main.robotsFinished + "/" + main.dispatchedRobots);
+
+    if (main.robotsFinished >= main.dispatchedRobots) {
+        traceln("All dispatched robots (" + main.dispatchedRobots + ") finished! Restarting map delivery coordinator...");
+        main.spawnDelayEvent.restart();
+    }
+}]]></EntryAction>
 						<FillColor>-10496</FillColor>
 					</Properties>
 				</StatechartElement>
@@ -2673,11 +3042,11 @@ parDestinationNode = null;]]></EntryAction>
 						<Point><X>0</X><Y>0</Y></Point>
 						<Point><X>0</X><Y>40</Y></Point>
 					</Points>
-					<Properties Target="1779665270399">
+					<Properties Target="1775186276161">
 					</Properties>	
 				</StatechartElement>
 				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
-					<Id>1777293814451</Id>
+					<Id>1777070783825</Id>
 					<Name><![CDATA[trInitPickup]]></Name>
 					<X>350</X><Y>130</Y>
 					<Label><X>10</X><Y>0</Y></Label>
@@ -2689,12 +3058,12 @@ parDestinationNode = null;]]></EntryAction>
 						<Point><X>0</X><Y>20</Y></Point>
 					</Points>
 					<IconOffset>20.0</IconOffset>
-					<Properties Source="1779665270399" Target="1779986278334" Trigger="timeout">
+					<Properties Source="1775186276161" Target="1779640062186" Trigger="condition">
 						<Timeout Class="CodeUnitValue">
-							<Code><![CDATA[0.1]]></Code>
+							<Code><![CDATA[1]]></Code>
 							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
 						</Timeout>
-						<Condition><![CDATA[true]]></Condition>
+						<Condition><![CDATA[main.orderId > myOrderId]]></Condition>
 						<Rate Class="CodeUnitValue">
 							<Code><![CDATA[1]]></Code>
 							<Unit Class="RateUnits"><![CDATA[PER_SECOND]]></Unit>
@@ -2707,7 +3076,7 @@ parDestinationNode = null;]]></EntryAction>
 					</Properties>	
 				</StatechartElement>
 				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
-					<Id>1779061440184</Id>
+					<Id>1775425065932</Id>
 					<Name><![CDATA[trPickupDeliver]]></Name>
 					<X>350</X><Y>200</Y>
 					<Label><X>10</X><Y>0</Y></Label>
@@ -2719,7 +3088,7 @@ parDestinationNode = null;]]></EntryAction>
 						<Point><X>0</X><Y>50</Y></Point>
 					</Points>
 					<IconOffset>20.0</IconOffset>
-					<Properties Source="1779986278334" Target="1776879769460" Trigger="timeout">
+					<Properties Source="1779640062186" Target="1776689338483" Trigger="timeout">
 						<Timeout Class="CodeUnitValue">
 							<Code><![CDATA[0.1]]></Code>
 							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
@@ -2737,7 +3106,7 @@ parDestinationNode = null;]]></EntryAction>
 					</Properties>	
 				</StatechartElement>
 				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
-					<Id>1776752431168</Id>
+					<Id>1775029165550</Id>
 					<Name><![CDATA[trDeliverReturn]]></Name>
 					<X>400</X><Y>275</Y>
 					<Label><X>10</X><Y>0</Y></Label>
@@ -2749,12 +3118,12 @@ parDestinationNode = null;]]></EntryAction>
 						<Point><X>50</X><Y>0</Y></Point>
 					</Points>
 					<IconOffset>20.0</IconOffset>
-					<Properties Source="1776879769460" Target="1779324025082" Trigger="condition">
+					<Properties Source="1776689338483" Target="1778249431667" Trigger="condition">
 						<Timeout Class="CodeUnitValue">
 							<Code><![CDATA[1]]></Code>
 							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
 						</Timeout>
-						<Condition><![CDATA[plannedRoute.isEmpty() && goalNode != null && Math.sqrt(Math.pow(goalNode.x - getX(),2) + Math.pow(goalNode.y - getY(),2)) < 5.0 && Math.sqrt(Math.pow(parDestinationNode.x - getX(), 2) + Math.pow(parDestinationNode.y - getY(), 2)) < 8.0]]></Condition>
+						<Condition><![CDATA[plannedRoute.isEmpty() && goalNode != null && Math.sqrt(Math.pow(goalNode.x - getX(),2) + Math.pow(goalNode.y - getY(),2)) < 5.0 && (Math.sqrt(Math.pow(parDestinationNode.x - getX(), 2) + Math.pow(parDestinationNode.y - getY(), 2)) < 8.0 || (this == main.robot2 && main.deliveryMode != 2))]]></Condition>
 						<Rate Class="CodeUnitValue">
 							<Code><![CDATA[1]]></Code>
 							<Unit Class="RateUnits"><![CDATA[PER_SECOND]]></Unit>
@@ -2767,7 +3136,7 @@ parDestinationNode = null;]]></EntryAction>
 					</Properties>	
 				</StatechartElement>
 				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
-					<Id>1775746190176</Id>
+					<Id>1778702660926</Id>
 					<Name><![CDATA[trDeliverLoop]]></Name>
 					<X>350</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
@@ -2781,7 +3150,7 @@ parDestinationNode = null;]]></EntryAction>
 						<Point><X>0</X><Y>0</Y></Point>
 					</Points>
 					<IconOffset>20.0</IconOffset>
-					<Properties Source="1776879769460" Target="1776879769460" Trigger="condition">
+					<Properties Source="1776689338483" Target="1776689338483" Trigger="condition">
 						<Timeout Class="CodeUnitValue">
 							<Code><![CDATA[1]]></Code>
 							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
@@ -2799,7 +3168,7 @@ parDestinationNode = null;]]></EntryAction>
 					</Properties>	
 				</StatechartElement>
 				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
-					<Id>1778962968068</Id>
+					<Id>1776325758022</Id>
 					<Name><![CDATA[trReturnComplete]]></Name>
 					<X>500</X><Y>250</Y>
 					<Label><X>10</X><Y>0</Y></Label>
@@ -2811,12 +3180,12 @@ parDestinationNode = null;]]></EntryAction>
 						<Point><X>0</X><Y>-50</Y></Point>
 					</Points>
 					<IconOffset>20.0</IconOffset>
-					<Properties Source="1779324025082" Target="1778610650859" Trigger="condition">
+					<Properties Source="1778249431667" Target="1777592317820" Trigger="condition">
 						<Timeout Class="CodeUnitValue">
 							<Code><![CDATA[1]]></Code>
 							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
 						</Timeout>
-						<Condition><![CDATA[plannedRoute.isEmpty() && goalNode != null && Math.sqrt(Math.pow(goalNode.x - getX(),2) + Math.pow(goalNode.y - getY(),2)) < 5.0 && Math.sqrt(Math.pow(parStartNode.x - getX(), 2) + Math.pow(parStartNode.y - getY(), 2)) < 8.0]]></Condition>
+						<Condition><![CDATA[plannedRoute.isEmpty() && goalNode != null && Math.sqrt(Math.pow(goalNode.x - getX(),2) + Math.pow(goalNode.y - getY(),2)) < 5.0 && (Math.sqrt(Math.pow(parStartNode.x - getX(), 2) + Math.pow(parStartNode.y - getY(), 2)) < 8.0 || (this == main.robot2 && main.deliveryMode != 2))]]></Condition>
 						<Rate Class="CodeUnitValue">
 							<Code><![CDATA[1]]></Code>
 							<Unit Class="RateUnits"><![CDATA[PER_SECOND]]></Unit>
@@ -2829,7 +3198,7 @@ parDestinationNode = null;]]></EntryAction>
 					</Properties>	
 				</StatechartElement>
 				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
-					<Id>1779269233399</Id>
+					<Id>1778993793037</Id>
 					<Name><![CDATA[trReturnLoop]]></Name>
 					<X>500</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
@@ -2843,7 +3212,7 @@ parDestinationNode = null;]]></EntryAction>
 						<Point><X>0</X><Y>0</Y></Point>
 					</Points>
 					<IconOffset>20.0</IconOffset>
-					<Properties Source="1779324025082" Target="1779324025082" Trigger="condition">
+					<Properties Source="1778249431667" Target="1778249431667" Trigger="condition">
 						<Timeout Class="CodeUnitValue">
 							<Code><![CDATA[1]]></Code>
 							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
@@ -2861,21 +3230,21 @@ parDestinationNode = null;]]></EntryAction>
 					</Properties>	
 				</StatechartElement>
 				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
-					<Id>1779982315574</Id>
-					<Name><![CDATA[trCompletePickup]]></Name>
-					<X>450</X><Y>175</Y>
+					<Id>1775844358124</Id>
+					<Name><![CDATA[trCompleteInit]]></Name>
+					<X>400</X><Y>150</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<Points>
 						<Point><X>0</X><Y>0</Y></Point>
-						<Point><X>-50</X><Y>0</Y></Point>
+						<Point><X>-30</X><Y>-35</Y></Point>
 					</Points>
 					<IconOffset>20.0</IconOffset>
-					<Properties Source="1778610650859" Target="1779986278334" Trigger="timeout">
+					<Properties Source="1777592317820" Target="1775186276161" Trigger="timeout">
 						<Timeout Class="CodeUnitValue">
-							<Code><![CDATA[1]]></Code>
+							<Code><![CDATA[0.1]]></Code>
 							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
 						</Timeout>
 						<Condition><![CDATA[true]]></Condition>
@@ -2893,7 +3262,7 @@ parDestinationNode = null;]]></EntryAction>
 			</StatechartElements>
 			<Events>
 				<Event>
-					<Id>1778283306171</Id>
+					<Id>1777802491367</Id>
 					<Name><![CDATA[pollEvent]]></Name>
 					<X>50</X><Y>400</Y>
 					<Label><X>10</X><Y>0</Y></Label>
@@ -2929,7 +3298,7 @@ parDestinationNode = null;]]></EntryAction>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
 					<ReturnType><![CDATA[NodeLoc]]></ReturnType>
-					<Id>1779737065375</Id>
+					<Id>1775702135279</Id>
 					<Name><![CDATA[findClosestNode]]></Name>
 					<X>50</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
@@ -2955,7 +3324,7 @@ return closest;]]></Body>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
 					<ReturnType><![CDATA[java.util.List<NodeLoc>]]></ReturnType>
-					<Id>1776584054728</Id>
+					<Id>1775784647639</Id>
 					<Name><![CDATA[calculatePath]]></Name>
 					<X>50</X><Y>330</Y>
 					<Label><X>10</X><Y>0</Y></Label>
@@ -3037,7 +3406,7 @@ return path;]]></Body>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
 					<ReturnType><![CDATA[void]]></ReturnType>
-					<Id>1776548853685</Id>
+					<Id>1775820392460</Id>
 					<Name><![CDATA[drawRoute]]></Name>
 					<X>50</X><Y>360</Y>
 					<Label><X>10</X><Y>0</Y></Label>
@@ -3073,7 +3442,7 @@ for (NodeLoc n : path) {
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
 					<ReturnType><![CDATA[void]]></ReturnType>
-					<Id>1777563876512</Id>
+					<Id>1775526466007</Id>
 					<Name><![CDATA[clearRoute]]></Name>
 					<X>50</X><Y>390</Y>
 					<Label><X>10</X><Y>0</Y></Label>
@@ -3084,6 +3453,38 @@ for (NodeLoc n : path) {
     main.presentation.remove(line);
 }
 routeLines.clear();]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1779917165419</Id>
+					<Name><![CDATA[calculateExpectedTime]]></Name>
+					<X>50</X><Y>420</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[s]]></Name>
+						<Type><![CDATA[NodeLoc]]></Type>
+					</Parameter>
+					<Parameter>
+						<Name><![CDATA[e]]></Name>
+						<Type><![CDATA[NodeLoc]]></Type>
+					</Parameter>
+					<Parameter>
+						<Name><![CDATA[mode]]></Name>
+						<Type><![CDATA[int]]></Type>
+					</Parameter>
+					<Body><![CDATA[java.util.List<NodeLoc> p = calculatePath(s, e, mode);
+if (p.isEmpty()) return 0.0;
+double d = 0;
+NodeLoc last = findClosestNode(s.x, s.y);
+for (NodeLoc n : p) {
+    d += Math.sqrt(Math.pow(n.x - last.x, 2) + Math.pow(n.y - last.y, 2));
+    last = n;
+}
+return d / 10.0;]]></Body>
 				</Function>
 			</Functions>
 			<AgentLinks>
