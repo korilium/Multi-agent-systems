@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 2.79.0 commit date:2017-09-11, commit time:10:43, hash:5bd8ac9</authoring_tool>
+    </contributor>
+    <created>2018-04-05T12:59:31</created>
+    <modified>2018-04-05T12:59:31</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Y_UP</up_axis>
+  </asset>
+  <library_cameras>
+    <camera id="Camera-camera-camera" name="Camera-camera.002">
+      <optics>
+        <technique_common>
+          <perspective>
+            <xfov sid="xfov">44.97718</xfov>
+            <aspect_ratio>1.777778</aspect_ratio>
+            <znear sid="znear">0.1</znear>
+            <zfar sid="zfar">100</zfar>
+          </perspective>
+        </technique_common>
+      </optics>
+      <extra>
+        <technique profile="blender">
+          <shiftx sid="shiftx" type="float">0</shiftx>
+          <shifty sid="shifty" type="float">0</shifty>
+          <YF_dofdist sid="YF_dofdist" type="float">0</YF_dofdist>
+        </technique>
+      </extra>
+    </camera>
+    <camera id="converter_steel_Front-camera" name="converter_steel_Front">
+      <optics>
+        <technique_common>
+          <perspective>
+            <xfov sid="xfov">44.97718</xfov>
+            <aspect_ratio>1.777778</aspect_ratio>
+            <znear sid="znear">0.1</znear>
+            <zfar sid="zfar">100</zfar>
+          </perspective>
+        </technique_common>
+      </optics>
+      <extra>
+        <technique profile="blender">
+          <shiftx sid="shiftx" type="float">0</shiftx>
+          <shifty sid="shifty" type="float">0</shifty>
+          <YF_dofdist sid="YF_dofdist" type="float">0</YF_dofdist>
+        </technique>
+      </extra>
+    </camera>
+    <camera id="converter_steel_Left-camera" name="converter_steel_Left">
+      <optics>
+        <technique_common>
+          <perspective>
+            <xfov sid="xfov">44.97718</xfov>
+            <aspect_ratio>1.777778</aspect_ratio>
+            <znear sid="znear">0.1</znear>
+            <zfar sid="zfar">100</zfar>
+          </perspective>
+        </technique_common>
+      </optics>
+      <extra>
+        <technique profile="blender">
+          <shiftx sid="shiftx" type="float">0</shiftx>
+          <shifty sid="shifty" type="float">0</shifty>
+          <YF_dofdist sid="YF_dofdist" type="float">0</YF_dofdist>
+        </technique>
+      </extra>
+    </camera>
+    <camera id="converter_steel_Top-camera" name="converter_steel_Top">
+      <optics>
+        <technique_common>
+          <perspective>
+            <xfov sid="xfov">44.97718</xfov>
+            <aspect_ratio>1.777778</aspect_ratio>
+            <znear sid="znear">0.1</znear>
+            <zfar sid="zfar">100</zfar>
+          </perspective>
+        </technique_common>
+      </optics>
+      <extra>
+        <technique profile="blender">
+          <shiftx sid="shiftx" type="float">0</shiftx>
+          <shifty sid="shifty" type="float">0</shifty>
+          <YF_dofdist sid="YF_dofdist" type="float">0</YF_dofdist>
+        </technique>
+      </extra>
+    </camera>
+    <camera id="converter_steel_Back-camera" name="converter_steel_Back">
+      <optics>
+        <technique_common>
+          <perspective>
+            <xfov sid="xfov">44.97718</xfov>
+            <aspect_ratio>1.777778</aspect_ratio>
+            <znear sid="znear">0.1</znear>
+            <zfar sid="zfar">100</zfar>
+          </perspective>
+        </technique_common>
+      </optics>
+      <extra>
+        <technique profile="blender">
+          <shiftx sid="shiftx" type="float">0</shiftx>
+          <shifty sid="shifty" type="float">0</shifty>
+          <YF_dofdist sid="YF_dofdist" type="float">0</YF_dofdist>
+        </technique>
+      </extra>
+    </camera>
+    <camera id="converter_steel_Right-camera" name="converter_steel_Right">
+      <optics>
+        <technique_common>
+          <perspective>
+            <xfov sid="xfov">44.97718</xfov>
+            <aspect_ratio>1.777778</aspect_ratio>
+            <znear sid="znear">0.1</znear>
+            <zfar sid="zfar">100</zfar>
+          </perspective>
+        </technique_common>
+      </optics>
+      <extra>
+        <technique profile="blender">
+          <shiftx sid="shiftx" type="float">0</shiftx>
+          <shifty sid="shifty" type="float">0</shifty>
+          <YF_dofdist sid="YF_dofdist" type="float">0</YF_dofdist>
+        </technique>
+      </extra>
+    </camera>
+    <camera id="converter_steel_Bottom-camera" name="converter_steel_Bottom">
+      <optics>
+        <technique_common>
+          <perspective>
+            <xfov sid="xfov">44.97718</xfov>
+            <aspect_ratio>1.777778</aspect_ratio>
+            <znear sid="znear">0.1</znear>
+            <zfar sid="zfar">100</zfar>
+          </perspective>
+        </technique_common>
+      </optics>
+      <extra>
+        <technique profile="blender">
+          <shiftx sid="shiftx" type="float">0</shiftx>
+          <shifty sid="shifty" type="float">0</shifty>
+          <YF_dofdist sid="YF_dofdist" type="float">0</YF_dofdist>
+        </technique>
+      </extra>
+    </camera>
+  </library_cameras>
+  <library_images/>
+  <library_effects>
+    <effect id="mesh1-geometry_material0_001-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">0.8 0.398432 0 1</color>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">103</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_materials>
+    <material id="mesh1-geometry_material0_001-material" name="mesh1-geometry_material0_001">
+      <instance_effect url="#mesh1-geometry_material0_001-effect"/>
+    </material>
+  </library_materials>
+  <library_geometries>
+    <geometry id="mesh1-geometry_material0_IndexedFaceSet_002-mesh" name="mesh1-geometry_material0_IndexedFaceSet.002">
+      <mesh>
+        <source id="mesh1-geometry_material0_IndexedFaceSet_002-mesh-positions">
+          <float_array id="mesh1-geometry_material0_IndexedFaceSet_002-mesh-positions-array" count="72">-0.57473 0.422 -0.11063 -0.55311 0.422 0.19326 -0.58392 0.422 0.04273998 -0.52615 0.422 -0.25638 -0.48439 0.422 0.33068 -0.4415 0.422 -0.3846 -0.38245 0.422 0.44562 -0.32655 0.422 -0.48655 -0.25423 0.422 0.53027 -0.18914 0.422 -0.55527 -0.10847 0.422 0.57885 -0.03861999 0.422 -0.58608 0.0449 0.422 0.58804 0.11475 0.422 -0.57688 0.19542 0.422 0.55723 0.2605 0.422 -0.52831 0.33283 0.422 0.48851 0.38872 0.422 -0.44366 0.44778 0.422 0.38657 0.49067 0.422 -0.32871 0.53243 0.422 0.25835 0.55939 0.422 -0.1913 0.581 0.422 0.11259 0.5902 0.422 -0.04077994</float_array>
+          <technique_common>
+            <accessor source="#mesh1-geometry_material0_IndexedFaceSet_002-mesh-positions-array" count="24" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="mesh1-geometry_material0_IndexedFaceSet_002-mesh-normals">
+          <float_array id="mesh1-geometry_material0_IndexedFaceSet_002-mesh-normals-array" count="36">0 -1 0 0 -1 2.07953e-7 0 -1 1.35344e-7 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0</float_array>
+          <technique_common>
+            <accessor source="#mesh1-geometry_material0_IndexedFaceSet_002-mesh-normals-array" count="12" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="mesh1-geometry_material0_IndexedFaceSet_002-mesh-vertices">
+          <input semantic="POSITION" source="#mesh1-geometry_material0_IndexedFaceSet_002-mesh-positions"/>
+        </vertices>
+        <triangles material="mesh1-geometry_material0_001-material" count="22">
+          <input semantic="VERTEX" source="#mesh1-geometry_material0_IndexedFaceSet_002-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#mesh1-geometry_material0_IndexedFaceSet_002-mesh-normals" offset="1"/>
+          <p>0 0 1 0 2 0 1 1 0 1 3 1 1 0 3 0 4 0 4 2 3 2 5 2 4 0 5 0 6 0 6 3 5 3 7 3 6 4 7 4 8 4 8 0 7 0 9 0 8 5 9 5 10 5 10 0 9 0 11 0 10 0 11 0 12 0 12 0 11 0 13 0 12 6 13 6 14 6 14 7 13 7 15 7 14 8 15 8 16 8 16 0 15 0 17 0 16 9 17 9 18 9 18 0 17 0 19 0 18 10 19 10 20 10 20 0 19 0 21 0 20 11 21 11 22 11 22 0 21 0 23 0</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_controllers/>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="mesh1-geometry_material0_IndexedFaceSet" name="mesh1-geometry_material0_IndexedFaceSet" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <instance_geometry url="#mesh1-geometry_material0_IndexedFaceSet_002-mesh" name="mesh1-geometry_material0_IndexedFaceSet">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="mesh1-geometry_material0_001-material" target="#mesh1-geometry_material0_001-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+      <node id="Camera-camera" name="Camera-camera" type="NODE">
+        <matrix sid="transform">0.1388094 0.4970252 -0.1724294 -6.699794 -0.3457138 0.1996763 -0.06918786 3.379512 7.83154e-5 0.4987129 0.1995475 3.823675 0 0 0 1</matrix>
+        <instance_camera url="#Camera-camera-camera"/>
+      </node>
+      <node id="converter_steel_Front" name="converter_steel_Front" type="NODE">
+        <matrix sid="transform">1 0 0 0.00314 0 1 0 0.422 0 0 1 2.34726 0 0 0 1</matrix>
+        <instance_camera url="#converter_steel_Front-camera"/>
+      </node>
+      <node id="converter_steel_Left" name="converter_steel_Left" type="NODE">
+        <matrix sid="transform">-2.03653e-4 0 1 2.35137 0 0.9999999 0 0.422 -1 0 -2.03653e-4 -9.8e-4 0 0 0 1</matrix>
+        <instance_camera url="#converter_steel_Left-camera"/>
+      </node>
+      <node id="converter_steel_Top" name="converter_steel_Top" type="NODE">
+        <matrix sid="transform">0.9999999 0 0 0.00314 0 -2.03415e-4 1 2.18318 0 -1 -2.03415e-4 -9.8e-4 0 0 0 1</matrix>
+        <instance_camera url="#converter_steel_Top-camera"/>
+      </node>
+      <node id="converter_steel_Back" name="converter_steel_Back" type="NODE">
+        <matrix sid="transform">-0.9999999 0 -4.07132e-4 0.00314 0 1 0 0.422 4.07132e-4 0 -0.9999999 -2.34922 0 0 0 1</matrix>
+        <instance_camera url="#converter_steel_Back-camera"/>
+      </node>
+      <node id="converter_steel_Right" name="converter_steel_Right" type="NODE">
+        <matrix sid="transform">-2.03653e-4 0 -1 -2.3451 0 0.9999999 0 0.422 1 0 -2.03653e-4 -9.8e-4 0 0 0 1</matrix>
+        <instance_camera url="#converter_steel_Right-camera"/>
+      </node>
+      <node id="converter_steel_Bottom" name="converter_steel_Bottom" type="NODE">
+        <matrix sid="transform">0.9999999 0 0 0.00314 0 -2.03415e-4 -1 -1.33918 0 1 -2.03415e-4 -9.8e-4 0 0 0 1</matrix>
+        <instance_camera url="#converter_steel_Bottom-camera"/>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>
