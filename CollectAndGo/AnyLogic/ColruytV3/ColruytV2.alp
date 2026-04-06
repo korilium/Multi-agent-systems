@@ -92,7 +92,7 @@ globalNodes.get(44).crowdedness = 1;  // node45
  
 // ===== BUILD ADJACENCY GRAPH =====
 com.anylogic.engine.markup.Wall[] allWalls =
-    {wall, wall1, wall2, wall3};
+    {wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9, wall10, wall11, wall12};
 double wallThreshold = 3.0;
 double maxEdgeDist = 100.0;
  
@@ -392,7 +392,7 @@ if (robot != null) {
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[0]]></Code>
+							<Code><![CDATA[2]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1779509869206</Id>
@@ -441,7 +441,7 @@ if (robot != null) {
 					<Id>1777486615394</Id>
 					<Name><![CDATA[spawnDelayEvent]]></Name>
 					<X>250</X><Y>50</Y>
-					<Label><X>10</X><Y>0</Y></Label>
+					<Label><X>-210</X><Y>50</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
@@ -962,8 +962,8 @@ else                 return 3.0;]]></Body>
 				</Oval>
 				<Wall>
 					<Id>1774383566968</Id>
-					<Name><![CDATA[wall3]]></Name>
-					<X>440</X><Y>570</Y>
+					<Name><![CDATA[wall6]]></Name>
+					<X>440</X><Y>560</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -980,27 +980,27 @@ else                 return 3.0;]]></Body>
 						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
 						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
 						<Point><X>0</X><Y>-25</Y><Z>0</Z></Point>
-						<Point><X>0</X><Y>-130</Y><Z>0</Z></Point>
-						<Point><X>0</X><Y>-105</Y><Z>0</Z></Point>
-						<Point><X>25</X><Y>-130</Y><Z>0</Z></Point>
-						<Point><X>120</X><Y>-130</Y><Z>0</Z></Point>
-						<Point><X>95</X><Y>-130</Y><Z>0</Z></Point>
-						<Point><X>140.801</X><Y>-116.132</Y><Z>0</Z></Point>
-						<Point><X>180</X><Y>-90</Y><Z>0</Z></Point>
-						<Point><X>159.199</X><Y>-103.868</Y><Z>0</Z></Point>
-						<Point><X>161.315</X><Y>-73.391</Y><Z>0</Z></Point>
-						<Point><X>135</X><Y>-50</Y><Z>0</Z></Point>
-						<Point><X>153.68499999999995</X><Y>-66.60899999999998</Y><Z>0</Z></Point>
-						<Point><X>113.053</X><Y>-38.028999999999996</Y><Z>0</Z></Point>
-						<Point><X>80</X><Y>-20</Y><Z>0</Z></Point>
-						<Point><X>101.947</X><Y>-31.971000000000004</Y><Z>0</Z></Point>
-						<Point><X>56.283000000000015</X><Y>-12.094000000000051</Y><Z>0</Z></Point>
-						<Point><X>35</X><Y>-5</Y><Z>0</Z></Point>
-						<Point><X>58.716999999999985</X><Y>-12.905999999999949</Y><Z>0</Z></Point>
-						<Point><X>10.250999999999976</X><Y>-1.4639999999999418</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>-110</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>-85</Y><Z>0</Z></Point>
+						<Point><X>25</X><Y>-110</Y><Z>0</Z></Point>
+						<Point><X>120</X><Y>-110</Y><Z>0</Z></Point>
+						<Point><X>95</X><Y>-110</Y><Z>0</Z></Point>
+						<Point><X>141.947</X><Y>-98.029</Y><Z>0</Z></Point>
+						<Point><X>175</X><Y>-80</Y><Z>0</Z></Point>
+						<Point><X>153.053</X><Y>-91.971</Y><Z>0</Z></Point>
+						<Point><X>157.322</X><Y>-62.322</Y><Z>0</Z></Point>
+						<Point><X>135</X><Y>-40</Y><Z>0</Z></Point>
+						<Point><X>152.678</X><Y>-57.678</Y><Z>0</Z></Point>
+						<Point><X>113.053</X><Y>-28.028999999999996</Y><Z>0</Z></Point>
+						<Point><X>80</X><Y>-10</Y><Z>0</Z></Point>
+						<Point><X>101.947</X><Y>-21.971000000000004</Y><Z>0</Z></Point>
+						<Point><X>55.74599999999998</X><Y>-3.937000000000012</Y><Z>0</Z></Point>
+						<Point><X>40</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>64.25400000000002</X><Y>-6.062999999999988</Y><Z>0</Z></Point>
+						<Point><X>15</X><Y>0</Y><Z>0</Z></Point>
 						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
-						<Point><X>24.749000000000024</X><Y>-3.536000000000058</Y><Z>0</Z></Point>
-						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>25</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>-25</Y><Z>0</Z></Point>
 					</Points>
 				</Wall>
 				<EmbeddedObjectPresentation>
@@ -1144,7 +1144,7 @@ else                 return 3.0;]]></Body>
 				<PointNode>
 					<Id>1774469726771</Id>
 					<Name><![CDATA[node2]]></Name>
-					<X>415</X><Y>80</Y>
+					<X>415</X><Y>60</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1924,7 +1924,7 @@ else                 return 3.0;]]></Body>
 				<PointNode>
 					<Id>1774557093108</Id>
 					<Name><![CDATA[node47]]></Name>
-					<X>210</X><Y>300</Y>
+					<X>180</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2239,12 +2239,12 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 						<Point><X>92.09400000000005</X><Y>53.716999999999985</Y><Z>0</Z></Point>
 						<Point><X>85</X><Y>75</Y><Z>0</Z></Point>
 						<Point><X>92.906</X><Y>51.283</Y><Z>0</Z></Point>
-						<Point><X>72.138</X><Y>96.437</Y><Z>0</Z></Point>
-						<Point><X>55</X><Y>125</Y><Z>0</Z></Point>
-						<Point><X>67.862</X><Y>103.563</Y><Z>0</Z></Point>
-						<Point><X>34.782</X><Y>110.296</Y><Z>0</Z></Point>
+						<Point><X>71.75</X><Y>96.2</Y><Z>0</Z></Point>
+						<Point><X>60</X><Y>115</Y><Z>0</Z></Point>
+						<Point><X>73.25</X><Y>93.8</Y><Z>0</Z></Point>
+						<Point><X>37.639</X><Y>103.82</Y><Z>0</Z></Point>
 						<Point><X>0</X><Y>85</Y><Z>0</Z></Point>
-						<Point><X>20.218</X><Y>99.704</Y><Z>0</Z></Point>
+						<Point><X>22.361</X><Y>96.18</Y><Z>0</Z></Point>
 						<Point><X>0</X><Y>60</Y><Z>0</Z></Point>
 						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
 						<Point><X>0</X><Y>25</Y><Z>0</Z></Point>
@@ -2253,8 +2253,8 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				</Wall>
 				<Wall>
 					<Id>1775319406197</Id>
-					<Name><![CDATA[wall6]]></Name>
-					<X>280</X><Y>335</Y>
+					<Name><![CDATA[wall3]]></Name>
+					<X>285</X><Y>410</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2269,29 +2269,26 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 					<Closed>false</Closed>
 					<Points>
 						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
-						<Point><X>-20</X><Y>-10</Y><Z>0</Z></Point>
-						<Point><X>0</X><Y>-25</Y><Z>0</Z></Point>
-						<Point><X>0</X><Y>-10</Y><Z>0</Z></Point>
-						<Point><X>0</X><Y>15</Y><Z>0</Z></Point>
-						<Point><X>25</X><Y>-10</Y><Z>0</Z></Point>
-						<Point><X>110</X><Y>-10</Y><Z>0</Z></Point>
-						<Point><X>85</X><Y>-10</Y><Z>0</Z></Point>
-						<Point><X>110</X><Y>15</Y><Z>0</Z></Point>
-						<Point><X>110</X><Y>75</Y><Z>0</Z></Point>
-						<Point><X>110</X><Y>50</Y><Z>0</Z></Point>
-						<Point><X>85</X><Y>75</Y><Z>0</Z></Point>
-						<Point><X>0</X><Y>75</Y><Z>0</Z></Point>
-						<Point><X>25</X><Y>75</Y><Z>0</Z></Point>
-						<Point><X>0</X><Y>50</Y><Z>0</Z></Point>
 						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
-						<Point><X>0</X><Y>25</Y><Z>0</Z></Point>
-						<Point><X>24.66</X><Y>4.11</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>-25</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>-85</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>-60</Y><Z>0</Z></Point>
+						<Point><X>25</X><Y>-85</Y><Z>0</Z></Point>
+						<Point><X>105</X><Y>-85</Y><Z>0</Z></Point>
+						<Point><X>80</X><Y>-85</Y><Z>0</Z></Point>
+						<Point><X>105</X><Y>-60</Y><Z>0</Z></Point>
+						<Point><X>105</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>105</X><Y>-25</Y><Z>0</Z></Point>
+						<Point><X>80</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>25</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
 					</Points>
 				</Wall>
 				<Wall>
 					<Id>1775319407966</Id>
-					<Name><![CDATA[wall7]]></Name>
-					<X>280</X><Y>200</Y>
+					<Name><![CDATA[wall1]]></Name>
+					<X>285</X><Y>275</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2306,28 +2303,25 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 					<Closed>false</Closed>
 					<Points>
 						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
-						<Point><X>-20</X><Y>-10</Y><Z>0</Z></Point>
-						<Point><X>0</X><Y>-25</Y><Z>0</Z></Point>
-						<Point><X>0</X><Y>-10</Y><Z>0</Z></Point>
-						<Point><X>0</X><Y>15</Y><Z>0</Z></Point>
-						<Point><X>25</X><Y>-10</Y><Z>0</Z></Point>
-						<Point><X>110</X><Y>-10</Y><Z>0</Z></Point>
-						<Point><X>85</X><Y>-10</Y><Z>0</Z></Point>
-						<Point><X>110</X><Y>15</Y><Z>0</Z></Point>
-						<Point><X>110</X><Y>75</Y><Z>0</Z></Point>
-						<Point><X>110</X><Y>50</Y><Z>0</Z></Point>
-						<Point><X>85</X><Y>75</Y><Z>0</Z></Point>
-						<Point><X>0</X><Y>75</Y><Z>0</Z></Point>
-						<Point><X>25</X><Y>75</Y><Z>0</Z></Point>
-						<Point><X>0</X><Y>50</Y><Z>0</Z></Point>
 						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
-						<Point><X>0</X><Y>25</Y><Z>0</Z></Point>
-						<Point><X>24.66</X><Y>4.11</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>-25</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>-80</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>-55</Y><Z>0</Z></Point>
+						<Point><X>25</X><Y>-80</Y><Z>0</Z></Point>
+						<Point><X>105</X><Y>-80</Y><Z>0</Z></Point>
+						<Point><X>80</X><Y>-80</Y><Z>0</Z></Point>
+						<Point><X>105</X><Y>-55</Y><Z>0</Z></Point>
+						<Point><X>105</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>105</X><Y>-25</Y><Z>0</Z></Point>
+						<Point><X>80</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>25</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
 					</Points>
 				</Wall>
 				<Wall>
 					<Id>1775319409729</Id>
-					<Name><![CDATA[wall8]]></Name>
+					<Name><![CDATA[wall2]]></Name>
 					<X>440</X><Y>200</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -2345,12 +2339,12 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
 						<Point><X>-20</X><Y>-10</Y><Z>0</Z></Point>
 						<Point><X>0</X><Y>-25</Y><Z>0</Z></Point>
-						<Point><X>0</X><Y>-10</Y><Z>0</Z></Point>
-						<Point><X>0</X><Y>15</Y><Z>0</Z></Point>
-						<Point><X>25</X><Y>-10</Y><Z>0</Z></Point>
-						<Point><X>110</X><Y>-10</Y><Z>0</Z></Point>
-						<Point><X>85</X><Y>-10</Y><Z>0</Z></Point>
-						<Point><X>110</X><Y>15</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>-5</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>20</Y><Z>0</Z></Point>
+						<Point><X>25</X><Y>-5</Y><Z>0</Z></Point>
+						<Point><X>110</X><Y>-5</Y><Z>0</Z></Point>
+						<Point><X>85</X><Y>-5</Y><Z>0</Z></Point>
+						<Point><X>110</X><Y>20</Y><Z>0</Z></Point>
 						<Point><X>110</X><Y>75</Y><Z>0</Z></Point>
 						<Point><X>110</X><Y>50</Y><Z>0</Z></Point>
 						<Point><X>85</X><Y>75</Y><Z>0</Z></Point>
@@ -2362,6 +2356,755 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 						<Point><X>24.66</X><Y>4.11</Y><Z>0</Z></Point>
 					</Points>
 				</Wall>
+				<Wall>
+					<Id>1775460365548</Id>
+					<Name><![CDATA[wall7]]></Name>
+					<X>580</X><Y>190</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<LineColor>-3308225</LineColor>
+					<LineWidth>2</LineWidth>
+					<LineMaterial>null</LineMaterial>
+					<FillingType>HATCHED_AREA</FillingType>
+					<ZHeight>20</ZHeight>
+					<Closed>false</Closed>
+					<Points>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>25</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>85</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>60</Y><Z>0</Z></Point>
+						<Point><X>25</X><Y>85</Y><Z>0</Z></Point>
+						<Point><X>100</X><Y>85</Y><Z>0</Z></Point>
+						<Point><X>75</X><Y>85</Y><Z>0</Z></Point>
+						<Point><X>100</X><Y>60</Y><Z>0</Z></Point>
+						<Point><X>100</X><Y>40</Y><Z>0</Z></Point>
+						<Point><X>100</X><Y>65</Y><Z>0</Z></Point>
+						<Point><X>90.385</X><Y>16.923000000000002</Y><Z>0</Z></Point>
+						<Point><X>75</X><Y>-20</Y><Z>0</Z></Point>
+						<Point><X>84.615</X><Y>3.076999999999998</Y><Z>0</Z></Point>
+						<Point><X>58.73</X><Y>-38.980999999999995</Y><Z>0</Z></Point>
+						<Point><X>45</X><Y>-55</Y><Z>0</Z></Point>
+						<Point><X>61.269999999999996</X><Y>-36.019000000000005</Y><Z>0</Z></Point>
+						<Point><X>29.168999999999997</X><Y>-35.65100000000001</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>15.831</X><Y>-19.34899999999999</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+					</Points>
+				</Wall>
+				<Wall>
+					<Id>1775460417343</Id>
+					<Name><![CDATA[wall10]]></Name>
+					<X>255</X><Y>275</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<LineColor>-3308225</LineColor>
+					<LineWidth>2</LineWidth>
+					<LineMaterial>null</LineMaterial>
+					<FillingType>HATCHED_AREA</FillingType>
+					<ZHeight>20</ZHeight>
+					<Closed>false</Closed>
+					<Points>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>-25</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>-80</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>-55</Y><Z>0</Z></Point>
+						<Point><X>-21.291</X><Y>-93.102</Y><Z>0</Z></Point>
+						<Point><X>-65</X><Y>-120</Y><Z>0</Z></Point>
+						<Point><X>-43.709</X><Y>-106.898</Y><Z>0</Z></Point>
+						<Point><X>-77.862</X><Y>-98.563</Y><Z>0</Z></Point>
+						<Point><X>-80</X><Y>-95</Y><Z>0</Z></Point>
+						<Point><X>-67.138</X><Y>-116.437</Y><Z>0</Z></Point>
+						<Point><X>-85.621</X><Y>-70.64</Y><Z>0</Z></Point>
+						<Point><X>-95</X><Y>-30</Y><Z>0</Z></Point>
+						<Point><X>-89.379</X><Y>-54.36</Y><Z>0</Z></Point>
+						<Point><X>-95</X><Y>-5</Y><Z>0</Z></Point>
+						<Point><X>-95</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>-95</X><Y>-25</Y><Z>0</Z></Point>
+						<Point><X>-70</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>-25</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+					</Points>
+				</Wall>
+				<Wall>
+					<Id>1775460665356</Id>
+					<Name><![CDATA[wall9]]></Name>
+					<X>390</X><Y>40</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<LineColor>-3308225</LineColor>
+					<LineWidth>2</LineWidth>
+					<LineMaterial>null</LineMaterial>
+					<FillingType>HATCHED_AREA</FillingType>
+					<ZHeight>20</ZHeight>
+					<Closed>false</Closed>
+					<Points>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>25</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>120</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>95</Y><Z>0</Z></Point>
+						<Point><X>-25</X><Y>120</Y><Z>0</Z></Point>
+						<Point><X>-120</X><Y>120</Y><Z>0</Z></Point>
+						<Point><X>-95</X><Y>120</Y><Z>0</Z></Point>
+						<Point><X>-141.092</X><Y>106.578</Y><Z>0</Z></Point>
+						<Point><X>-175</X><Y>85</Y><Z>0</Z></Point>
+						<Point><X>-153.908</X><Y>98.422</Y><Z>0</Z></Point>
+						<Point><X>-156.186</X><Y>68.537</Y><Z>0</Z></Point>
+						<Point><X>-135</X><Y>50</Y><Z>0</Z></Point>
+						<Point><X>-153.814</X><Y>66.463</Y><Z>0</Z></Point>
+						<Point><X>-113.053</X><Y>38.029</Y><Z>0</Z></Point>
+						<Point><X>-80</X><Y>20</Y><Z>0</Z></Point>
+						<Point><X>-101.947</X><Y>31.971</Y><Z>0</Z></Point>
+						<Point><X>-56.283</X><Y>12.094</Y><Z>0</Z></Point>
+						<Point><X>-35</X><Y>5</Y><Z>0</Z></Point>
+						<Point><X>-58.717</X><Y>12.906</Y><Z>0</Z></Point>
+						<Point><X>-10.251</X><Y>1.464</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>-24.749</X><Y>3.536</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+					</Points>
+				</Wall>
+				<Wall>
+					<Id>1775461063848</Id>
+					<Name><![CDATA[wall11]]></Name>
+					<X>250</X><Y>410</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<LineColor>-3308225</LineColor>
+					<LineWidth>2</LineWidth>
+					<LineMaterial>null</LineMaterial>
+					<FillingType>HATCHED_AREA</FillingType>
+					<ZHeight>20</ZHeight>
+					<Closed>false</Closed>
+					<Points>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>-25</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>-85</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>-60</Y><Z>0</Z></Point>
+						<Point><X>-25</X><Y>-85</Y><Z>0</Z></Point>
+						<Point><X>-90</X><Y>-85</Y><Z>0</Z></Point>
+						<Point><X>-65</X><Y>-85</Y><Z>0</Z></Point>
+						<Point><X>-90</X><Y>-60</Y><Z>0</Z></Point>
+						<Point><X>-90</X><Y>-40</Y><Z>0</Z></Point>
+						<Point><X>-90</X><Y>-65</Y><Z>0</Z></Point>
+						<Point><X>-79.655</X><Y>-17.241</Y><Z>0</Z></Point>
+						<Point><X>-65</X><Y>15</Y><Z>0</Z></Point>
+						<Point><X>-75.345</X><Y>-7.759</Y><Z>0</Z></Point>
+						<Point><X>-52.138</X><Y>36.437</Y><Z>0</Z></Point>
+						<Point><X>-50</X><Y>40</Y><Z>0</Z></Point>
+						<Point><X>-62.862</X><Y>18.563</Y><Z>0</Z></Point>
+						<Point><X>-30.478</X><Y>24.383</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>-19.522</X><Y>15.617</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+					</Points>
+				</Wall>
+				<Wall>
+					<Id>1775461119690</Id>
+					<Name><![CDATA[wall8]]></Name>
+					<X>440</X><Y>40</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<LineColor>-3308225</LineColor>
+					<LineWidth>2</LineWidth>
+					<LineMaterial>null</LineMaterial>
+					<FillingType>HATCHED_AREA</FillingType>
+					<ZHeight>20</ZHeight>
+					<Closed>false</Closed>
+					<Points>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>25</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>120</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>95</Y><Z>0</Z></Point>
+						<Point><X>25</X><Y>120</Y><Z>0</Z></Point>
+						<Point><X>120</X><Y>120</Y><Z>0</Z></Point>
+						<Point><X>95</X><Y>120</Y><Z>0</Z></Point>
+						<Point><X>135.617</X><Y>100.478</Y><Z>0</Z></Point>
+						<Point><X>160</X><Y>70</Y><Z>0</Z></Point>
+						<Point><X>144.383</X><Y>89.522</Y><Z>0</Z></Point>
+						<Point><X>145</X><Y>50</Y><Z>0</Z></Point>
+						<Point><X>145</X><Y>50</Y><Z>0</Z></Point>
+						<Point><X>160</X><Y>70</Y><Z>0</Z></Point>
+						<Point><X>123.146</X><Y>37.859</Y><Z>0</Z></Point>
+						<Point><X>100</X><Y>25</Y><Z>0</Z></Point>
+						<Point><X>121.854</X><Y>37.141</Y><Z>0</Z></Point>
+						<Point><X>76.788</X><Y>15.715</Y><Z>0</Z></Point>
+						<Point><X>50</X><Y>5</Y><Z>0</Z></Point>
+						<Point><X>73.212</X><Y>14.285</Y><Z>0</Z></Point>
+						<Point><X>25.124</X><Y>2.512</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>24.876</X><Y>2.488</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+					</Points>
+				</Wall>
+				<Wall>
+					<Id>1775461271439</Id>
+					<Name><![CDATA[wall12]]></Name>
+					<X>390</X><Y>560</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<LineColor>-3308225</LineColor>
+					<LineWidth>2</LineWidth>
+					<LineMaterial>null</LineMaterial>
+					<FillingType>HATCHED_AREA</FillingType>
+					<ZHeight>20</ZHeight>
+					<Closed>false</Closed>
+					<Points>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>-25</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>-110</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>-85</Y><Z>0</Z></Point>
+						<Point><X>-25</X><Y>-110</Y><Z>0</Z></Point>
+						<Point><X>-120</X><Y>-110</Y><Z>0</Z></Point>
+						<Point><X>-95</X><Y>-110</Y><Z>0</Z></Point>
+						<Point><X>-140</X><Y>-95</Y><Z>0</Z></Point>
+						<Point><X>-160</X><Y>-80</Y><Z>0</Z></Point>
+						<Point><X>-140</X><Y>-95</Y><Z>0</Z></Point>
+						<Point><X>-142.322</X><Y>-62.322</Y><Z>0</Z></Point>
+						<Point><X>-140</X><Y>-60</Y><Z>0</Z></Point>
+						<Point><X>-157.678</X><Y>-77.678</Y><Z>0</Z></Point>
+						<Point><X>-120.689</X><Y>-44.123</Y><Z>0</Z></Point>
+						<Point><X>-99.548</X><Y>-26.741</Y><Z>0</Z></Point>
+						<Point><X>-118.859</X><Y>-42.618</Y><Z>0</Z></Point>
+						<Point><X>-76.502</X><Y>-17.053</Y><Z>0</Z></Point>
+						<Point><X>-49.905</X><Y>-5.872</Y><Z>0</Z></Point>
+						<Point><X>-72.952</X><Y>-15.561</Y><Z>0</Z></Point>
+						<Point><X>-25.076</X><Y>-2.95</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>-24.829</X><Y>-2.922</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+					</Points>
+				</Wall>
+				<PointNode>
+					<Id>1775461851260</Id>
+					<Name><![CDATA[node51]]></Name>
+					<X>215</X><Y>150</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<PointNode>
+					<Id>1775461858525</Id>
+					<Name><![CDATA[node52]]></Name>
+					<X>250</X><Y>175</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<PointNode>
+					<Id>1775461862237</Id>
+					<Name><![CDATA[node53]]></Name>
+					<X>270</X><Y>210</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<PointNode>
+					<Id>1775461866150</Id>
+					<Name><![CDATA[node54]]></Name>
+					<X>270</X><Y>250</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<PointNode>
+					<Id>1775461869566</Id>
+					<Name><![CDATA[node55]]></Name>
+					<X>300</X><Y>180</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<PointNode>
+					<Id>1775461877334</Id>
+					<Name><![CDATA[node56]]></Name>
+					<X>340</X><Y>180</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<PointNode>
+					<Id>1775461882254</Id>
+					<Name><![CDATA[node57]]></Name>
+					<X>380</X><Y>180</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<PointNode>
+					<Id>1775461899798</Id>
+					<Name><![CDATA[node58]]></Name>
+					<X>460</X><Y>180</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<PointNode>
+					<Id>1775461906479</Id>
+					<Name><![CDATA[node59]]></Name>
+					<X>270</X><Y>340</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<PointNode>
+					<Id>1775461913895</Id>
+					<Name><![CDATA[node60]]></Name>
+					<X>270</X><Y>380</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<PointNode>
+					<Id>1775461917591</Id>
+					<Name><![CDATA[node61]]></Name>
+					<X>230</X><Y>450</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<PointNode>
+					<Id>1775461925615</Id>
+					<Name><![CDATA[node62]]></Name>
+					<X>275</X><Y>430</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<PointNode>
+					<Id>1775461929312</Id>
+					<Name><![CDATA[node63]]></Name>
+					<X>325</X><Y>430</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<PointNode>
+					<Id>1775461932864</Id>
+					<Name><![CDATA[node64]]></Name>
+					<X>380</X><Y>430</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<PointNode>
+					<Id>1775462005786</Id>
+					<Name><![CDATA[node66]]></Name>
+					<X>545</X><Y>180</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<PointNode>
+					<Id>1775462020066</Id>
+					<Name><![CDATA[node65]]></Name>
+					<X>505</X><Y>180</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<PointNode>
+					<Id>1775462134671</Id>
+					<Name><![CDATA[node67]]></Name>
+					<X>590</X><Y>150</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<PointNode>
+					<Id>1775462141991</Id>
+					<Name><![CDATA[node68]]></Name>
+					<X>565</X><Y>215</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<PointNode>
+					<Id>1775462150800</Id>
+					<Name><![CDATA[node71]]></Name>
+					<X>565</X><Y>250</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<PointNode>
+					<Id>1775462156215</Id>
+					<Name><![CDATA[node72]]></Name>
+					<X>565</X><Y>345</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<PointNode>
+					<Id>1775462161249</Id>
+					<Name><![CDATA[node73]]></Name>
+					<X>565</X><Y>385</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<PointNode>
+					<Id>1775462169921</Id>
+					<Name><![CDATA[node74]]></Name>
+					<X>455</X><Y>425</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<PointNode>
+					<Id>1775462176057</Id>
+					<Name><![CDATA[node75]]></Name>
+					<X>500</X><Y>425</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<PointNode>
+					<Id>1775462182002</Id>
+					<Name><![CDATA[node76]]></Name>
+					<X>555</X><Y>425</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<PointNode>
+					<Id>1775462197616</Id>
+					<Name><![CDATA[node78]]></Name>
+					<X>605</X><Y>450</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
 			</Presentation>
 
 				</Level>
