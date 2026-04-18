@@ -1,0 +1,91 @@
+\documentclass[10pt,a4paper,twocolumn]{article}
+
+% Packages used (preferably in alphabetical order to identify and avoid duplicates
+\usepackage{amsmath,amssymb}
+\usepackage{balance}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage[margin=17mm]{geometry}
+\usepackage{graphicx}
+	\graphicspath{
+		{./}
+		{../graphics/}
+	}
+\usepackage{hyperref}
+\hypersetup{
+  	bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobat's bookmarks
+    pdftoolbar=true,        % show Acrobat's toolbar?
+    pdfmenubar=true,        % show Acrobat's menu?
+    pdffitwindow=true,      % page fit to window when opened
+    pdftitle={Multi-agent systems}, 	% title
+    pdfauthor={},      		% author
+    pdfsubject={},  		% subject of the document
+    pdfnewwindow=true,      % links in new window
+    pdfkeywords={},			% list of keywords
+    colorlinks=true,   		% false: boxed links; true: colored links
+    linkcolor=blue,        	% color of internal links
+    citecolor=blue, 		% color of links to bibliography
+    filecolor=blue,      	% color of file links
+    urlcolor=blue           % color of external links
+}	
+\usepackage{lipsum}
+\usepackage{microtype}     % improves justification
+\usepackage[numbers,sort&compress]{natbib}
+	\bibliographystyle{apalike2}
+
+% Title information
+\title{A compact conference-style paper template using standard \LaTeX}
+\author{
+  Alice Author \\
+  {\small University of Somewhere} \\
+  \texttt{alice@example.com}
+  \and
+  Bob Researcher \\
+  {\small Institute of Important Things} \\
+  \texttt{bob@example.com}
+  \and
+  Sam Supervisor \\
+  {\small Another Institute} \\
+  \texttt{sam@somewhere.com}
+}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\lipsum[1] Here is a textual citation of \citet{ar:Macal2016}, whereas the following paper is a parenthetical citation~\citep{bk:Wooldridge2009}.
+\end{abstract}
+
+\section{Introduction}
+\lipsum[2-3]
+
+\section{Background}
+\lipsum[4]
+
+\section{Method}
+
+\subsection{Subsection}
+
+
+\section{Results and discussion}
+Figure~\ref{fig:demo} shows an example figure.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{example-image-a}
+    \caption{Example placeholder figure.}
+    \label{fig:demo}
+\end{figure}
+
+\lipsum[7]
+
+\section{Conclusion}
+\lipsum[9]
+
+
+\balance
+\bibliography{Bib.bib}
+
+\end{document}

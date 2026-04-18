@@ -1,0 +1,21 @@
+# AnyLogic
+*.class
+*.jar
+*.log
+database/
+.anylogic*
+.settings/
+bin/
+temp/
+target/
+*.bak
+*.tmp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.iml
