@@ -1,2 +1,0 @@
-runId,robotId,taskId,routingMode,numRobots,numOrders,pickupNode,destNode,taskStartTime,deliveryTime,returnTime,totalTime,expOutTime,expInTime
-SUMMARY_20260426_172044,,,0,1,1,,,1.00,,,3.80,,,
