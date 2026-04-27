@@ -1,0 +1,6 @@
+runId,robotId,taskId,routingMode,numRobots,numOrders,pickupNode,destNode,taskStartTime,deliveryTime,returnTime,totalTime,expOutTime,expInTime
+20260427_133346,0,1,0,2,6,node53,node5,1.00,11.50,1.00,12.50,21.08,21.08
+20260427_133346,1,1,0,2,6,node38,node49,1.00,11.00,1.50,12.50,21.52,21.52
+20260427_133346,1,2,0,2,6,node14,node63,13.60,2.40,2.50,4.90,9.22,9.22
+20260427_133346,0,2,0,2,6,node63,node33,13.60,27.40,1.50,28.90,54.19,54.19
+SUMMARY_20260427_133346,,,0,2,6,,,1.00,,,45.48,,,

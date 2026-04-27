@@ -5680,21 +5680,6 @@ main.remove_pedestrian(this);]]></EntryAction>
 						<Type><![CDATA[double]]></Type>        
 					</Properties>
 				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1777289232183</Id>
-					<Name><![CDATA[setVisible]]></Name>
-					<X>20</X><Y>190</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[boolean]]></Type>        
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[true]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
 			</Variables>
 			<Functions>
 				<Function AccessType="default" StaticFunction="false">
