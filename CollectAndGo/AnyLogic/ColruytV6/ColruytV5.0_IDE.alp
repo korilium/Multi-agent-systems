@@ -4,7 +4,11 @@
 	         AnyLogic Project File
 *************************************************
 -->
+<<<<<<< Updated upstream
 <AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.8.202602271018" AlpVersion="8.9.7">
+=======
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.8.202602271013" AlpVersion="8.9.7">
+>>>>>>> Stashed changes
 <Model>
 	<Id>1774376502073</Id>
 	<Name><![CDATA[ColruytV5]]></Name>
@@ -447,6 +451,24 @@ closeCsv();]]></DestroyCode>
 					</Properties>
 				</Variable>
 				<Variable Class="PlainVariable">
+<<<<<<< Updated upstream
+=======
+					<Id>1780200000012</Id>
+					<Name><![CDATA[inFlightTasks]]></Name>
+					<X>50</X><Y>425</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[java.util.Set<int[]>]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[new java.util.HashSet<>()]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+>>>>>>> Stashed changes
 					<Id>1780200000005</Id>
 					<Name><![CDATA[orderList]]></Name>
 					<X>-210</X><Y>520</Y>
@@ -870,7 +892,18 @@ switch (crowdednessLevel) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[orderList.clear();
+<<<<<<< Updated upstream
 claimedOrders.clear();
+=======
+<<<<<<< Updated upstream:CollectAndGo/AnyLogic/ColruytV6/ColruytV2.alp.autosave
+taskQueue.clear();
+inFlightTasks.clear();
+int packageCounter = 0;
+// Clear any existing packages from a previous run
+=======
+claimedOrders.clear();
+>>>>>>> Stashed changes:CollectAndGo/AnyLogic/ColruytV6/ColruytV5.0_IDE.alp
+>>>>>>> Stashed changes
 for (int i = Store.size() - 1; i >= 0; i--) {
     remove_Store(Store.get(i));
 }
@@ -1021,6 +1054,10 @@ if (routingMode == 2) {
 
 if (selectedTask == null) selectedTask = taskQueue.get(0);
 taskQueue.remove(selectedTask);
+<<<<<<< Updated upstream
+=======
+inFlightTasks.add(selectedTask);
+>>>>>>> Stashed changes
 
 r.parStartNode       = globalNodes.get(selectedTask[0]);
 r.parDestinationNode = globalNodes.get(selectedTask[1]);
@@ -4431,6 +4468,39 @@ statusText += "Total delivered: " + totalDeliveries + "\n";]]></Body>
 					</Properties>
 				</Variable>
 				<Variable Class="PlainVariable">
+<<<<<<< Updated upstream
+=======
+					<Id>1780300000010</Id>
+					<Name><![CDATA[savedPickupIdx]]></Name>
+					<X>50</X><Y>690</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1780300000011</Id>
+					<Name><![CDATA[savedDestIdx]]></Name>
+					<X>50</X><Y>720</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+>>>>>>> Stashed changes
 					<Id>1777287035449</Id>
 					<Name><![CDATA[myPackage]]></Name>
 					<X>50</X><Y>700</Y>
@@ -4606,10 +4676,65 @@ statusText += "Total delivered: " + totalDeliveries + "\n";]]></Body>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties Width="100" Height="50">
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream:CollectAndGo/AnyLogic/ColruytV6/ColruytV2.alp.autosave
+						<EntryAction><![CDATA[if (main.robotOrders[robotId] > myOrderId) {
+    myOrderId = main.robotOrders[robotId];
+    timeOrderStart = time();
+
+    // Teleport to pickup node (parStartNode set by main.assignNextTask)
+    if (parStartNode != null) setXY(parStartNode.x, parStartNode.y);
+    goalNode = parStartNode;
+
+    // Dijkstra mode: 0=shortest-path (SSP), 1=crowd-weighted (EV and EA both use this)
+    int dijkstraMode = (main.routingMode == 0) ? 0 : 1;
+    parDeliveryMode = dijkstraMode;
+
+    if (parDestinationNode != null && parStartNode != null) {
+        expectedOutTime = calculateExpectedTime(parStartNode, parDestinationNode, dijkstraMode);
+        expectedInTime  = calculateExpectedTime(parDestinationNode, parStartNode, dijkstraMode);
+        plannedRoute    = calculatePath(parStartNode, parDestinationNode, dijkstraMode);
+
+        // Color per robotId
+        java.awt.Color[] rColors = {java.awt.Color.BLUE, java.awt.Color.MAGENTA,
+                                    new java.awt.Color(0,180,0), java.awt.Color.CYAN};
+        java.awt.Color routeColor = (robotId < rColors.length) ? rColors[robotId] : java.awt.Color.WHITE;
+        drawRoute(plannedRoute, parStartNode, routeColor);
+
+        traceln("Robot" + robotId + " stPickup: pickup=node" + (currentPickupIdx+1)
+            + " dest=node" + (currentDestIdx+1)
+            + " routeLen=" + plannedRoute.size() + " dijkstraMode=" + dijkstraMode);
+    }
+} else {
+    traceln("Robot" + robotId + " stPickup aborted: already at order " + myOrderId);
+}
+
+// Hide package after successful task assignment
+if (myPackage != null) {
+    myPackage.hide();
+    traceln("Robot" + robotId + " picked up package, myPackage hidden");
+} else {
+    traceln("WARNING: Robot" + robotId + " myPackage is null at pickup");
+}
+
+
+
+
+traceln("Robot stPickup: myOrderId=" + myOrderId + " packages.size=" + main.Store.size());
+
+
+]]></EntryAction>
+=======
+>>>>>>> Stashed changes
 						<EntryAction><![CDATA[parStartNode = null;
 parDestinationNode = null;
 traceln("Robot" + robotId + " stInit ENTRY FIRED | simTime=" + time()
     + " | localOrderList.size=" + localOrderList.size());]]></EntryAction>
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes:CollectAndGo/AnyLogic/ColruytV6/ColruytV5.0_IDE.alp
+>>>>>>> Stashed changes
 						<FillColor>-10496</FillColor>
 					</Properties>
 				</StatechartElement>
@@ -4647,6 +4772,36 @@ if (plannedRoute != null && !plannedRoute.isEmpty()) {
 					<Properties Width="100" Height="50">
 						<EntryAction><![CDATA[traceln("Robot" + robotId + " entered stReturn.");
 timeReachedDest = time();
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream:CollectAndGo/AnyLogic/ColruytV6/ColruytV2.alp.autosave
+
+// Save current task data before assignNextTask overwrites currentPickupIdx/currentDestIdx
+savedPickupIdx = currentPickupIdx;
+savedDestIdx   = currentDestIdx;
+
+// Get next task; if queue empty parDestinationNode is set to null
+main.assignNextTask(this);
+
+// Route directly to next pickup, or stay put if no more tasks
+if (parDestinationNode != null && parStartNode != null) {
+    NodeLoc myPos = findClosestNode(getX(), getY());
+    plannedRoute = calculatePath(myPos, parStartNode, parDeliveryMode);
+    java.awt.Color[] retColors = {java.awt.Color.RED, java.awt.Color.ORANGE,
+                                  new java.awt.Color(0,100,0), new java.awt.Color(0,100,100)};
+    java.awt.Color rc = (robotId < retColors.length) ? retColors[robotId] : java.awt.Color.GRAY;
+    drawRoute(plannedRoute, myPos, rc);
+
+    if (!plannedRoute.isEmpty()) {
+        NodeLoc nextNode = plannedRoute.remove(0);
+        goalNode = nextNode;
+        setSpeed(10.0 / (1.0 + goalNode.crowdedness * 0.3));
+        moveTo(nextNode.x, nextNode.y);
+    }
+} else {
+    plannedRoute = new java.util.ArrayList<>();
+=======
+>>>>>>> Stashed changes
 
 NodeLoc myPos = findClosestNode(getX(), getY());
 plannedRoute = calculatePath(myPos, parStartNode, parDeliveryMode);
@@ -4666,6 +4821,10 @@ if (plannedRoute != null && !plannedRoute.isEmpty()) {
     moveTo(nextNode.x, nextNode.y);
 }else {
     onChange();
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes:CollectAndGo/AnyLogic/ColruytV6/ColruytV5.0_IDE.alp
+>>>>>>> Stashed changes
 }]]></EntryAction>
 						<FillColor>-10496</FillColor>
 					</Properties>
@@ -4686,6 +4845,31 @@ double actualIn   = time() - timeReachedDest;
 double totalTime  = time() - timeOrderStart;
 
 traceln("Robot" + robotId + " COMPLETE! | Out: " + String.format("%.1f", actualOut)
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream:CollectAndGo/AnyLogic/ColruytV6/ColruytV2.alp.autosave
+    + "s (Exp: " + String.format("%.1f", expectedOutTime) + "s)"
+    + " | In: " + String.format("%.1f", actualIn)
+    + "s (Exp: " + String.format("%.1f", expectedInTime) + "s)"
+    + " | Total: " + String.format("%.1f", totalTime) + "s");
+
+myPackage = null;
+
+// Use savedPickupIdx/savedDestIdx: assignNextTask already ran in stReturn and overwrote currentPickupIdx/currentDestIdx
+main.writeCsvRow(
+    robotId, myOrderId, main.routingMode,
+    "node" + (savedPickupIdx+1), "node" + (savedDestIdx+1),
+    timeOrderStart, timeReachedDest - timeOrderStart, actualIn, totalTime,
+    expectedOutTime, expectedInTime);
+
+// Mark task delivered: remove from inFlightTasks
+final int _p = savedPickupIdx, _d = savedDestIdx;
+main.inFlightTasks.removeIf(t -> t[0] == _p && t[1] == _d);
+
+ordersCompleted++;
+// assignNextTask was already called in stReturn; parDestinationNode is already correct]]></EntryAction>
+=======
+>>>>>>> Stashed changes
     + "s | In: " + String.format("%.1f", actualIn)
     + "s | Total: " + String.format("%.1f", totalTime) + "s");
 
@@ -4762,6 +4946,10 @@ if (plannedRoute != null && !plannedRoute.isEmpty()) {
     traceln("WARNING: Robot" + robotId + " empty route in stGoToPickup — already at store or graph issue");
     goalNode = parStartNode;
 }]]></EntryAction>
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes:CollectAndGo/AnyLogic/ColruytV6/ColruytV5.0_IDE.alp
+>>>>>>> Stashed changes
 						<FillColor>-10496</FillColor>
 					</Properties>
 				</StatechartElement>
@@ -5012,7 +5200,15 @@ traceln("Robot" + robotId + " delivery route calculated | size=" + plannedRoute.
 							<Code><![CDATA[1]]></Code>
 							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
 						</Timeout>
+<<<<<<< Updated upstream
 						<Condition><![CDATA[plannedRoute != null && plannedRoute.isEmpty()]]></Condition>
+=======
+<<<<<<< Updated upstream:CollectAndGo/AnyLogic/ColruytV6/ColruytV2.alp.autosave
+						<Condition><![CDATA[(parDestinationNode == null) || (plannedRoute.isEmpty() && goalNode != null && parStartNode != null && Math.sqrt(Math.pow(goalNode.x - getX(),2) + Math.pow(goalNode.y - getY(),2)) < 5.0 && Math.sqrt(Math.pow(parStartNode.x - getX(), 2) + Math.pow(parStartNode.y - getY(), 2)) < 8.0)]]></Condition>
+=======
+						<Condition><![CDATA[plannedRoute != null && plannedRoute.isEmpty()]]></Condition>
+>>>>>>> Stashed changes:CollectAndGo/AnyLogic/ColruytV6/ColruytV5.0_IDE.alp
+>>>>>>> Stashed changes
 						<Rate Class="CodeUnitValue">
 							<Code><![CDATA[1]]></Code>
 							<Unit Class="RateUnits"><![CDATA[PER_SECOND]]></Unit>
