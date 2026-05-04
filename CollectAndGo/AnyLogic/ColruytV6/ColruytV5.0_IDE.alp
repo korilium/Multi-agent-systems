@@ -717,6 +717,54 @@ closeCsv();]]></DestroyCode>
 						</ParameterEditor>
 					</Properties>                 
 				</Variable>
+				<Variable Class="Parameter">
+					<Id>1777908948834</Id>
+					<Name><![CDATA[conflictRadiusThreshold]]></Name>
+					<X>-160</X><Y>1060</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[40]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1777908948832</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1777908979757</Id>
+					<Name><![CDATA[conflictPenaltyWeight]]></Name>
+					<X>-160</X><Y>1120</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[30]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1777908979755</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
 			</Variables>
 			<Events>
 				<Event>
@@ -5391,7 +5439,7 @@ if (localOrderList.isEmpty()) {
 int[] selectedTask = null;
 
 if (main.routingMode == 2) {
-    // EA: crowd-weighted + conflict penalty + lookahead
+    // EA: expectation-aware scoring with lookahead and graduated conflict penalty
     double bestScore = Double.MAX_VALUE;
     NodeLoc robPos = findClosestNode(getX(), getY());
 
@@ -5399,6 +5447,7 @@ if (main.routingMode == 2) {
         NodeLoc pickup = main.globalNodes.get(task[0]);
         NodeLoc dest   = main.globalNodes.get(task[1]);
 
+        // Travel to store + delivery leg
         double t = calculateExpectedTime(robPos, pickup, 1)
                  + calculateExpectedTime(pickup, dest, 1);
 
@@ -5410,6 +5459,7 @@ if (main.routingMode == 2) {
             double nextCost = calculateExpectedTime(dest, nextPickup, 1);
             if (nextCost < minNextCost) minNextCost = nextCost;
         }
+        // No next task — fall back to depot
         if (minNextCost == Double.MAX_VALUE) {
             minNextCost = calculateExpectedTime(dest, main.globalNodes.get(0), 1);
         }
@@ -5437,32 +5487,8 @@ if (main.routingMode == 2) {
             selectedTask = task;
         }
     }
-
-} else if (main.routingMode == 1) {
-    // EV: crowd-weighted expected time only — no conflict penalty, no lookahead
-    double bestScore = Double.MAX_VALUE;
-    NodeLoc robPos = findClosestNode(getX(), getY());
-
-    for (int[] task : localOrderList) {
-        NodeLoc pickup = main.globalNodes.get(task[0]);
-        NodeLoc dest   = main.globalNodes.get(task[1]);
-
-        // mode=1 activates crowdedness weighting inside calculateExpectedTime
-        double score = calculateExpectedTime(robPos, pickup, 1)
-                     + calculateExpectedTime(pickup, dest, 1);
-
-        traceln("Robot" + robotId + " EV scoring: pickup=node" + (task[0]+1)
-            + " dest=node" + (task[1]+1)
-            + " score=" + String.format("%.2f", score));
-
-        if (score < bestScore) {
-            bestScore = score;
-            selectedTask = task;
-        }
-    }
-
 } else {
-    // SSP: list already sorted by Dijkstra proximity — take first entry
+    // SSP / EV: list already Dijkstra-sorted — take first entry
     selectedTask = localOrderList.get(0);
 }
 
@@ -5513,7 +5539,6 @@ main.robotOrders[robotId]++;
 myOrderId = main.robotOrders[robotId];
 traceln("=== Robot" + robotId + " claimed: pickup=node" + (selectedTask[0]+1)
     + " -> dest=node" + (selectedTask[1]+1)
-    + " | mode=" + main.routingMode
     + " | localList remaining: " + localOrderList.size() + " ===");]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -6737,6 +6762,12 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[crowdednessLevel]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[conflictRadiusThreshold]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[conflictPenaltyWeight]]></ParameterName>
 				</Parameter>
 			</Parameters>
 			<PresentationProperties>
