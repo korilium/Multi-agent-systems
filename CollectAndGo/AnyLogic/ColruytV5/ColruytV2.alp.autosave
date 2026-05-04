@@ -935,7 +935,7 @@ r.currentDestIdx     = selectedTask[1];
 r.myPackage = null;
 for (int i = 0; i < Store.size(); i++) {
     Package pkg = (Package) Store.get(i);
-    if (pkg.orderIndex == selectedTask[2]) {
+    if (pkg.orderIndex == selectedTask[0]) {
         r.myPackage = pkg;
         break;
     }
@@ -4424,8 +4424,7 @@ try {
 
 // Hide package after successful task assignment
 if (myPackage != null) {
-    myPackage.hide();
-    traceln("Robot" + robotId + " picked up package, myPackage hidden");
+ 	traceln("Robot" + robotId + " picked up order: pickup=node" + (currentPickupIdx+1) + " -> dest=node" + (currentDestIdx+1));
 } else {
     traceln("WARNING: Robot" + robotId + " myPackage is null at pickup");
 }
@@ -4518,7 +4517,6 @@ traceln("Robot" + robotId + " COMPLETE! | Out: " + String.format("%.1f", actualO
     + " | Total: " + String.format("%.1f", totalTime) + "s");
     
 // remove package
-main.remove_Store(myPackage);
 myPackage = null;
 
 // Log to CSV

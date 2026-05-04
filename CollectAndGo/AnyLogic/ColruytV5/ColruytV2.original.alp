@@ -4,7 +4,7 @@
 	         AnyLogic Project File
 *************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.8.202602271013" AlpVersion="8.9.7">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.8.202602271018" AlpVersion="8.9.7">
 <Model>
 	<Id>1774376502073</Id>
 	<Name><![CDATA[ColruytV2]]></Name>
@@ -69,7 +69,33 @@ globalNodes.add(new NodeLoc(node47.getX(), node47.getY()));
 globalNodes.add(new NodeLoc(node48.getX(), node48.getY()));
 globalNodes.add(new NodeLoc(node49.getX(), node49.getY()));
 globalNodes.add(new NodeLoc(node50.getX(), node50.getY()));
- 
+globalNodes.add(new NodeLoc(node51.getX(), node51.getY()));
+globalNodes.add(new NodeLoc(node52.getX(), node52.getY()));
+globalNodes.add(new NodeLoc(node53.getX(), node53.getY()));
+globalNodes.add(new NodeLoc(node54.getX(), node54.getY()));
+globalNodes.add(new NodeLoc(node55.getX(), node55.getY()));
+globalNodes.add(new NodeLoc(node56.getX(), node56.getY()));
+globalNodes.add(new NodeLoc(node57.getX(), node57.getY()));
+globalNodes.add(new NodeLoc(node58.getX(), node58.getY()));
+globalNodes.add(new NodeLoc(node59.getX(), node59.getY()));
+globalNodes.add(new NodeLoc(node60.getX(), node60.getY()));
+globalNodes.add(new NodeLoc(node61.getX(), node61.getY()));
+globalNodes.add(new NodeLoc(node62.getX(), node62.getY()));
+globalNodes.add(new NodeLoc(node63.getX(), node63.getY()));
+globalNodes.add(new NodeLoc(node64.getX(), node64.getY()));
+globalNodes.add(new NodeLoc(node65.getX(), node65.getY()));
+globalNodes.add(new NodeLoc(node66.getX(), node66.getY()));
+globalNodes.add(new NodeLoc(node67.getX(), node67.getY()));
+globalNodes.add(new NodeLoc(node68.getX(), node68.getY()));
+globalNodes.add(new NodeLoc(node69.getX(), node69.getY()));
+globalNodes.add(new NodeLoc(node70.getX(), node70.getY()));
+globalNodes.add(new NodeLoc(node71.getX(), node71.getY()));
+globalNodes.add(new NodeLoc(node72.getX(), node72.getY()));
+globalNodes.add(new NodeLoc(node73.getX(), node73.getY()));
+globalNodes.add(new NodeLoc(node74.getX(), node74.getY()));
+globalNodes.add(new NodeLoc(node75.getX(), node75.getY()));
+
+
 // ===== SET CROWDEDNESS =====
 // Ring road – center area (busy)
 globalNodes.get(6).crowdedness = 8;   // node7
@@ -148,6 +174,9 @@ robot2.setXY(node1.getX(), node1.getY());
 robot3.setXY(node1.getX(), node1.getY());
 robot4.setXY(node1.getX(), node1.getY());
 currentStart = globalNodes.get(0);
+
+// randomize the package over the nodes 
+
 
 // Assign robot IDs
 robot.robotId  = 0;
@@ -273,7 +302,7 @@ closeCsv();]]></DestroyCode>
 				<Variable Class="PlainVariable">
 					<Id>1774463433091</Id>
 					<Name><![CDATA[nodes]]></Name>
-					<X>175</X><Y>650</Y>
+					<X>60</X><Y>160</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -285,7 +314,7 @@ closeCsv();]]></DestroyCode>
 				<Variable Class="PlainVariable">
 					<Id>1774786655687</Id>
 					<Name><![CDATA[globalNodes]]></Name>
-					<X>400</X><Y>650</Y>
+					<X>60</X><Y>200</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -300,7 +329,7 @@ closeCsv();]]></DestroyCode>
 				<Variable Class="PlainVariable">
 					<Id>1774786711353</Id>
 					<Name><![CDATA[pedestrians]]></Name>
-					<X>400</X><Y>690</Y>
+					<X>60</X><Y>180</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -402,10 +431,115 @@ closeCsv();]]></DestroyCode>
 						</InitialValue>
 					</Properties>
 				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1780200000004</Id>
+					<Name><![CDATA[taskQueue]]></Name>
+					<X>50</X><Y>410</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[java.util.ArrayList<int[]>]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[new java.util.ArrayList<>()]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1780200000005</Id>
+					<Name><![CDATA[orderList]]></Name>
+					<X>50</X><Y>440</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[java.util.ArrayList<int[]>]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[new java.util.ArrayList<>()]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1780200000006</Id>
+					<Name><![CDATA[simulationStartTime]]></Name>
+					<X>50</X><Y>470</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0.0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1780200000007</Id>
+					<Name><![CDATA[csvWriter]]></Name>
+					<X>50</X><Y>500</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[java.io.PrintWriter]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[null]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1780200000008</Id>
+					<Name><![CDATA[totalDeliveries]]></Name>
+					<X>50</X><Y>530</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1780200000009</Id>
+					<Name><![CDATA[robotOrders]]></Name>
+					<X>50</X><Y>560</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int[]]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[new int[]{0, 0, 0, 0}]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1780200000010</Id>
+					<Name><![CDATA[currentRunId]]></Name>
+					<X>50</X><Y>590</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[String]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[""]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
 				<Variable Class="Parameter">
 					<Id>1779056862521</Id>
 					<Name><![CDATA[deliveryMode]]></Name>
-					<X>50</X><Y>50</Y>
+					<X>300</X><Y>800</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -424,12 +558,12 @@ closeCsv();]]></DestroyCode>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
 							<DelimeterType>NO_DELIMETER</DelimeterType>
 						</ParameterEditor>
-					</Properties>
+					</Properties>                 
 				</Variable>
 				<Variable Class="Parameter">
 					<Id>1780200000001</Id>
 					<Name><![CDATA[routingMode]]></Name>
-					<X>50</X><Y>80</Y>
+					<X>300</X><Y>660</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -443,17 +577,17 @@ closeCsv();]]></DestroyCode>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1780200000101</Id>
-							<EditorContolType>TEXT_BOX</EditorContolType>
+							<EditorContolType>SLIDER</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[2]]></MaxSliderValue>
 							<DelimeterType>NO_DELIMETER</DelimeterType>
 						</ParameterEditor>
-					</Properties>
+					</Properties>                 
 				</Variable>
 				<Variable Class="Parameter">
 					<Id>1780200000002</Id>
 					<Name><![CDATA[numRobots]]></Name>
-					<X>50</X><Y>110</Y>
+					<X>300</X><Y>760</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -467,17 +601,17 @@ closeCsv();]]></DestroyCode>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1780200000102</Id>
-							<EditorContolType>TEXT_BOX</EditorContolType>
+							<EditorContolType>SLIDER</EditorContolType>
 							<MinSliderValue><![CDATA[1]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[4]]></MaxSliderValue>
 							<DelimeterType>NO_DELIMETER</DelimeterType>
 						</ParameterEditor>
-					</Properties>
+					</Properties>                 
 				</Variable>
 				<Variable Class="Parameter">
 					<Id>1780200000003</Id>
 					<Name><![CDATA[numOrders]]></Name>
-					<X>50</X><Y>140</Y>
+					<X>300</X><Y>620</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -491,124 +625,44 @@ closeCsv();]]></DestroyCode>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1780200000103</Id>
-							<EditorContolType>TEXT_BOX</EditorContolType>
+							<EditorContolType>SLIDER</EditorContolType>
 							<MinSliderValue><![CDATA[1]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[20]]></MaxSliderValue>
 							<DelimeterType>NO_DELIMETER</DelimeterType>
 						</ParameterEditor>
-					</Properties>
+					</Properties>                 
 				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1780200000004</Id>
-					<Name><![CDATA[taskQueue]]></Name>
-					<X>50</X><Y>410</Y>
+				<Variable Class="Parameter">
+					<Id>1777213180461</Id>
+					<Name><![CDATA[crowdednessLevel]]></Name>
+					<X>300</X><Y>700</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[java.util.ArrayList<int[]>]]></Type>
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[new java.util.ArrayList<>()]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1780200000005</Id>
-					<Name><![CDATA[orderList]]></Name>
-					<X>50</X><Y>440</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[java.util.ArrayList<int[]>]]></Type>
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[new java.util.ArrayList<>()]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1780200000006</Id>
-					<Name><![CDATA[simulationStartTime]]></Name>
-					<X>50</X><Y>470</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[double]]></Type>
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[0.0]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1780200000007</Id>
-					<Name><![CDATA[csvWriter]]></Name>
-					<X>50</X><Y>500</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[java.io.PrintWriter]]></Type>
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[null]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1780200000008</Id>
-					<Name><![CDATA[totalDeliveries]]></Name>
-					<X>50</X><Y>530</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
 						<Type><![CDATA[int]]></Type>
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[0]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1780200000009</Id>
-					<Name><![CDATA[robotOrders]]></Name>
-					<X>50</X><Y>560</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int[]]]></Type>
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[new int[]{0, 0, 0, 0}]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1780200000010</Id>
-					<Name><![CDATA[currentRunId]]></Name>
-					<X>50</X><Y>590</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[String]]></Type>
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[""]]></Code>
-						</InitialValue>
-					</Properties>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[3]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1777213180459</Id>
+							<Label><![CDATA[crowdednessLevel]]></Label>
+							<EditorContolType>SLIDER</EditorContolType>
+							<MinSliderValue><![CDATA[1]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[5]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
 				</Variable>
 			</Variables>
 			<Events>
 				<Event>
 					<Id>1774787373102</Id>
 					<Name><![CDATA[eventSpawnPedestrian]]></Name>
-					<X>400</X><Y>860</Y>
+					<X>530</X><Y>650</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -640,7 +694,7 @@ closeCsv();]]></DestroyCode>
 				<Event>
 					<Id>1777486615394</Id>
 					<Name><![CDATA[spawnDelayEvent]]></Name>
-					<X>250</X><Y>50</Y>
+					<X>540</X><Y>680</Y>
 					<Label><X>-210</X><Y>50</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -668,7 +722,7 @@ closeCsv();]]></DestroyCode>
 						<Condition><![CDATA[false]]></Condition>
 					</Properties>
 					<Action><![CDATA[// One-time kick-start: assign initial tasks to all active robots
-ovalStart.setX(-100); ovalDest.setX(-100);
+
 simulationStartTime = time();
 traceln("=== SIMULATION START: routingMode=" + routingMode + " numRobots=" + numRobots + " numOrders=" + numOrders + " ===");
 for (int i = 0; i < numRobots; i++) {
@@ -684,26 +738,30 @@ for (int i = 0; i < numRobots; i++) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1774787253439</Id>
 					<Name><![CDATA[pedestrianArrivalRate]]></Name>
-					<X>400</X><Y>780</Y>
+					<X>650</X><Y>760</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[double hour = time(HOUR) % 24;
-if (hour < 7)        return 4.0;
-else if (hour < 9)   return 15.0;
-else if (hour < 12)  return 6.0;
-else if (hour < 14)  return 20.0;
-else if (hour < 17)  return 6.0;
-else if (hour < 19)  return 10.0;
-else                 return 3.0;]]></Body>
+					<Body><![CDATA[// Pedestrians per minute, mapwide, driven by crowdednessLevel (1-5).
+// Spatial city-centre weighting is handled by per-node crowdedness
+// in Main's startup code, independent of this rate.
+switch (crowdednessLevel) {
+    case 1:  return 2.0;    // very quiet
+    case 2:  return 10.0;   // quiet
+    case 3:  return 15.0;   // moderate
+    case 4:  return 20.0;   // busy
+    case 5:  return 30.0;   // very busy
+    default: return 15.0;
+}
+]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1774787335600</Id>
 					<Name><![CDATA[removePedestrian]]></Name>
-					<X>400</X><Y>820</Y>
+					<X>650</X><Y>790</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -719,13 +777,19 @@ else                 return 3.0;]]></Body>
 					<ReturnType><![CDATA[void]]></ReturnType>
 					<Id>1780400000001</Id>
 					<Name><![CDATA[initOrderList]]></Name>
-					<X>400</X><Y>860</Y>
+					<X>650</X><Y>820</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[orderList.clear();
 taskQueue.clear();
+int packageCounter = 0;
+// Clear any existing packages from a previous run
+for (int i = packages.size() - 1; i >= 0; i--) {
+    remove_packages(packages.get(i));
+}
+
 java.util.Random rng = new java.util.Random();
 java.util.List<Integer> validIdx = new java.util.ArrayList<>();
 for (int i = 1; i < globalNodes.size(); i++) validIdx.add(i);
@@ -743,14 +807,26 @@ for (int i = 0; i < numOrders; i++) {
         attempts++;
     } while (attempts < 100);
 
-    int[] task = {pickupIdx, destIdx};
+    // Spawn package FIRST, then create task with matching index
+    NodeLoc pickupLoc = globalNodes.get(pickupIdx);
+    Package pkg = add_packages();
+    pkg.setXYZ(pickupLoc.x, pickupLoc.y, 0);
+    pkg.orderIndex = i; // matches task index exactly
+
+    int[] task = {pickupIdx, destIdx, i}; // i matches pkg.orderIndex
     orderList.add(task);
-    taskQueue.add(new int[]{pickupIdx, destIdx});
+    taskQueue.add(task);
 }
 traceln("=== ORDER LIST (" + numOrders + " tasks, mode=" + routingMode + ", robots=" + numRobots + ") ===");
 for (int i = 0; i < orderList.size(); i++) {
     int[] t = orderList.get(i);
     traceln("  Task " + (i+1) + ": pickup=node" + (t[0]+1) + " -> dest=node" + (t[1]+1));
+}
+
+traceln("=== PACKAGES CREATED: " + packages.size() + " ===");
+for (int i = 0; i < packages.size(); i++) {
+    Package pkg = (Package) packages.get(i);
+    traceln("  pkg[" + i + "].orderIndex=" + pkg.orderIndex);
 }]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -758,7 +834,7 @@ for (int i = 0; i < orderList.size(); i++) {
 					<ReturnType><![CDATA[Robot]]></ReturnType>
 					<Id>1780400000008</Id>
 					<Name><![CDATA[getRobotByIndex]]></Name>
-					<X>400</X><Y>900</Y>
+					<X>650</X><Y>850</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -778,7 +854,7 @@ return null;]]></Body>
 					<ReturnType><![CDATA[void]]></ReturnType>
 					<Id>1780400000002</Id>
 					<Name><![CDATA[assignNextTask]]></Name>
-					<X>400</X><Y>940</Y>
+					<X>650</X><Y>880</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -841,6 +917,21 @@ r.parDestinationNode = globalNodes.get(selectedTask[1]);
 r.currentPickupIdx   = selectedTask[0];
 r.currentDestIdx     = selectedTask[1];
 
+// Find and assign the matching package by pickup node index
+r.myPackage = null;
+for (int i = 0; i < packages.size(); i++) {
+    Package pkg = (Package) packages.get(i);
+    if (pkg.orderIndex == selectedTask[2]) {
+        r.myPackage = pkg;
+        break;
+    }
+}
+if (r.myPackage == null) {
+    traceln("WARNING: no package found for orderIndex=" + selectedTask[2] + " (pickupIdx=" + selectedTask[0] + ")");
+
+}
+
+
 robotOrders[r.robotId]++;
 traceln("=== Task -> Robot" + r.robotId + ": pickup=node" + (selectedTask[0]+1)
     + " dest=node" + (selectedTask[1]+1) + " (queue left: " + taskQueue.size() + ") ===");
@@ -851,7 +942,7 @@ r.onChange();]]></Body>
 					<ReturnType><![CDATA[void]]></ReturnType>
 					<Id>1780400000005</Id>
 					<Name><![CDATA[checkAllDone]]></Name>
-					<X>400</X><Y>980</Y>
+					<X>650</X><Y>910</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -871,7 +962,7 @@ closeCsv();]]></Body>
 					<ReturnType><![CDATA[void]]></ReturnType>
 					<Id>1780400000003</Id>
 					<Name><![CDATA[openCsv]]></Name>
-					<X>220</X><Y>860</Y>
+					<X>490</X><Y>760</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -894,7 +985,7 @@ closeCsv();]]></Body>
 					<ReturnType><![CDATA[void]]></ReturnType>
 					<Id>1780400000004</Id>
 					<Name><![CDATA[writeCsvRow]]></Name>
-					<X>220</X><Y>900</Y>
+					<X>490</X><Y>790</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -960,7 +1051,7 @@ try {
 					<ReturnType><![CDATA[void]]></ReturnType>
 					<Id>1780400000006</Id>
 					<Name><![CDATA[writeMakespanRow]]></Name>
-					<X>220</X><Y>940</Y>
+					<X>490</X><Y>820</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -984,7 +1075,7 @@ try {
 					<ReturnType><![CDATA[void]]></ReturnType>
 					<Id>1780400000007</Id>
 					<Name><![CDATA[closeCsv]]></Name>
-					<X>220</X><Y>980</Y>
+					<X>490</X><Y>850</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1022,7 +1113,7 @@ try {
 				<EmbeddedObject>
 					<Id>1774461134863</Id>
 					<Name><![CDATA[robot]]></Name>
-					<X>30</X><Y>650</Y>
+					<X>40</X><Y>680</Y>
 					<Label><X>-20</X><Y>-30</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1082,7 +1173,7 @@ try {
 				<EmbeddedObject>
 					<Id>1774468990411</Id>
 					<Name><![CDATA[source]]></Name>
-					<X>65</X><Y>635</Y>
+					<X>220</X><Y>540</Y>
 					<Label><X>-5</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1276,7 +1367,7 @@ try {
 				<EmbeddedObject>
 					<Id>1774787156052</Id>
 					<Name><![CDATA[pedestrian]]></Name>
-					<X>400</X><Y>740</Y>
+					<X>40</X><Y>940</Y>
 					<Label><X>-35</X><Y>-30</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1330,7 +1421,7 @@ try {
 				<EmbeddedObject>
 					<Id>1779061132915</Id>
 					<Name><![CDATA[robot2]]></Name>
-					<X>30</X><Y>650</Y>
+					<X>40</X><Y>740</Y>
 					<Label><X>-20</X><Y>-30</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1390,11 +1481,12 @@ try {
 				<EmbeddedObject>
 					<Id>1780100000001</Id>
 					<Name><![CDATA[robot3]]></Name>
-					<X>30</X><Y>680</Y>
+					<X>40</X><Y>800</Y>
 					<Label><X>-20</X><Y>-30</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
+					<PresentationId>1777284004155</PresentationId>
 					<ActiveObjectClass>
 						<PackageName><![CDATA[colruytv2]]></PackageName>
 						<ClassName><![CDATA[Robot]]></ClassName>
@@ -1449,11 +1541,12 @@ try {
 				<EmbeddedObject>
 					<Id>1780100000002</Id>
 					<Name><![CDATA[robot4]]></Name>
-					<X>30</X><Y>710</Y>
+					<X>40</X><Y>860</Y>
 					<Label><X>-20</X><Y>-30</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
+					<PresentationId>1777284024490</PresentationId>
 					<ActiveObjectClass>
 						<PackageName><![CDATA[colruytv2]]></PackageName>
 						<ClassName><![CDATA[Robot]]></ClassName>
@@ -1505,6 +1598,54 @@ try {
 					<QuantityColumn>
 					</QuantityColumn>
 				</EmbeddedObject>
+				<EmbeddedObject>
+					<Id>1777286434112</Id>
+					<Name><![CDATA[packages]]></Name>
+					<X>140</X><Y>940</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<PresentationId>1777286434114</PresentationId>
+					<ActiveObjectClass>
+						<PackageName><![CDATA[colruytv2]]></PackageName>
+						<ClassName><![CDATA[Package]]></ClassName>
+					</ActiveObjectClass>
+					<GenericParameterSubstitute>
+						<GenericParameterSubstituteReference>
+							<PackageName><![CDATA[colruytv2]]></PackageName>
+							<ClassName><![CDATA[Package]]></ClassName>
+							<ItemName><![CDATA[1777285931953]]></ItemName>
+						</GenericParameterSubstituteReference>
+					</GenericParameterSubstitute>
+					<Parameters>
+					</Parameters>
+					<ReplicationFlag>true</ReplicationFlag>
+					<Replication Class="CodeValue">
+						<Code><![CDATA[numOrders]]></Code>
+					</Replication>
+					<CollectionType>ARRAY_LIST_BASED</CollectionType>
+					<InEnvironment>true</InEnvironment>
+					<InitialLocationType>XYZ</InitialLocationType>
+					<ColumnCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ColumnCode>
+					<RowCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</RowCode>
+					<LocationNameCode Class="CodeValue">
+						<Code><![CDATA[""]]></Code>
+					</LocationNameCode>
+					<InitializationType>SPECIFIED_NUMBER</InitializationType>
+					<InitializationDatabaseTableQuery>
+						<Id>1777286434110</Id>
+						<TableReference>
+						</TableReference>
+					</InitializationDatabaseTableQuery>
+					<InitializationDatabaseType>ONE_AGENT_PER_DATABASE_RECORD</InitializationDatabaseType>
+					<QuantityColumn>
+					</QuantityColumn>
+				</EmbeddedObject>
 			</EmbeddedObjects>
 
 			<Presentation>
@@ -1535,7 +1676,11 @@ try {
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
 					<Text><![CDATA[── LEGEND ─────────────────────────────────]]></Text>
-					<Font><Name>Monospaced</Name><Size>9</Size><Style>1</Style></Font>
+					<Font>
+						<Name>Monospaced</Name>
+						<Size>9</Size>
+						<Style>1</Style>
+					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
 				<Text>
@@ -1552,7 +1697,11 @@ try {
 					<Rotation>0.0</Rotation>
 					<Color>-16776961</Color>
 					<Text><![CDATA[● BLUE    Robot 0 delivery route]]></Text>
-					<Font><Name>Monospaced</Name><Size>9</Size><Style>0</Style></Font>
+					<Font>
+						<Name>Monospaced</Name>
+						<Size>9</Size>
+						<Style>0</Style>
+					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
 				<Text>
@@ -1569,7 +1718,11 @@ try {
 					<Rotation>0.0</Rotation>
 					<Color>-65281</Color>
 					<Text><![CDATA[● MAGENTA Robot 1 delivery route]]></Text>
-					<Font><Name>Monospaced</Name><Size>9</Size><Style>0</Style></Font>
+					<Font>
+						<Name>Monospaced</Name>
+						<Size>9</Size>
+						<Style>0</Style>
+					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
 				<Text>
@@ -1586,7 +1739,11 @@ try {
 					<Rotation>0.0</Rotation>
 					<Color>-16728065</Color>
 					<Text><![CDATA[● GREEN   Robot 2 delivery route]]></Text>
-					<Font><Name>Monospaced</Name><Size>9</Size><Style>0</Style></Font>
+					<Font>
+						<Name>Monospaced</Name>
+						<Size>9</Size>
+						<Style>0</Style>
+					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
 				<Text>
@@ -1603,7 +1760,11 @@ try {
 					<Rotation>0.0</Rotation>
 					<Color>-16711681</Color>
 					<Text><![CDATA[● CYAN    Robot 3 delivery route]]></Text>
-					<Font><Name>Monospaced</Name><Size>9</Size><Style>0</Style></Font>
+					<Font>
+						<Name>Monospaced</Name>
+						<Size>9</Size>
+						<Style>0</Style>
+					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
 				<Text>
@@ -1620,7 +1781,11 @@ try {
 					<Rotation>0.0</Rotation>
 					<Color>-65536</Color>
 					<Text><![CDATA[--- Red/Orange/Dark = return routes]]></Text>
-					<Font><Name>Monospaced</Name><Size>9</Size><Style>0</Style></Font>
+					<Font>
+						<Name>Monospaced</Name>
+						<Size>9</Size>
+						<Style>0</Style>
+					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
 				<Text>
@@ -1641,31 +1806,17 @@ try {
  1=EV   crowd-weighted Dijkstra
  2=EA   EV + agent-aware task selection
 ── CURRENT RUN ────────────────────────────]]></Text>
-					<Font><Name>Monospaced</Name><Size>9</Size><Style>0</Style></Font>
-					<Alignment>LEFT</Alignment>
-				</Text>
-				<Text>
-					<Id>1780700000008</Id>
-					<Name><![CDATA[legendCurrentVals]]></Name>
-					<X>10</X><Y>124</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>100</Z>
-					<Rotation>0.0</Rotation>
-					<Color>-13369345</Color>
-					<DynamicText>true</DynamicText>
-					<Text><![CDATA["Mode=" + routingMode + "  Robots=" + numRobots + "  Orders=" + numOrders + "\nQueue=" + taskQueue.size() + "  Delivered=" + totalDeliveries]]></Text>
-					<Font><Name>Monospaced</Name><Size>9</Size><Style>1</Style></Font>
+					<Font>
+						<Name>Monospaced</Name>
+						<Size>9</Size>
+						<Style>0</Style>
+					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
 				<Oval>
 					<Id>1774376658762</Id>
 					<Name><![CDATA[oval1]]></Name>
-					<X>418.125</X><Y>298.125</Y>
+					<X>523.125</X><Y>298.125</Y>
 					<Label><X>0</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1687,7 +1838,7 @@ try {
 				<Wall>
 					<Id>1774383566968</Id>
 					<Name><![CDATA[wall6]]></Name>
-					<X>440</X><Y>560</Y>
+					<X>545</X><Y>560</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1730,7 +1881,7 @@ try {
 				<EmbeddedObjectPresentation>
 					<Id>1774461136320</Id>
 					<Name><![CDATA[robot_presentation]]></Name>
-					<X>400</X><Y>280</Y>
+					<X>740</X><Y>60</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1748,7 +1899,7 @@ try {
 				<PointNode>
 					<Id>1774465791976</Id>
 					<Name><![CDATA[node1]]></Name>
-					<X>415</X><Y>20</Y>
+					<X>520</X><Y>20</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1768,7 +1919,7 @@ try {
 				<PointNode>
 					<Id>1774465797415</Id>
 					<Name><![CDATA[node12]]></Name>
-					<X>640</X><Y>300</Y>
+					<X>745</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1788,7 +1939,7 @@ try {
 				<PointNode>
 					<Id>1774469563853</Id>
 					<Name><![CDATA[node3]]></Name>
-					<X>415</X><Y>110</Y>
+					<X>520</X><Y>110</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1808,7 +1959,7 @@ try {
 				<PointNode>
 					<Id>1774469708539</Id>
 					<Name><![CDATA[node4]]></Name>
-					<X>415</X><Y>150</Y>
+					<X>520</X><Y>150</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1828,7 +1979,7 @@ try {
 				<PointNode>
 					<Id>1774469714347</Id>
 					<Name><![CDATA[node5]]></Name>
-					<X>415</X><Y>200</Y>
+					<X>520</X><Y>200</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1848,7 +1999,7 @@ try {
 				<PointNode>
 					<Id>1774469722691</Id>
 					<Name><![CDATA[node6]]></Name>
-					<X>415</X><Y>250</Y>
+					<X>520</X><Y>250</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1868,7 +2019,7 @@ try {
 				<PointNode>
 					<Id>1774469726771</Id>
 					<Name><![CDATA[node2]]></Name>
-					<X>415</X><Y>60</Y>
+					<X>520</X><Y>60</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1888,7 +2039,7 @@ try {
 				<PointNode>
 					<Id>1774469731699</Id>
 					<Name><![CDATA[node7]]></Name>
-					<X>415</X><Y>300</Y>
+					<X>520</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1908,7 +2059,7 @@ try {
 				<PointNode>
 					<Id>1774469735411</Id>
 					<Name><![CDATA[node8]]></Name>
-					<X>475</X><Y>300</Y>
+					<X>580</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1928,7 +2079,7 @@ try {
 				<PointNode>
 					<Id>1774469742603</Id>
 					<Name><![CDATA[node9]]></Name>
-					<X>525</X><Y>300</Y>
+					<X>630</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1948,7 +2099,7 @@ try {
 				<PointNode>
 					<Id>1774469746436</Id>
 					<Name><![CDATA[node10]]></Name>
-					<X>570</X><Y>300</Y>
+					<X>675</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1968,7 +2119,7 @@ try {
 				<PointNode>
 					<Id>1774469764069</Id>
 					<Name><![CDATA[node11]]></Name>
-					<X>610</X><Y>300</Y>
+					<X>715</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1988,7 +2139,7 @@ try {
 				<PointNode>
 					<Id>1774556794030</Id>
 					<Name><![CDATA[node]]></Name>
-					<X>415</X><Y>350</Y>
+					<X>520</X><Y>350</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2008,7 +2159,7 @@ try {
 				<PointNode>
 					<Id>1774556818591</Id>
 					<Name><![CDATA[node13]]></Name>
-					<X>415</X><Y>400</Y>
+					<X>520</X><Y>400</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2028,7 +2179,7 @@ try {
 				<PointNode>
 					<Id>1774556821499</Id>
 					<Name><![CDATA[node14]]></Name>
-					<X>415</X><Y>450</Y>
+					<X>520</X><Y>450</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2048,7 +2199,7 @@ try {
 				<PointNode>
 					<Id>1774556824697</Id>
 					<Name><![CDATA[node15]]></Name>
-					<X>415</X><Y>485</Y>
+					<X>520</X><Y>485</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2068,7 +2219,7 @@ try {
 				<PointNode>
 					<Id>1774556828210</Id>
 					<Name><![CDATA[node16]]></Name>
-					<X>415</X><Y>520</Y>
+					<X>520</X><Y>520</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2088,7 +2239,7 @@ try {
 				<PointNode>
 					<Id>1774556838043</Id>
 					<Name><![CDATA[node18]]></Name>
-					<X>470</X><Y>580</Y>
+					<X>575</X><Y>580</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2108,7 +2259,7 @@ try {
 				<PointNode>
 					<Id>1774556845656</Id>
 					<Name><![CDATA[node19]]></Name>
-					<X>530</X><Y>560</Y>
+					<X>635</X><Y>560</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2128,7 +2279,7 @@ try {
 				<PointNode>
 					<Id>1774556978133</Id>
 					<Name><![CDATA[node20]]></Name>
-					<X>585</X><Y>530</Y>
+					<X>690</X><Y>530</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2148,7 +2299,7 @@ try {
 				<PointNode>
 					<Id>1774556986520</Id>
 					<Name><![CDATA[node22]]></Name>
-					<X>665</X><Y>435</Y>
+					<X>770</X><Y>435</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2168,7 +2319,7 @@ try {
 				<PointNode>
 					<Id>1774556990128</Id>
 					<Name><![CDATA[node23]]></Name>
-					<X>690</X><Y>380</Y>
+					<X>795</X><Y>380</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2188,7 +2339,7 @@ try {
 				<PointNode>
 					<Id>1774556992725</Id>
 					<Name><![CDATA[node24]]></Name>
-					<X>690</X><Y>300</Y>
+					<X>795</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2208,7 +2359,7 @@ try {
 				<PointNode>
 					<Id>1774556999134</Id>
 					<Name><![CDATA[node25]]></Name>
-					<X>695</X><Y>240</Y>
+					<X>800</X><Y>240</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2228,7 +2379,7 @@ try {
 				<PointNode>
 					<Id>1774557003281</Id>
 					<Name><![CDATA[node26]]></Name>
-					<X>675</X><Y>180</Y>
+					<X>780</X><Y>180</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2248,7 +2399,7 @@ try {
 				<PointNode>
 					<Id>1774557007059</Id>
 					<Name><![CDATA[node27]]></Name>
-					<X>650</X><Y>135</Y>
+					<X>755</X><Y>135</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2268,7 +2419,7 @@ try {
 				<PointNode>
 					<Id>1774557010174</Id>
 					<Name><![CDATA[node28]]></Name>
-					<X>610</X><Y>90</Y>
+					<X>715</X><Y>90</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2288,7 +2439,7 @@ try {
 				<PointNode>
 					<Id>1774557014123</Id>
 					<Name><![CDATA[node29]]></Name>
-					<X>570</X><Y>55</Y>
+					<X>675</X><Y>55</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2308,7 +2459,7 @@ try {
 				<PointNode>
 					<Id>1774557017645</Id>
 					<Name><![CDATA[node30]]></Name>
-					<X>515</X><Y>30</Y>
+					<X>620</X><Y>30</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2328,7 +2479,7 @@ try {
 				<PointNode>
 					<Id>1774557021357</Id>
 					<Name><![CDATA[node31]]></Name>
-					<X>465</X><Y>15</Y>
+					<X>570</X><Y>15</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2348,7 +2499,7 @@ try {
 				<PointNode>
 					<Id>1774557027926</Id>
 					<Name><![CDATA[node32]]></Name>
-					<X>355</X><Y>20</Y>
+					<X>460</X><Y>20</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2368,7 +2519,7 @@ try {
 				<PointNode>
 					<Id>1774557039588</Id>
 					<Name><![CDATA[node33]]></Name>
-					<X>295</X><Y>40</Y>
+					<X>400</X><Y>40</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2388,7 +2539,7 @@ try {
 				<PointNode>
 					<Id>1774557043690</Id>
 					<Name><![CDATA[node34]]></Name>
-					<X>255</X><Y>65</Y>
+					<X>360</X><Y>65</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2408,7 +2559,7 @@ try {
 				<PointNode>
 					<Id>1774557046823</Id>
 					<Name><![CDATA[node35]]></Name>
-					<X>215</X><Y>100</Y>
+					<X>320</X><Y>100</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2428,7 +2579,7 @@ try {
 				<PointNode>
 					<Id>1774557051651</Id>
 					<Name><![CDATA[node36]]></Name>
-					<X>180</X><Y>140</Y>
+					<X>285</X><Y>140</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2448,7 +2599,7 @@ try {
 				<PointNode>
 					<Id>1774557056899</Id>
 					<Name><![CDATA[node37]]></Name>
-					<X>155</X><Y>190</Y>
+					<X>260</X><Y>190</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2468,7 +2619,7 @@ try {
 				<PointNode>
 					<Id>1774557059391</Id>
 					<Name><![CDATA[node38]]></Name>
-					<X>140</X><Y>240</Y>
+					<X>245</X><Y>240</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2488,7 +2639,7 @@ try {
 				<PointNode>
 					<Id>1774557062283</Id>
 					<Name><![CDATA[node39]]></Name>
-					<X>135</X><Y>300</Y>
+					<X>240</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2508,7 +2659,7 @@ try {
 				<PointNode>
 					<Id>1774557069611</Id>
 					<Name><![CDATA[node40]]></Name>
-					<X>140</X><Y>350</Y>
+					<X>245</X><Y>350</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2528,7 +2679,7 @@ try {
 				<PointNode>
 					<Id>1774557072191</Id>
 					<Name><![CDATA[node41]]></Name>
-					<X>155</X><Y>400</Y>
+					<X>260</X><Y>400</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2548,7 +2699,7 @@ try {
 				<PointNode>
 					<Id>1774557075731</Id>
 					<Name><![CDATA[node42]]></Name>
-					<X>175</X><Y>445</Y>
+					<X>280</X><Y>445</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2568,7 +2719,7 @@ try {
 				<PointNode>
 					<Id>1774557078647</Id>
 					<Name><![CDATA[node43]]></Name>
-					<X>210</X><Y>490</Y>
+					<X>315</X><Y>490</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2588,7 +2739,7 @@ try {
 				<PointNode>
 					<Id>1774557081788</Id>
 					<Name><![CDATA[node44]]></Name>
-					<X>250</X><Y>530</Y>
+					<X>355</X><Y>530</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2608,7 +2759,7 @@ try {
 				<PointNode>
 					<Id>1774557085596</Id>
 					<Name><![CDATA[node45]]></Name>
-					<X>300</X><Y>560</Y>
+					<X>405</X><Y>560</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2628,7 +2779,7 @@ try {
 				<PointNode>
 					<Id>1774557089080</Id>
 					<Name><![CDATA[node46]]></Name>
-					<X>355</X><Y>575</Y>
+					<X>460</X><Y>575</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2648,7 +2799,7 @@ try {
 				<PointNode>
 					<Id>1774557093108</Id>
 					<Name><![CDATA[node47]]></Name>
-					<X>180</X><Y>300</Y>
+					<X>285</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2668,7 +2819,7 @@ try {
 				<PointNode>
 					<Id>1774557095056</Id>
 					<Name><![CDATA[node48]]></Name>
-					<X>240</X><Y>300</Y>
+					<X>345</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2688,7 +2839,7 @@ try {
 				<PointNode>
 					<Id>1774557097780</Id>
 					<Name><![CDATA[node49]]></Name>
-					<X>290</X><Y>300</Y>
+					<X>395</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2708,7 +2859,7 @@ try {
 				<PointNode>
 					<Id>1774557100272</Id>
 					<Name><![CDATA[node50]]></Name>
-					<X>345</X><Y>300</Y>
+					<X>450</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2728,7 +2879,7 @@ try {
 				<PointNode>
 					<Id>1774556831826</Id>
 					<Name><![CDATA[node17]]></Name>
-					<X>410</X><Y>570</Y>
+					<X>515</X><Y>570</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2766,7 +2917,7 @@ try {
 				<EmbeddedObjectPresentation>
 					<Id>1776026943115</Id>
 					<Name><![CDATA[robot2_presentation]]></Name>
-					<X>400</X><Y>260</Y>
+					<X>740</X><Y>20</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2781,107 +2932,10 @@ try {
 					<Latitude>0.0</Latitude>
 					<Longitude>0.0</Longitude>
 				</EmbeddedObjectPresentation>
-				<Text>
-					<Id>1775511533996</Id>
-					<Name><![CDATA[textModeToggle]]></Name>
-					<X>690</X><Y>80</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<OnClickCode><![CDATA[deliveryMode = (deliveryMode + 1) % 3;]]></OnClickCode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-					<Color>-16776961</Color>
-					<Text><![CDATA["[ CLICK TO TOGGLE MODE ]
-deliveryMode == 0 Shortest Route Only
-deliveryMode == 1 Ring Route Only
-deliveryMode == 2 Two Route ]]></Text>
-					<Font>
-						<Name>SansSerif</Name>
-						<Size>18</Size>
-						<Style>1</Style>
-					</Font>
-					<Alignment>LEFT</Alignment>
-				</Text>
-				<Text>
-					<Id>1779038701558</Id>
-					<Name><![CDATA[textRandomizeStart]]></Name>
-					<X>680</X><Y>20</Y>
-					<Label><X>0</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<OnClickCode><![CDATA[
-int currentIdx = globalNodes.indexOf(forcedStartNode != null ? forcedStartNode : currentStart);
-if (currentIdx == -1) currentIdx = 0;
-forcedStartNode = globalNodes.get((currentIdx + 1) % globalNodes.size());
-traceln("USER OVERRIDE: Next race will strictly start from Node index " + ((currentIdx + 1) % globalNodes.size()) + " (X:" + forcedStartNode.x + " Y:" + forcedStartNode.y + ")");
-]]></OnClickCode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-					<Color>-16711936</Color>
-					<Text><![CDATA["[ MANUAL OVERRIDE: 
-CLICK TO CYCLE NEXT START NODE ]"]]></Text>
-					<Font>
-						<Name>SansSerif</Name>
-						<Size>16</Size>
-						<Style>1</Style>
-					</Font>
-					<Alignment>LEFT</Alignment>
-				</Text>
-				<Oval>
-					<Id>1776665370761</Id>
-					<Name><![CDATA[ovalStart]]></Name>
-					<X>0</X><Y>0</Y>
-					<Label><X>0</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<ZHeight>10</ZHeight>
-					<LineWidth>2</LineWidth>
-					<LineColor>-16777216</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<RadiusX>8</RadiusX>
-					<RadiusY>8</RadiusY>
-					<Rotation>0.0</Rotation>
-					<FillColor>-16711936</FillColor>
-					<FillMaterial>null</FillMaterial>
-				</Oval>
-				<Oval>
-					<Id>1777938390163</Id>
-					<Name><![CDATA[ovalDest]]></Name>
-					<X>0</X><Y>0</Y>
-					<Label><X>0</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<ZHeight>10</ZHeight>
-					<LineWidth>2</LineWidth>
-					<LineColor>-16777216</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<RadiusX>8</RadiusX>
-					<RadiusY>8</RadiusY>
-					<Rotation>0.0</Rotation>
-					<FillColor>-65536</FillColor>
-					<FillMaterial>null</FillMaterial>
-				</Oval>
 				<PointNode>
 					<Id>1774556982928</Id>
 					<Name><![CDATA[node21]]></Name>
-					<X>630</X><Y>490</Y>
+					<X>735</X><Y>490</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2901,7 +2955,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<Wall>
 					<Id>1775318631085</Id>
 					<Name><![CDATA[wall4]]></Name>
-					<X>440</X><Y>335</Y>
+					<X>545</X><Y>335</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2938,7 +2992,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<Wall>
 					<Id>1775318841643</Id>
 					<Name><![CDATA[wall5]]></Name>
-					<X>580</X><Y>325</Y>
+					<X>685</X><Y>325</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2978,7 +3032,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<Wall>
 					<Id>1775319406197</Id>
 					<Name><![CDATA[wall3]]></Name>
-					<X>285</X><Y>410</Y>
+					<X>390</X><Y>410</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3012,7 +3066,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<Wall>
 					<Id>1775319407966</Id>
 					<Name><![CDATA[wall1]]></Name>
-					<X>285</X><Y>275</Y>
+					<X>390</X><Y>275</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3046,7 +3100,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<Wall>
 					<Id>1775319409729</Id>
 					<Name><![CDATA[wall2]]></Name>
-					<X>440</X><Y>200</Y>
+					<X>545</X><Y>200</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3083,7 +3137,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<Wall>
 					<Id>1775460365548</Id>
 					<Name><![CDATA[wall7]]></Name>
-					<X>580</X><Y>190</Y>
+					<X>685</X><Y>190</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3123,7 +3177,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<Wall>
 					<Id>1775460417343</Id>
 					<Name><![CDATA[wall10]]></Name>
-					<X>255</X><Y>275</Y>
+					<X>360</X><Y>275</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3163,7 +3217,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<Wall>
 					<Id>1775460665356</Id>
 					<Name><![CDATA[wall9]]></Name>
-					<X>390</X><Y>40</Y>
+					<X>495</X><Y>40</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3206,7 +3260,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<Wall>
 					<Id>1775461063848</Id>
 					<Name><![CDATA[wall11]]></Name>
-					<X>250</X><Y>410</Y>
+					<X>355</X><Y>410</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3246,7 +3300,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<Wall>
 					<Id>1775461119690</Id>
 					<Name><![CDATA[wall8]]></Name>
-					<X>440</X><Y>40</Y>
+					<X>545</X><Y>40</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3289,7 +3343,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<Wall>
 					<Id>1775461271439</Id>
 					<Name><![CDATA[wall12]]></Name>
-					<X>390</X><Y>560</Y>
+					<X>495</X><Y>560</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3332,7 +3386,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<PointNode>
 					<Id>1775461851260</Id>
 					<Name><![CDATA[node51]]></Name>
-					<X>215</X><Y>150</Y>
+					<X>320</X><Y>150</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3352,7 +3406,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<PointNode>
 					<Id>1775461858525</Id>
 					<Name><![CDATA[node52]]></Name>
-					<X>250</X><Y>175</Y>
+					<X>355</X><Y>175</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3372,7 +3426,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<PointNode>
 					<Id>1775461862237</Id>
 					<Name><![CDATA[node53]]></Name>
-					<X>270</X><Y>210</Y>
+					<X>375</X><Y>210</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3392,7 +3446,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<PointNode>
 					<Id>1775461866150</Id>
 					<Name><![CDATA[node54]]></Name>
-					<X>270</X><Y>250</Y>
+					<X>375</X><Y>250</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3412,7 +3466,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<PointNode>
 					<Id>1775461869566</Id>
 					<Name><![CDATA[node55]]></Name>
-					<X>300</X><Y>180</Y>
+					<X>405</X><Y>180</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3432,7 +3486,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<PointNode>
 					<Id>1775461877334</Id>
 					<Name><![CDATA[node56]]></Name>
-					<X>340</X><Y>180</Y>
+					<X>445</X><Y>180</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3452,7 +3506,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<PointNode>
 					<Id>1775461882254</Id>
 					<Name><![CDATA[node57]]></Name>
-					<X>380</X><Y>180</Y>
+					<X>485</X><Y>180</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3472,7 +3526,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<PointNode>
 					<Id>1775461899798</Id>
 					<Name><![CDATA[node58]]></Name>
-					<X>460</X><Y>180</Y>
+					<X>565</X><Y>180</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3492,7 +3546,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<PointNode>
 					<Id>1775461906479</Id>
 					<Name><![CDATA[node59]]></Name>
-					<X>270</X><Y>340</Y>
+					<X>375</X><Y>340</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3512,7 +3566,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<PointNode>
 					<Id>1775461913895</Id>
 					<Name><![CDATA[node60]]></Name>
-					<X>270</X><Y>380</Y>
+					<X>375</X><Y>380</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3532,7 +3586,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<PointNode>
 					<Id>1775461917591</Id>
 					<Name><![CDATA[node61]]></Name>
-					<X>230</X><Y>450</Y>
+					<X>335</X><Y>450</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3552,7 +3606,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<PointNode>
 					<Id>1775461925615</Id>
 					<Name><![CDATA[node62]]></Name>
-					<X>275</X><Y>430</Y>
+					<X>380</X><Y>430</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3572,7 +3626,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<PointNode>
 					<Id>1775461929312</Id>
 					<Name><![CDATA[node63]]></Name>
-					<X>325</X><Y>430</Y>
+					<X>430</X><Y>430</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3592,7 +3646,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<PointNode>
 					<Id>1775461932864</Id>
 					<Name><![CDATA[node64]]></Name>
-					<X>380</X><Y>430</Y>
+					<X>485</X><Y>430</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3612,7 +3666,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<PointNode>
 					<Id>1775462005786</Id>
 					<Name><![CDATA[node66]]></Name>
-					<X>545</X><Y>180</Y>
+					<X>650</X><Y>180</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3632,7 +3686,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<PointNode>
 					<Id>1775462020066</Id>
 					<Name><![CDATA[node65]]></Name>
-					<X>505</X><Y>180</Y>
+					<X>610</X><Y>180</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3652,7 +3706,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<PointNode>
 					<Id>1775462134671</Id>
 					<Name><![CDATA[node67]]></Name>
-					<X>590</X><Y>150</Y>
+					<X>695</X><Y>150</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3672,7 +3726,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				<PointNode>
 					<Id>1775462141991</Id>
 					<Name><![CDATA[node68]]></Name>
-					<X>565</X><Y>215</Y>
+					<X>670</X><Y>215</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3691,8 +3745,8 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				</PointNode>
 				<PointNode>
 					<Id>1775462150800</Id>
-					<Name><![CDATA[node71]]></Name>
-					<X>565</X><Y>250</Y>
+					<Name><![CDATA[node69]]></Name>
+					<X>670</X><Y>250</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3711,8 +3765,8 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				</PointNode>
 				<PointNode>
 					<Id>1775462156215</Id>
-					<Name><![CDATA[node72]]></Name>
-					<X>565</X><Y>345</Y>
+					<Name><![CDATA[node70]]></Name>
+					<X>670</X><Y>345</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3731,8 +3785,8 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				</PointNode>
 				<PointNode>
 					<Id>1775462161249</Id>
-					<Name><![CDATA[node73]]></Name>
-					<X>565</X><Y>385</Y>
+					<Name><![CDATA[node71]]></Name>
+					<X>670</X><Y>385</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3751,8 +3805,8 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				</PointNode>
 				<PointNode>
 					<Id>1775462169921</Id>
-					<Name><![CDATA[node74]]></Name>
-					<X>455</X><Y>425</Y>
+					<Name><![CDATA[node72]]></Name>
+					<X>560</X><Y>425</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3771,8 +3825,8 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				</PointNode>
 				<PointNode>
 					<Id>1775462176057</Id>
-					<Name><![CDATA[node75]]></Name>
-					<X>500</X><Y>425</Y>
+					<Name><![CDATA[node73]]></Name>
+					<X>605</X><Y>425</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3791,8 +3845,8 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				</PointNode>
 				<PointNode>
 					<Id>1775462182002</Id>
-					<Name><![CDATA[node76]]></Name>
-					<X>555</X><Y>425</Y>
+					<Name><![CDATA[node74]]></Name>
+					<X>660</X><Y>425</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3811,8 +3865,8 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 				</PointNode>
 				<PointNode>
 					<Id>1775462197616</Id>
-					<Name><![CDATA[node78]]></Name>
-					<X>605</X><Y>450</Y>
+					<Name><![CDATA[node75]]></Name>
+					<X>710</X><Y>450</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3829,9 +3883,63 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
 					</SpeedLimitValue>
 				</PointNode>
+				<EmbeddedObjectPresentation>
+					<Id>1777284004155</Id>
+					<Name><![CDATA[robot3_presentation]]></Name>
+					<X>780</X><Y>20</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<ScaleType>AUTOMATICALLY_CALCULATED</ScaleType>
+					<GISScaleForRealEmbeddedObjectPresentationSize>1000</GISScaleForRealEmbeddedObjectPresentationSize>
+					<GISScaleForFixedEmbeddedObjectPresentationSize>1000000000</GISScaleForFixedEmbeddedObjectPresentationSize>
+					<Latitude>0.0</Latitude>
+					<Longitude>0.0</Longitude>
+				</EmbeddedObjectPresentation>
+				<EmbeddedObjectPresentation>
+					<Id>1777284024490</Id>
+					<Name><![CDATA[robot4_presentation]]></Name>
+					<X>780</X><Y>60</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<ScaleType>AUTOMATICALLY_CALCULATED</ScaleType>
+					<GISScaleForRealEmbeddedObjectPresentationSize>1000</GISScaleForRealEmbeddedObjectPresentationSize>
+					<GISScaleForFixedEmbeddedObjectPresentationSize>1000000000</GISScaleForFixedEmbeddedObjectPresentationSize>
+					<Latitude>0.0</Latitude>
+					<Longitude>0.0</Longitude>
+				</EmbeddedObjectPresentation>
 			</Presentation>
 
 				</Level>
+				<EmbeddedObjectPresentation>
+					<Id>1777286434114</Id>
+					<Name><![CDATA[packages_presentation]]></Name>
+					<X>740</X><Y>40</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<ScaleType>AUTOMATICALLY_CALCULATED</ScaleType>
+					<GISScaleForRealEmbeddedObjectPresentationSize>1000</GISScaleForRealEmbeddedObjectPresentationSize>
+					<GISScaleForFixedEmbeddedObjectPresentationSize>1000000000</GISScaleForFixedEmbeddedObjectPresentationSize>
+					<Latitude>0.0</Latitude>
+					<Longitude>0.0</Longitude>
+				</EmbeddedObjectPresentation>
 			</Presentation>
 
 		</ActiveObjectClass>
@@ -4096,6 +4204,63 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 						</InitialValue>
 					</Properties>
 				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1780300000001</Id>
+					<Name><![CDATA[robotId]]></Name>
+					<X>50</X><Y>600</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1780300000002</Id>
+					<Name><![CDATA[currentPickupIdx]]></Name>
+					<X>50</X><Y>630</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1780300000003</Id>
+					<Name><![CDATA[currentDestIdx]]></Name>
+					<X>50</X><Y>660</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1777287035449</Id>
+					<Name><![CDATA[myPackage]]></Name>
+					<X>60</X><Y>700</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[Package]]></Type>        
+					</Properties>
+				</Variable>
 				<Variable Class="Parameter">
 					<Id>1774461104260</Id>
 					<Name><![CDATA[goalNode]]></Name>
@@ -4187,52 +4352,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
 							<DelimeterType>NO_DELIMETER</DelimeterType>
 						</ParameterEditor>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1780300000001</Id>
-					<Name><![CDATA[robotId]]></Name>
-					<X>50</X><Y>600</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[0]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1780300000002</Id>
-					<Name><![CDATA[currentPickupIdx]]></Name>
-					<X>50</X><Y>630</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[0]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1780300000003</Id>
-					<Name><![CDATA[currentDestIdx]]></Name>
-					<X>50</X><Y>660</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[0]]></Code>
-						</InitialValue>
-					</Properties>
+					</Properties>                 
 				</Variable>
 			</Variables>
 			<StatechartElements>
@@ -4286,7 +4406,23 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
     }
 } else {
     traceln("Robot" + robotId + " stPickup aborted: already at order " + myOrderId);
-}]]></EntryAction>
+}
+
+// Hide package after successful task assignment
+if (myPackage != null) {
+    myPackage.hide();
+    traceln("Robot" + robotId + " picked up package, myPackage hidden");
+} else {
+    traceln("WARNING: Robot" + robotId + " myPackage is null at pickup");
+}
+
+
+
+
+traceln("Robot stPickup: myOrderId=" + myOrderId + " packages.size=" + main.packages.size());
+
+
+]]></EntryAction>
 						<FillColor>-10496</FillColor>
 					</Properties>
 				</StatechartElement>
@@ -4366,6 +4502,10 @@ traceln("Robot" + robotId + " COMPLETE! | Out: " + String.format("%.1f", actualO
     + " | In: " + String.format("%.1f", actualIn)
     + "s (Exp: " + String.format("%.1f", expectedInTime) + "s)"
     + " | Total: " + String.format("%.1f", totalTime) + "s");
+    
+// remove package
+main.remove_packages(myPackage);
+myPackage = null;
 
 // Log to CSV
 main.writeCsvRow(
@@ -5418,6 +5558,223 @@ main.remove_pedestrian(this);]]></EntryAction>
 			</Presentation>
 
 		</ActiveObjectClass>
+		<!--   =========   Active Object Class   ========  -->
+		<ActiveObjectClass>
+			<Id>1777285931948</Id>
+			<Name><![CDATA[Package]]></Name>
+			<Generic>false</Generic>
+			<GenericParameter>
+				<Id>1777285931953</Id>
+				<Name><![CDATA[1777285931953]]></Name>
+				<GenericParameterValue Class="CodeValue">
+					<Code><![CDATA[T extends Agent]]></Code>
+				</GenericParameterValue>
+				<GenericParameterLabel><![CDATA[Generic parameter:]]></GenericParameterLabel>
+			</GenericParameter>
+			<FlowChartsUsage>ENTITY</FlowChartsUsage>
+			<SamplesToKeep>100</SamplesToKeep>
+			<LimitNumberOfArrayElements>false</LimitNumberOfArrayElements>
+			<ElementsLimitValue>100</ElementsLimitValue>
+			<MakeDefaultViewArea>true</MakeDefaultViewArea>
+			<SceneGridColor/>
+			<SceneBackgroundColor>-4144960</SceneBackgroundColor>
+			<SceneSkybox>null</SceneSkybox>
+			<AgentProperties>
+				<EnvironmentDefinesInitialLocation>true</EnvironmentDefinesInitialLocation>
+				<RotateAnimationTowardsMovement>true</RotateAnimationTowardsMovement>
+				<RotateAnimationVertically>false</RotateAnimationVertically>
+				<VelocityCode Class="CodeUnitValue">
+					<Code><![CDATA[10]]></Code>
+					<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+				</VelocityCode>
+				<PhysicalLength Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalLength>
+				<PhysicalWidth Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalWidth>
+				<PhysicalHeight Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalHeight>
+			</AgentProperties>
+			<EnvironmentProperties>
+					<EnableSteps>false</EnableSteps>
+					<StepDurationCode Class="CodeUnitValue">
+						<Code><![CDATA[1.0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+					</StepDurationCode>
+					<SpaceType>CONTINUOUS</SpaceType>
+					<WidthCode><![CDATA[500]]></WidthCode>
+					<HeightCode><![CDATA[500]]></HeightCode>
+					<ZHeightCode><![CDATA[0]]></ZHeightCode>
+					<ColumnsCountCode><![CDATA[100]]></ColumnsCountCode>
+					<RowsCountCode><![CDATA[100]]></RowsCountCode>
+					<NeigborhoodType>MOORE</NeigborhoodType>
+					<LayoutType>USER_DEF</LayoutType>
+					<NetworkType>USER_DEF</NetworkType>
+					<ConnectionsPerAgentCode><![CDATA[2]]></ConnectionsPerAgentCode>
+					<ConnectionsRangeCode><![CDATA[50]]></ConnectionsRangeCode>
+					<NeighborLinkFractionCode><![CDATA[0.95]]></NeighborLinkFractionCode>
+					<MCode><![CDATA[10]]></MCode>
+			</EnvironmentProperties>
+			<DatasetsCreationProperties>
+				<AutoCreate>true</AutoCreate>
+					<Id>1777285931947</Id>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1777363200000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[1]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+					</RecurrenceCode>
+			</DatasetsCreationProperties>
+			<ScaleRuler>
+				<Id>1777285931951</Id>
+				<Name><![CDATA[scale]]></Name>
+				<X>0</X><Y>-150</Y>
+				<PublicFlag>false</PublicFlag>
+				<PresentationFlag>false</PresentationFlag>
+				<ShowLabel>false</ShowLabel>
+				<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+				<Length>100</Length>
+				<Rotation>0</Rotation>
+				<ScaleType>BASED_ON_LENGTH</ScaleType>
+				<ModelLength>10</ModelLength>
+				<LengthUnits>METER</LengthUnits>
+				<Scale>10</Scale>
+				<InheritedFromParentAgentType>true</InheritedFromParentAgentType>
+			</ScaleRuler>
+			<CurrentLevel>1777285931954</CurrentLevel>
+			<ConnectionsId>1777285931949</ConnectionsId>
+			<Variables>
+				<Variable Class="PlainVariable">
+					<Id>1777286141181</Id>
+					<Name><![CDATA[isPickedUp]]></Name>
+					<X>20</X><Y>100</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[boolean]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[false]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1777286951177</Id>
+					<Name><![CDATA[orderIndex]]></Name>
+					<X>20</X><Y>140</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+					</Properties>
+				</Variable>
+			</Variables>
+			<Functions>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1777289429829</Id>
+					<Name><![CDATA[hide]]></Name>
+					<X>20</X><Y>230</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[package_figure.setVisible(false);]]></Body>
+				</Function>
+			</Functions>
+			<AgentLinks>
+				<AgentLink>
+					<Id>1777285931949</Id>
+					<Name><![CDATA[connections]]></Name>
+					<X>50</X><Y>-50</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<HandleReceiveInConnections>false</HandleReceiveInConnections>
+					<AgentLinkType>COLLECTION_OF_LINKS</AgentLinkType>
+					<AgentLinkBidirectional>true</AgentLinkBidirectional>
+					<MessageType><![CDATA[Object]]></MessageType>
+					<LineStyle>SOLID</LineStyle>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16777216</LineColor>
+					<LineZOrder>UNDER_AGENTS</LineZOrder>
+					<LineArrow>NONE</LineArrow>
+					<LineArrowPosition>END</LineArrowPosition>
+				</AgentLink>
+			</AgentLinks>
+
+			<ContainerLinks>
+				<ContainerLink>
+					<Id>1777286434115</Id>
+					<Name><![CDATA[main]]></Name>
+					<X>50</X><Y>-100</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<ActiveObjectClass>
+						<PackageName><![CDATA[colruytv2]]></PackageName>
+						<ClassName><![CDATA[Main]]></ClassName>
+					</ActiveObjectClass>
+				</ContainerLink>
+			</ContainerLinks>
+
+			<Presentation>
+				<Level>
+					<Id>1777285931954</Id>
+					<Name><![CDATA[level]]></Name>
+					<X>0</X><Y>0</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<LevelVisibility>DIM_NON_CURRENT</LevelVisibility>
+
+			<Presentation>
+				<Rectangle>
+					<Id>1777285983647</Id>
+					<Name><![CDATA[package_figure]]></Name>
+					<X>5</X><Y>5</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-5952982</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>15</Width>
+					<Height>15</Height>
+					<Rotation>0.0</Rotation>
+					<FillColor>-3308225</FillColor>
+					<FillMaterial>null</FillMaterial>
+				</Rectangle>
+			</Presentation>
+
+				</Level>
+			</Presentation>
+
+		</ActiveObjectClass>
 	</ActiveObjectClasses>
 	<DifferentialEquationsMethod>EULER</DifferentialEquationsMethod>
 	<MixedEquationsMethod>RK45_NEWTON</MixedEquationsMethod>
@@ -5429,8 +5786,8 @@ main.remove_pedestrian(this);]]></EntryAction>
 	<InspectionWindowColorTheme>DEFAULT</InspectionWindowColorTheme>
 	<Frame>
 		<Id>1774376502075</Id>
-		<Width>1000</Width>
-		<Height>600</Height>
+		<Width>840</Width>
+		<Height>980</Height>
 	</Frame>
 	<Database>
 		<Id>1774376502074</Id>
@@ -5473,9 +5830,17 @@ main.remove_pedestrian(this);]]></EntryAction>
 			<Id>1774376502088</Id>
 			<Name><![CDATA[Simulation]]></Name>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
+			<InitialSetupCode><![CDATA[routingModeSlider.setValue(0);
+numRobotsSlider.setValue(2);
+numOrdersSlider.setValue(6);
+crowdednessLevelSlider.setValue(3);]]></InitialSetupCode>
 			<MaximumMemory>512</MaximumMemory>
 			<RandomNumberGenerationType>fixedSeed</RandomNumberGenerationType>
 			<CustomGeneratorCode>new Random()</CustomGeneratorCode>
+			<BeforeSimulationRunCode><![CDATA[root.crowdednessLevel = (int) crowdednessLevelSlider.getValue();
+root.routingMode      = (int) routingModeSlider.getValue();
+root.numRobots        = (int) numRobotsSlider.getValue();
+root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRunCode>
 			<SeedValue>1</SeedValue>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
@@ -5515,53 +5880,19 @@ main.remove_pedestrian(this);]]></EntryAction>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
-					<Color>-39424</Color>
-					<Text><![CDATA[HOW TO CHANGE PARAMETERS (Mac)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Step 1  In AnyLogic IDE → click the  Build  button (hammer icon, ⌘B)
-Step 2  Click the green  Run  button in the IDE toolbar  (NOT ▶ in this window)
-Step 3  A "Model Setup" form appears — type new values in the text boxes
-Step 4  Click  Run  in that form to start the simulation
-
-  OR  edit the default values directly in this file (see "DEFAULT VALUES" below)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━]]></Text>
-					<Font>
-						<Name>Monospaced</Name>
-						<Size>12</Size>
-						<Style>1</Style>
-					</Font>
-					<Alignment>LEFT</Alignment>
-				</Text>
-				<Text>
-					<Id>1780600000009</Id>
-					<Name><![CDATA[defaultValues]]></Name>
-					<X>50</X><Y>205</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
 					<Color>-13421773</Color>
-					<Text><![CDATA[DEFAULT VALUES  (change these numbers in the XML to make permanent defaults)
-  routingMode = 0      →  file search: <Name>routingMode</Name>  then edit <Code>0</Code>
-  numRobots   = 2      →  file search: <Name>numRobots</Name>    then edit <Code>2</Code>
-  numOrders   = 6      →  file search: <Name>numOrders</Name>    then edit <Code>6</Code>
-
-PARAMETER GUIDE]]></Text>
+					<Text><![CDATA[PARAMETER GUIDE  —  set sliders below, then press ▶ Run]]></Text>
 					<Font>
-						<Name>Monospaced</Name>
-						<Size>11</Size>
-						<Style>0</Style>
+						<Name>SansSerif</Name>
+						<Size>13</Size>
+						<Style>1</Style>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
 				<Text>
 					<Id>1780600000002</Id>
 					<Name><![CDATA[routingModeGuide]]></Name>
-					<X>50</X><Y>310</Y>
+					<X>200</X><Y>105</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5596,7 +5927,7 @@ PARAMETER GUIDE]]></Text>
 				<Text>
 					<Id>1780600000003</Id>
 					<Name><![CDATA[numRobotsGuide]]></Name>
-					<X>50</X><Y>495</Y>
+					<X>200</X><Y>360</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5622,7 +5953,7 @@ PARAMETER GUIDE]]></Text>
 				<Text>
 					<Id>1780600000004</Id>
 					<Name><![CDATA[numOrdersGuide]]></Name>
-					<X>50</X><Y>610</Y>
+					<X>200</X><Y>470</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5647,7 +5978,7 @@ PARAMETER GUIDE]]></Text>
 				<Text>
 					<Id>1780600000005</Id>
 					<Name><![CDATA[outputGuide]]></Name>
-					<X>50</X><Y>705</Y>
+					<X>50</X><Y>765</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5673,7 +6004,7 @@ PARAMETER GUIDE]]></Text>
 				<Text>
 					<Id>1780600000006</Id>
 					<Name><![CDATA[hypothesisGuide]]></Name>
-					<X>50</X><Y>820</Y>
+					<X>50</X><Y>880</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5695,6 +6026,134 @@ PARAMETER GUIDE]]></Text>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
+				<Text>
+					<Id>1777214246296</Id>
+					<Name><![CDATA[crowdednessLevelGuide]]></Name>
+					<X>200</X><Y>575</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[crowdednessLevel  [slider  1 - 5]
+ 
+  Pedestrian density on the map. Constant for the whole run.
+    1 = very quiet      	2 / min spawn (mapwide)
+    2 = quiet           	10 / min
+    3 = moderate       15 / min   (default)
+    4 = busy           	20 / min
+    5 = very busy      	30 / min
+ 
+  Spatial pattern (city-centre busier than outskirts) is preserved
+  via per-node crowdedness weights set in Main's startup code.
+]]></Text>
+					<Font>
+						<Name>Monospaced</Name>
+						<Size>12</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Control Type="Slider">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1777214798835</Id>
+					<Name><![CDATA[crowdednessLevelSlider]]></Name>
+					<X>50</X><Y>570</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<Enabled>true</Enabled>
+					</BasicProperties>
+					<ExtendedProperties>
+						<DefaultValueCode><![CDATA[0]]></DefaultValueCode>
+						<Orientation>HORIZONTAL</Orientation>
+						<MinValue><![CDATA[1]]></MinValue>
+						<MaxValue><![CDATA[5]]></MaxValue>
+						<Step><![CDATA[1]]></Step>
+						<LinkTo>true</LinkTo>
+						<Link>crowdednessLevel</Link>
+					</ExtendedProperties>
+				</Control>
+				<Control Type="Slider">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1777214958465</Id>
+					<Name><![CDATA[numOrdersSlider]]></Name>
+					<X>50</X><Y>465</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<Enabled>true</Enabled>
+					</BasicProperties>
+					<ExtendedProperties>
+						<DefaultValueCode><![CDATA[1]]></DefaultValueCode>
+						<Orientation>HORIZONTAL</Orientation>
+						<MinValue><![CDATA[1]]></MinValue>
+						<MaxValue><![CDATA[20]]></MaxValue>
+						<Step><![CDATA[1]]></Step>
+						<LinkTo>true</LinkTo>
+						<Link>numOrders</Link>
+					</ExtendedProperties>
+				</Control>
+				<Control Type="Slider">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1777214996055</Id>
+					<Name><![CDATA[numRobotsSlider]]></Name>
+					<X>50</X><Y>355</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<Enabled>true</Enabled>
+					</BasicProperties>
+					<ExtendedProperties>
+						<DefaultValueCode><![CDATA[1]]></DefaultValueCode>
+						<Orientation>HORIZONTAL</Orientation>
+						<MinValue><![CDATA[1]]></MinValue>
+						<MaxValue><![CDATA[4]]></MaxValue>
+						<Step><![CDATA[1]]></Step>
+						<LinkTo>true</LinkTo>
+						<Link>numRobots</Link>
+					</ExtendedProperties>
+				</Control>
+				<Control Type="Slider">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1777215000216</Id>
+					<Name><![CDATA[routingModeSlider]]></Name>
+					<X>50</X><Y>100</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<Enabled>true</Enabled>
+					</BasicProperties>
+					<ExtendedProperties>
+						<DefaultValueCode><![CDATA[0]]></DefaultValueCode>
+						<Orientation>HORIZONTAL</Orientation>
+						<MinValue><![CDATA[0]]></MinValue>
+						<MaxValue><![CDATA[2]]></MaxValue>
+						<Step><![CDATA[1]]></Step>
+						<LinkTo>true</LinkTo>
+						<Link>routingMode</Link>
+					</ExtendedProperties>
+				</Control>
 			</Presentation>
 
 			<Parameters>
@@ -5709,6 +6168,9 @@ PARAMETER GUIDE]]></Text>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[deliveryMode]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[crowdednessLevel]]></ParameterName>
 				</Parameter>
 			</Parameters>
 			<PresentationProperties>

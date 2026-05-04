@@ -786,16 +786,34 @@ switch (crowdednessLevel) {
 taskQueue.clear();
 int packageCounter = 0;
 // Clear any existing packages from a previous run
-for (int i = packages.size() - 1; i >= 0; i--) {
-    remove_packages(packages.get(i));
+for (int i = Store.size() - 1; i >= 0; i--) {
+    remove_Store(Store.get(i));
 }
+
 
 java.util.Random rng = new java.util.Random();
 java.util.List<Integer> validIdx = new java.util.ArrayList<>();
 for (int i = 1; i < globalNodes.size(); i++) validIdx.add(i);
+// CHANGE: defines the number of stores to place
+int numStores = 4;
 
+java.util.List<Integer> storeNodeIndices = new java.util.ArrayList<>();
+java.util.List<Integer> shuffled = new java.util.ArrayList<>(validIdx);
+java.util.Collections.shuffle(shuffled, rng);
+for (int s = 0; s < numStores && s < shuffled.size(); s++) {
+    int nodeIdx = shuffled.get(s);
+    NodeLoc loc  = globalNodes.get(nodeIdx);
+    Package store = add_Store();
+    store.setXYZ(loc.x, loc.y, 0);
+    // CHANGE 3: field renamed from orderIndex to nodeIndex
+    // BEFORE: pkg.orderIndex = i;
+    // nodeIndex stores which graph node the store sits on, not which order it belongs to
+    store.orderIndex = nodeIdx;
+    storeNodeIndices.add(nodeIdx);
+}
 for (int i = 0; i < numOrders; i++) {
-    int pickupIdx = validIdx.get(rng.nextInt(validIdx.size()));
+    // BEFORE: int pickupIdx = validIdx.get(rng.nextInt(validIdx.size()));
+    int pickupIdx = storeNodeIndices.get(rng.nextInt(storeNodeIndices.size()));
     int destIdx;
     int attempts = 0;
     do {
@@ -807,26 +825,22 @@ for (int i = 0; i < numOrders; i++) {
         attempts++;
     } while (attempts < 100);
 
-    // Spawn package FIRST, then create task with matching index
-    NodeLoc pickupLoc = globalNodes.get(pickupIdx);
-    Package pkg = add_packages();
-    pkg.setXYZ(pickupLoc.x, pickupLoc.y, 0);
-    pkg.orderIndex = i; // matches task index exactly
 
     int[] task = {pickupIdx, destIdx, i}; // i matches pkg.orderIndex
     orderList.add(task);
     taskQueue.add(task);
 }
-traceln("=== ORDER LIST (" + numOrders + " tasks, mode=" + routingMode + ", robots=" + numRobots + ") ===");
-for (int i = 0; i < orderList.size(); i++) {
-    int[] t = orderList.get(i);
-    traceln("  Task " + (i+1) + ": pickup=node" + (t[0]+1) + " -> dest=node" + (t[1]+1));
+traceln("=== STORES PLACED (seed= ): " + Store.size() + " ===");
+for (int i = 0; i < Store.size(); i++) {
+    Package s = (Package) Store.get(i);
+    traceln("  store[" + i + "] @ node" + (s.orderIndex + 1));
 }
 
-traceln("=== PACKAGES CREATED: " + packages.size() + " ===");
-for (int i = 0; i < packages.size(); i++) {
-    Package pkg = (Package) packages.get(i);
-    traceln("  pkg[" + i + "].orderIndex=" + pkg.orderIndex);
+
+traceln("=== ORDERS CREATED: " + orderList.size() + " ===");
+for (int i = 0; i < orderList.size(); i++) {
+    int[] t = orderList.get(i);
+    traceln("  order[" + i + "]: pickup=node" + (t[0]+1) + " -> dest=node" + (t[1]+1));
 }]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -919,9 +933,9 @@ r.currentDestIdx     = selectedTask[1];
 
 // Find and assign the matching package by pickup node index
 r.myPackage = null;
-for (int i = 0; i < packages.size(); i++) {
-    Package pkg = (Package) packages.get(i);
-    if (pkg.orderIndex == selectedTask[2]) {
+for (int i = 0; i < Store.size(); i++) {
+    Package pkg = (Package) Store.get(i);
+    if (pkg.orderIndex == selectedTask[0]) {
         r.myPackage = pkg;
         break;
     }
@@ -1600,7 +1614,7 @@ try {
 				</EmbeddedObject>
 				<EmbeddedObject>
 					<Id>1777286434112</Id>
-					<Name><![CDATA[packages]]></Name>
+					<Name><![CDATA[Store]]></Name>
 					<X>140</X><Y>940</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -3924,7 +3938,7 @@ try {
 				</Level>
 				<EmbeddedObjectPresentation>
 					<Id>1777286434114</Id>
-					<Name><![CDATA[packages_presentation]]></Name>
+					<Name><![CDATA[Store_presentation]]></Name>
 					<X>740</X><Y>40</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -4419,7 +4433,7 @@ if (myPackage != null) {
 
 
 
-traceln("Robot stPickup: myOrderId=" + myOrderId + " packages.size=" + main.packages.size());
+traceln("Robot stPickup: myOrderId=" + myOrderId + " packages.size=" + main.Store.size());
 
 
 ]]></EntryAction>
@@ -4504,7 +4518,6 @@ traceln("Robot" + robotId + " COMPLETE! | Out: " + String.format("%.1f", actualO
     + " | Total: " + String.format("%.1f", totalTime) + "s");
     
 // remove package
-main.remove_packages(myPackage);
 myPackage = null;
 
 // Log to CSV
