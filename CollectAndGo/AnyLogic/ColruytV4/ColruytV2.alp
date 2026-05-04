@@ -402,6 +402,111 @@ closeCsv();]]></DestroyCode>
 						</InitialValue>
 					</Properties>
 				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1780200000004</Id>
+					<Name><![CDATA[taskQueue]]></Name>
+					<X>50</X><Y>410</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[java.util.ArrayList<int[]>]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[new java.util.ArrayList<>()]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1780200000005</Id>
+					<Name><![CDATA[orderList]]></Name>
+					<X>50</X><Y>440</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[java.util.ArrayList<int[]>]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[new java.util.ArrayList<>()]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1780200000006</Id>
+					<Name><![CDATA[simulationStartTime]]></Name>
+					<X>50</X><Y>470</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0.0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1780200000007</Id>
+					<Name><![CDATA[csvWriter]]></Name>
+					<X>50</X><Y>500</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[java.io.PrintWriter]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[null]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1780200000008</Id>
+					<Name><![CDATA[totalDeliveries]]></Name>
+					<X>50</X><Y>530</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1780200000009</Id>
+					<Name><![CDATA[robotOrders]]></Name>
+					<X>50</X><Y>560</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int[]]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[new int[]{0, 0, 0, 0}]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1780200000010</Id>
+					<Name><![CDATA[currentRunId]]></Name>
+					<X>50</X><Y>590</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[String]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[""]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
 				<Variable Class="Parameter">
 					<Id>1779056862521</Id>
 					<Name><![CDATA[deliveryMode]]></Name>
@@ -424,7 +529,7 @@ closeCsv();]]></DestroyCode>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
 							<DelimeterType>NO_DELIMETER</DelimeterType>
 						</ParameterEditor>
-					</Properties>
+					</Properties>                 
 				</Variable>
 				<Variable Class="Parameter">
 					<Id>1780200000001</Id>
@@ -448,7 +553,7 @@ closeCsv();]]></DestroyCode>
 							<MaxSliderValue><![CDATA[2]]></MaxSliderValue>
 							<DelimeterType>NO_DELIMETER</DelimeterType>
 						</ParameterEditor>
-					</Properties>
+					</Properties>                 
 				</Variable>
 				<Variable Class="Parameter">
 					<Id>1780200000002</Id>
@@ -472,7 +577,7 @@ closeCsv();]]></DestroyCode>
 							<MaxSliderValue><![CDATA[4]]></MaxSliderValue>
 							<DelimeterType>NO_DELIMETER</DelimeterType>
 						</ParameterEditor>
-					</Properties>
+					</Properties>                 
 				</Variable>
 				<Variable Class="Parameter">
 					<Id>1780200000003</Id>
@@ -496,112 +601,7 @@ closeCsv();]]></DestroyCode>
 							<MaxSliderValue><![CDATA[20]]></MaxSliderValue>
 							<DelimeterType>NO_DELIMETER</DelimeterType>
 						</ParameterEditor>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1780200000004</Id>
-					<Name><![CDATA[taskQueue]]></Name>
-					<X>50</X><Y>410</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[java.util.ArrayList<int[]>]]></Type>
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[new java.util.ArrayList<>()]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1780200000005</Id>
-					<Name><![CDATA[orderList]]></Name>
-					<X>50</X><Y>440</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[java.util.ArrayList<int[]>]]></Type>
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[new java.util.ArrayList<>()]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1780200000006</Id>
-					<Name><![CDATA[simulationStartTime]]></Name>
-					<X>50</X><Y>470</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[double]]></Type>
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[0.0]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1780200000007</Id>
-					<Name><![CDATA[csvWriter]]></Name>
-					<X>50</X><Y>500</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[java.io.PrintWriter]]></Type>
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[null]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1780200000008</Id>
-					<Name><![CDATA[totalDeliveries]]></Name>
-					<X>50</X><Y>530</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[0]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1780200000009</Id>
-					<Name><![CDATA[robotOrders]]></Name>
-					<X>50</X><Y>560</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int[]]]></Type>
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[new int[]{0, 0, 0, 0}]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1780200000010</Id>
-					<Name><![CDATA[currentRunId]]></Name>
-					<X>50</X><Y>590</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[String]]></Type>
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[""]]></Code>
-						</InitialValue>
-					</Properties>
+					</Properties>                 
 				</Variable>
 			</Variables>
 			<Events>
@@ -1535,7 +1535,11 @@ try {
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
 					<Text><![CDATA[── LEGEND ─────────────────────────────────]]></Text>
-					<Font><Name>Monospaced</Name><Size>9</Size><Style>1</Style></Font>
+					<Font>
+						<Name>Monospaced</Name>
+						<Size>9</Size>
+						<Style>1</Style>
+					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
 				<Text>
@@ -1552,7 +1556,11 @@ try {
 					<Rotation>0.0</Rotation>
 					<Color>-16776961</Color>
 					<Text><![CDATA[● BLUE    Robot 0 delivery route]]></Text>
-					<Font><Name>Monospaced</Name><Size>9</Size><Style>0</Style></Font>
+					<Font>
+						<Name>Monospaced</Name>
+						<Size>9</Size>
+						<Style>0</Style>
+					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
 				<Text>
@@ -1569,7 +1577,11 @@ try {
 					<Rotation>0.0</Rotation>
 					<Color>-65281</Color>
 					<Text><![CDATA[● MAGENTA Robot 1 delivery route]]></Text>
-					<Font><Name>Monospaced</Name><Size>9</Size><Style>0</Style></Font>
+					<Font>
+						<Name>Monospaced</Name>
+						<Size>9</Size>
+						<Style>0</Style>
+					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
 				<Text>
@@ -1586,7 +1598,11 @@ try {
 					<Rotation>0.0</Rotation>
 					<Color>-16728065</Color>
 					<Text><![CDATA[● GREEN   Robot 2 delivery route]]></Text>
-					<Font><Name>Monospaced</Name><Size>9</Size><Style>0</Style></Font>
+					<Font>
+						<Name>Monospaced</Name>
+						<Size>9</Size>
+						<Style>0</Style>
+					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
 				<Text>
@@ -1603,7 +1619,11 @@ try {
 					<Rotation>0.0</Rotation>
 					<Color>-16711681</Color>
 					<Text><![CDATA[● CYAN    Robot 3 delivery route]]></Text>
-					<Font><Name>Monospaced</Name><Size>9</Size><Style>0</Style></Font>
+					<Font>
+						<Name>Monospaced</Name>
+						<Size>9</Size>
+						<Style>0</Style>
+					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
 				<Text>
@@ -1620,7 +1640,11 @@ try {
 					<Rotation>0.0</Rotation>
 					<Color>-65536</Color>
 					<Text><![CDATA[--- Red/Orange/Dark = return routes]]></Text>
-					<Font><Name>Monospaced</Name><Size>9</Size><Style>0</Style></Font>
+					<Font>
+						<Name>Monospaced</Name>
+						<Size>9</Size>
+						<Style>0</Style>
+					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
 				<Text>
@@ -1641,7 +1665,11 @@ try {
  1=EV   crowd-weighted Dijkstra
  2=EA   EV + agent-aware task selection
 ── CURRENT RUN ────────────────────────────]]></Text>
-					<Font><Name>Monospaced</Name><Size>9</Size><Style>0</Style></Font>
+					<Font>
+						<Name>Monospaced</Name>
+						<Size>9</Size>
+						<Style>0</Style>
+					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
 				<Text>
@@ -1657,9 +1685,12 @@ try {
 					<Z>100</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-13369345</Color>
-					<DynamicText>true</DynamicText>
 					<Text><![CDATA["Mode=" + routingMode + "  Robots=" + numRobots + "  Orders=" + numOrders + "\nQueue=" + taskQueue.size() + "  Delivered=" + totalDeliveries]]></Text>
-					<Font><Name>Monospaced</Name><Size>9</Size><Style>1</Style></Font>
+					<Font>
+						<Name>Monospaced</Name>
+						<Size>9</Size>
+						<Style>1</Style>
+					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
 				<Oval>
@@ -4096,6 +4127,51 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 						</InitialValue>
 					</Properties>
 				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1780300000001</Id>
+					<Name><![CDATA[robotId]]></Name>
+					<X>50</X><Y>600</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1780300000002</Id>
+					<Name><![CDATA[currentPickupIdx]]></Name>
+					<X>50</X><Y>630</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1780300000003</Id>
+					<Name><![CDATA[currentDestIdx]]></Name>
+					<X>50</X><Y>660</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
 				<Variable Class="Parameter">
 					<Id>1774461104260</Id>
 					<Name><![CDATA[goalNode]]></Name>
@@ -4187,52 +4263,7 @@ CLICK TO CYCLE NEXT START NODE ]"]]></Text>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
 							<DelimeterType>NO_DELIMETER</DelimeterType>
 						</ParameterEditor>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1780300000001</Id>
-					<Name><![CDATA[robotId]]></Name>
-					<X>50</X><Y>600</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[0]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1780300000002</Id>
-					<Name><![CDATA[currentPickupIdx]]></Name>
-					<X>50</X><Y>630</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[0]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1780300000003</Id>
-					<Name><![CDATA[currentDestIdx]]></Name>
-					<X>50</X><Y>660</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[0]]></Code>
-						</InitialValue>
-					</Properties>
+					</Properties>                 
 				</Variable>
 			</Variables>
 			<StatechartElements>

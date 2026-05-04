@@ -1,0 +1,4 @@
+runId,robotId,taskId,routingMode,numRobots,numOrders,pickupNode,destNode,taskStartTime,deliveryTime,returnTime,totalTime,expOutTime,expInTime
+20260504_145506,0,1,0,2,11,node48,node9,1.00,16.00,1.50,17.50,39.19,39.19
+20260504_145506,1,1,0,2,11,node51,node46,1.00,30.50,0.00,30.50,51.27,51.27
+SUMMARY_20260504_145506,,,0,2,11,,,1.00,,,40.50,,,

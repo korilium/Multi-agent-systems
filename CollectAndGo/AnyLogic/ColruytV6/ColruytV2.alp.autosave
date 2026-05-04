@@ -4,7 +4,7 @@
 	         AnyLogic Project File
 *************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.8.202602271018" AlpVersion="8.9.7">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.8.202602271013" AlpVersion="8.9.7">
 <Model>
 	<Id>1774376502073</Id>
 	<Name><![CDATA[ColruytV2]]></Name>
@@ -447,6 +447,21 @@ closeCsv();]]></DestroyCode>
 					</Properties>
 				</Variable>
 				<Variable Class="PlainVariable">
+					<Id>1780200000012</Id>
+					<Name><![CDATA[inFlightTasks]]></Name>
+					<X>50</X><Y>425</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[java.util.Set<int[]>]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[new java.util.HashSet<>()]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
 					<Id>1780200000005</Id>
 					<Name><![CDATA[orderList]]></Name>
 					<X>50</X><Y>440</Y>
@@ -784,6 +799,7 @@ switch (crowdednessLevel) {
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[orderList.clear();
 taskQueue.clear();
+inFlightTasks.clear();
 int packageCounter = 0;
 // Clear any existing packages from a previous run
 for (int i = Store.size() - 1; i >= 0; i--) {
@@ -925,6 +941,7 @@ if (routingMode == 2) {
 
 if (selectedTask == null) selectedTask = taskQueue.get(0);
 taskQueue.remove(selectedTask);
+inFlightTasks.add(selectedTask);
 
 r.parStartNode       = globalNodes.get(selectedTask[0]);
 r.parDestinationNode = globalNodes.get(selectedTask[1]);
@@ -4264,6 +4281,36 @@ try {
 					</Properties>
 				</Variable>
 				<Variable Class="PlainVariable">
+					<Id>1780300000010</Id>
+					<Name><![CDATA[savedPickupIdx]]></Name>
+					<X>50</X><Y>690</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1780300000011</Id>
+					<Name><![CDATA[savedDestIdx]]></Name>
+					<X>50</X><Y>720</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
 					<Id>1777287035449</Id>
 					<Name><![CDATA[myPackage]]></Name>
 					<X>60</X><Y>700</Y>
@@ -4424,7 +4471,8 @@ try {
 
 // Hide package after successful task assignment
 if (myPackage != null) {
- 	traceln("Robot" + robotId + " picked up order: pickup=node" + (currentPickupIdx+1) + " -> dest=node" + (currentDestIdx+1));
+    myPackage.hide();
+    traceln("Robot" + robotId + " picked up package, myPackage hidden");
 } else {
     traceln("WARNING: Robot" + robotId + " myPackage is null at pickup");
 }
@@ -4473,24 +4521,32 @@ if (parDestinationNode != null) {
 					<ShowLabel>true</ShowLabel>
 					<Properties Width="100" Height="50">
 						<EntryAction><![CDATA[traceln("Robot" + robotId + " entered stReturn.");
-if (parStartNode != null) {
-    timeReachedDest = time();
+timeReachedDest = time();
 
-    if (plannedRoute == null || plannedRoute.isEmpty()) {
-        NodeLoc myPos = findClosestNode(getX(), getY());
-        plannedRoute = calculatePath(myPos, parStartNode, parDeliveryMode);
-        java.awt.Color[] retColors = {java.awt.Color.RED, java.awt.Color.ORANGE,
-                                      new java.awt.Color(0,100,0), new java.awt.Color(0,100,100)};
-        java.awt.Color rc = (robotId < retColors.length) ? retColors[robotId] : java.awt.Color.GRAY;
-        drawRoute(plannedRoute, myPos, rc);
-    }
+// Save current task data before assignNextTask overwrites currentPickupIdx/currentDestIdx
+savedPickupIdx = currentPickupIdx;
+savedDestIdx   = currentDestIdx;
 
-    if (plannedRoute != null && !plannedRoute.isEmpty()) {
+// Get next task; if queue empty parDestinationNode is set to null
+main.assignNextTask(this);
+
+// Route directly to next pickup, or stay put if no more tasks
+if (parDestinationNode != null && parStartNode != null) {
+    NodeLoc myPos = findClosestNode(getX(), getY());
+    plannedRoute = calculatePath(myPos, parStartNode, parDeliveryMode);
+    java.awt.Color[] retColors = {java.awt.Color.RED, java.awt.Color.ORANGE,
+                                  new java.awt.Color(0,100,0), new java.awt.Color(0,100,100)};
+    java.awt.Color rc = (robotId < retColors.length) ? retColors[robotId] : java.awt.Color.GRAY;
+    drawRoute(plannedRoute, myPos, rc);
+
+    if (!plannedRoute.isEmpty()) {
         NodeLoc nextNode = plannedRoute.remove(0);
         goalNode = nextNode;
         setSpeed(10.0 / (1.0 + goalNode.crowdedness * 0.3));
         moveTo(nextNode.x, nextNode.y);
     }
+} else {
+    plannedRoute = new java.util.ArrayList<>();
 }]]></EntryAction>
 						<FillColor>-10496</FillColor>
 					</Properties>
@@ -4515,22 +4571,22 @@ traceln("Robot" + robotId + " COMPLETE! | Out: " + String.format("%.1f", actualO
     + " | In: " + String.format("%.1f", actualIn)
     + "s (Exp: " + String.format("%.1f", expectedInTime) + "s)"
     + " | Total: " + String.format("%.1f", totalTime) + "s");
-    
-// remove package
+
 myPackage = null;
 
-// Log to CSV
+// Use savedPickupIdx/savedDestIdx: assignNextTask already ran in stReturn and overwrote currentPickupIdx/currentDestIdx
 main.writeCsvRow(
     robotId, myOrderId, main.routingMode,
-    "node" + (currentPickupIdx+1), "node" + (currentDestIdx+1),
+    "node" + (savedPickupIdx+1), "node" + (savedDestIdx+1),
     timeOrderStart, timeReachedDest - timeOrderStart, actualIn, totalTime,
     expectedOutTime, expectedInTime);
 
-ordersCompleted++;
-parDestinationNode = null;
+// Mark task delivered: remove from inFlightTasks
+final int _p = savedPickupIdx, _d = savedDestIdx;
+main.inFlightTasks.removeIf(t -> t[0] == _p && t[1] == _d);
 
-// Request next task (or go idle if queue empty)
-main.assignNextTask(this);]]></EntryAction>
+ordersCompleted++;
+// assignNextTask was already called in stReturn; parDestinationNode is already correct]]></EntryAction>
 						<FillColor>-10496</FillColor>
 					</Properties>
 				</StatechartElement>
@@ -4689,7 +4745,7 @@ main.assignNextTask(this);]]></EntryAction>
 							<Code><![CDATA[1]]></Code>
 							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
 						</Timeout>
-						<Condition><![CDATA[plannedRoute.isEmpty() && goalNode != null && parStartNode != null && Math.sqrt(Math.pow(goalNode.x - getX(),2) + Math.pow(goalNode.y - getY(),2)) < 5.0 && Math.sqrt(Math.pow(parStartNode.x - getX(), 2) + Math.pow(parStartNode.y - getY(), 2)) < 8.0]]></Condition>
+						<Condition><![CDATA[(parDestinationNode == null) || (plannedRoute.isEmpty() && goalNode != null && parStartNode != null && Math.sqrt(Math.pow(goalNode.x - getX(),2) + Math.pow(goalNode.y - getY(),2)) < 5.0 && Math.sqrt(Math.pow(parStartNode.x - getX(), 2) + Math.pow(parStartNode.y - getY(), 2)) < 8.0)]]></Condition>
 						<Rate Class="CodeUnitValue">
 							<Code><![CDATA[1]]></Code>
 							<Unit Class="RateUnits"><![CDATA[PER_SECOND]]></Unit>
