@@ -1,0 +1,13 @@
+runId,phase,effectiveMode,modeName,numRobots,numOrders,crowdednessLevel,randomSeed,makespan,totalDeliveries,avgTaskSec,minTaskSec,maxTaskSec,avgToPickupSec,avgDeliveryLegSec,avgReturnSec,robot0Tasks,robot1Tasks,robot2Tasks,robot3Tasks,robot0TotalSec,robot1TotalSec,robot2TotalSec,robot3TotalSec
+20260505_225629,0,0,SSP,4,50,4,5,328.56,50,24.76,2.96,56.27,0.72,11.76,12.28,13,14,10,13,328.56,303.63,303.52,302.24
+20260505_225629,1,1,EV,4,50,4,5,286.29,50,22.02,2.96,41.74,0.81,10.38,10.84,13,13,11,13,264.03,272.34,278.50,286.29
+20260505_225629,2,2,EA,4,50,4,5,298.05,50,22.68,2.64,44.90,1.30,10.54,10.84,11,11,14,14,291.56,263.39,298.05,280.81
+
+# COMPARISON SUMMARY
+# Mode    Makespan(s)
+# SSP         328.56
+# EV          286.29
+# EA          298.05
+# SSP     vs best: +12.9%
+# EV      vs best: +0.0%
+# EA      vs best: +3.9%
