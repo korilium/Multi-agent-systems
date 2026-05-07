@@ -177,9 +177,11 @@ currentStart = globalNodes.get(0);
 
 // Generate order list and open CSV
 simulationStartTime = (int) time();
-// COMPARE mode initialisation
-comparisonPhase      = (routingMode == 3) ? 0  : -1;
-effectiveRoutingMode = (routingMode == 3) ? 0  : routingMode;
+// COMPARE / AUTO mode initialisation
+comparisonPhase      = (routingMode >= 3) ? 0  : -1;
+effectiveRoutingMode = (routingMode >= 3) ? 0  : routingMode;
+autoRobotCount       = (routingMode == 4) ? 1  : 0;
+if (routingMode == 4) numRobots = 1;
 phaseStartSimTime    = simulationStartTime;
 initEnvironment();
 simulationReady = true;
@@ -204,7 +206,7 @@ for (Pedestrian p : pedestrians) {
 }
 
 // Halt all robots
-for (int i = 0; i < 4; i++) {
+for (int i = 0; i < 10; i++) {
     Robot r = getRobotByIndex(i);
     if (r != null) r.stop();
 }
@@ -521,7 +523,7 @@ closeCsv();]]></DestroyCode>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[int[]]]></Type>        
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA[new int[]{0, 0, 0, 0}]]></Code>
+							<Code><![CDATA[new int[10]]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -642,6 +644,21 @@ closeCsv();]]></DestroyCode>
 						<Type><![CDATA[java.util.ArrayList<int[]>]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[new java.util.ArrayList<>()]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1790000000101</Id>
+					<Name><![CDATA[autoRobotCount]]></Name>
+					<X>-220</X><Y>-130</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -791,7 +808,7 @@ closeCsv();]]></DestroyCode>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[int[]]]></Type>        
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA[new int[]{0,0,0,0}]]></Code>
+							<Code><![CDATA[new int[10]]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -806,7 +823,7 @@ closeCsv();]]></DestroyCode>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[double[]]]></Type>        
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA[new double[]{0,0,0,0}]]></Code>
+							<Code><![CDATA[new double[10]]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -829,6 +846,21 @@ closeCsv();]]></DestroyCode>
 					<Id>1790000000015</Id>
 					<Name><![CDATA[summaryLogWriter]]></Name>
 					<X>-220</X><Y>-600</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[java.io.PrintWriter]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[null]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1790000000100</Id>
+					<Name><![CDATA[dashboardWriter]]></Name>
+					<X>-220</X><Y>-660</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -898,7 +930,7 @@ closeCsv();]]></DestroyCode>
 							<Id>1780200000101</Id>
 							<EditorContolType>SLIDER</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[3]]></MaxSliderValue>
+							<MaxSliderValue><![CDATA[4]]></MaxSliderValue>
 							<DelimeterType>NO_DELIMETER</DelimeterType>
 						</ParameterEditor>
 					</Properties>                 
@@ -922,7 +954,7 @@ closeCsv();]]></DestroyCode>
 							<Id>1780200000102</Id>
 							<EditorContolType>SLIDER</EditorContolType>
 							<MinSliderValue><![CDATA[1]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[4]]></MaxSliderValue>
+							<MaxSliderValue><![CDATA[10]]></MaxSliderValue>
 							<DelimeterType>NO_DELIMETER</DelimeterType>
 						</ParameterEditor>
 					</Properties>                 
@@ -947,7 +979,7 @@ closeCsv();]]></DestroyCode>
 							<Label><![CDATA[numOrders]]></Label>
 							<EditorContolType>SLIDER</EditorContolType>
 							<MinSliderValue><![CDATA[1]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[50]]></MaxSliderValue>
+							<MaxSliderValue><![CDATA[1000]]></MaxSliderValue>
 							<DelimeterType>NO_DELIMETER</DelimeterType>
 						</ParameterEditor>
 					</Properties>                 
@@ -1180,12 +1212,12 @@ switch (crowdednessLevel) {
 					<Body><![CDATA[orderList.clear();
 claimedOrders.clear();
 
-// COMPARE mode phases 1 & 2: restore saved orders, skip re-generation
-if (routingMode == 3 && comparisonPhase > 0) {
+// COMPARE / AUTO mode phases 1 & 2+: restore saved orders, skip re-generation
+if (routingMode >= 3 && comparisonPhase > 0) {
     for (int[] t : savedOrderList) orderList.add(new int[]{t[0], t[1], t[2]});
     traceln("=== COMPARE Phase " + comparisonPhase + " (" + getModeName(effectiveRoutingMode)
         + "): restored " + orderList.size() + " orders (stores already placed) ===");
-    int[] startNodes = {0, 10, 40, 60};
+    int[] startNodes = {0, 7, 14, 21, 28, 35, 42, 49, 56, 63};
     for (int i = 0; i < numRobots; i++) {
         Robot rob = getRobotByIndex(i);
         if (rob != null) {
@@ -1250,15 +1282,15 @@ for (int i = 0; i < orderList.size(); i++) {
     traceln("  order[" + i + "]: pickup=node" + (t[0]+1) + " -> dest=node" + (t[1]+1));
 }
 
-// Save orders for COMPARE mode replay (phases 1 & 2)
-if (routingMode == 3) {
+// Save orders for COMPARE / AUTO mode replay
+if (routingMode >= 3) {
     savedOrderList.clear();
     for (int[] t : orderList) savedOrderList.add(new int[]{t[0], t[1], t[2]});
     traceln("=== COMPARE: saved " + savedOrderList.size() + " orders for replay ===");
 }
 
 // Place robots and build their order lists
-int[] startNodes = {0, 10, 40, 60};
+int[] startNodes = {0, 7, 14, 21, 28, 35, 42, 49, 56, 63};
 for (int i = 0; i < numRobots; i++) {
     Robot rob = getRobotByIndex(i);
     if (rob != null) {
@@ -1292,6 +1324,12 @@ traceln("=== initEnvironment END | simTime=" + time() + " ===");]]></Body>
 if (idx == 1) return robot2;
 if (idx == 2) return robot3;
 if (idx == 3) return robot4;
+if (idx == 4) return robot5;
+if (idx == 5) return robot6;
+if (idx == 6) return robot7;
+if (idx == 7) return robot8;
+if (idx == 8) return robot9;
+if (idx == 9) return robot10;
 return null;]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -1416,8 +1454,23 @@ if (routingMode == 3) {
         resetForNextPhase();
         return;
     }
-    // All 3 phases done
     writeFinalComparison();
+    closeCsv();
+} else if (routingMode == 4) {
+    phaseMakespan[phaseIdx] = makespan;
+    writeMakespanRow(makespan);
+    if (comparisonPhase < 2) {
+        resetForNextPhase();
+        return;
+    }
+    // All 3 modes done for this robot count
+    writeFinalComparison();
+    if (autoRobotCount < 10) {
+        resetForAutoNextRobot();
+        return;
+    }
+    // Full sweep 1–10 robots complete
+    traceln("=== AUTO SWEEP COMPLETE (1–10 robots × 3 modes) ===");
     closeCsv();
 } else {
     writeMakespanRow(makespan);
@@ -1458,16 +1511,29 @@ if (routingMode == 3) {
     // ── File 3: per-phase summary log ────────────────────────────────────
     String summaryFile = "summary_" + currentRunId + ".csv";
     summaryLogWriter = new java.io.PrintWriter(new java.io.FileWriter(summaryFile, false));
-    summaryLogWriter.println("runId,phase,effectiveMode,modeName,"
+    StringBuilder sumHdr = new StringBuilder("runId,phase,effectiveMode,modeName,"
         + "numRobots,numOrders,crowdednessLevel,randomSeed,"
         + "makespan,totalDeliveries,"
         + "avgTaskSec,minTaskSec,maxTaskSec,"
-        + "avgToPickupSec,avgDeliveryLegSec,avgReturnSec,"
-        + "robot0Tasks,robot1Tasks,robot2Tasks,robot3Tasks,"
-        + "robot0TotalSec,robot1TotalSec,robot2TotalSec,robot3TotalSec");
+        + "avgToPickupSec,avgDeliveryLegSec,avgReturnSec");
+    for (int _i = 0; _i < 10; _i++) sumHdr.append(",robot").append(_i).append("Tasks");
+    for (int _i = 0; _i < 10; _i++) sumHdr.append(",robot").append(_i).append("TotalSec");
+    summaryLogWriter.println(sumHdr.toString());
     summaryLogWriter.flush();
 
-    traceln("CSV files opened: " + detailFile + " | " + eventFile + " | " + summaryFile);
+    // ── File 4: cross-run dashboard log (append mode) ────────────────────
+    java.io.File dashFile = new java.io.File("dashboard_performance.csv");
+    boolean dashIsNew = !dashFile.exists() || dashFile.length() == 0;
+    dashboardWriter = new java.io.PrintWriter(new java.io.FileWriter(dashFile, true));
+    if (dashIsNew) {
+        dashboardWriter.println("runId,numRobots,phase,effectiveMode,modeName,"
+            + "makespan,totalDeliveries,avgTaskSec,minTaskSec,maxTaskSec,"
+            + "avgToPickupSec,avgDeliveryLegSec,avgReturnSec,"
+            + "numOrders,crowdednessLevel,randomSeed");
+        dashboardWriter.flush();
+    }
+
+    traceln("CSV files opened: " + detailFile + " | " + eventFile + " | " + summaryFile + " | dashboard_performance.csv");
 } catch (Exception e) {
     traceln("CSV open error: " + e.getMessage());
     csvWriter = null; eventLogWriter = null; summaryLogWriter = null;
@@ -1573,7 +1639,7 @@ phaseInTimeSum      += deliveryLegSec;
 phaseReturnTimeSum  += returnSec;
 if (totalTime < phaseMinTaskTime) phaseMinTaskTime = totalTime;
 if (totalTime > phaseMaxTaskTime) phaseMaxTaskTime = totalTime;
-if (robotId >= 0 && robotId < 4) {
+if (robotId >= 0 && robotId < 10) {
     phaseRobotTaskCount[robotId]++;
     phaseRobotTotalTime[robotId] += totalTime;
 }
@@ -1604,24 +1670,35 @@ double avgReturn   = (n > 0) ? phaseReturnTimeSum / n : 0;
 
 if (summaryLogWriter != null) {
     try {
+        StringBuilder robotCols = new StringBuilder();
+        for (int _i = 0; _i < 10; _i++) robotCols.append(",").append(phaseRobotTaskCount[_i]);
+        for (int _i = 0; _i < 10; _i++) robotCols.append(",").append(String.format("%.2f", phaseRobotTotalTime[_i]));
         summaryLogWriter.printf(
             "%s,%d,%d,%s,%d,%d,%d,%d,"
             + "%.2f,%d,"
             + "%.2f,%.2f,%.2f,"
-            + "%.2f,%.2f,%.2f,"
-            + "%d,%d,%d,%d,"
-            + "%.2f,%.2f,%.2f,%.2f%n",
+            + "%.2f,%.2f,%.2f"
+            + "%s%n",
             currentRunId, phaseIdx, effectiveRoutingMode, mName,
             numRobots, numOrders, crowdednessLevel, randomSeed,
             makespan, n,
             avgT, minT, phaseMaxTaskTime,
             avgPickup, avgDelivLeg, avgReturn,
-            phaseRobotTaskCount[0], phaseRobotTaskCount[1],
-            phaseRobotTaskCount[2], phaseRobotTaskCount[3],
-            phaseRobotTotalTime[0], phaseRobotTotalTime[1],
-            phaseRobotTotalTime[2], phaseRobotTotalTime[3]);
+            robotCols.toString());
         summaryLogWriter.flush();
     } catch (Exception e) { traceln("Summary CSV write error: " + e.getMessage()); }
+}
+if (dashboardWriter != null) {
+    try {
+        dashboardWriter.printf(
+            "%s,%d,%d,%d,%s,%.2f,%d,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%d,%d,%d%n",
+            currentRunId, numRobots, phaseIdx, effectiveRoutingMode, mName,
+            makespan, n, avgT,
+            (phaseMinTaskTime == Double.MAX_VALUE ? 0 : phaseMinTaskTime), phaseMaxTaskTime,
+            avgPickup, avgDelivLeg, avgReturn,
+            numOrders, crowdednessLevel, randomSeed);
+        dashboardWriter.flush();
+    } catch (Exception e) { traceln("Dashboard CSV write error: " + e.getMessage()); }
 }
 // Log phase-end event
 writeEventLog(phaseIdx, effectiveRoutingMode, time(), -1, "PHASE_END",
@@ -1639,9 +1716,10 @@ updateStatusDisplay();]]></Body>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[if (csvWriter != null)       { csvWriter.close();       csvWriter = null; }
-if (eventLogWriter != null) { eventLogWriter.close();   eventLogWriter = null; }
+					<Body><![CDATA[if (csvWriter != null)        { csvWriter.close();        csvWriter = null; }
+if (eventLogWriter != null)  { eventLogWriter.close();   eventLogWriter = null; }
 if (summaryLogWriter != null){ summaryLogWriter.close(); summaryLogWriter = null; }
+if (dashboardWriter != null) { dashboardWriter.close();  dashboardWriter = null; }
 traceln("All CSV files closed.");]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -1740,7 +1818,7 @@ totalDeliveries   = 0;
 phaseDeliveryCount = 0;
 phaseTaskTimeSum  = 0; phaseOutTimeSum = 0; phaseInTimeSum = 0; phaseReturnTimeSum = 0;
 phaseMinTaskTime  = Double.MAX_VALUE; phaseMaxTaskTime = 0;
-for (int i = 0; i < 4; i++) { phaseRobotTaskCount[i] = 0; phaseRobotTotalTime[i] = 0; robotOrders[i] = 0; }
+for (int i = 0; i < 10; i++) { phaseRobotTaskCount[i] = 0; phaseRobotTotalTime[i] = 0; robotOrders[i] = 0; }
 phaseStartSimTime = time();
 
 // Restore orders
@@ -1754,7 +1832,7 @@ writeEventLog(comparisonPhase, effectiveRoutingMode, time(), -1, "PHASE_START",
     "-", "-", -1, "Phase " + comparisonPhase + " mode=" + getModeName(effectiveRoutingMode));
 
 // Reset robots to their fixed start positions
-int[] startNodes = {0, 10, 40, 60};
+int[] startNodes = {0, 7, 14, 21, 28, 35, 42, 49, 56, 63};
 for (int i = 0; i < numRobots; i++) {
     Robot rob = getRobotByIndex(i);
     if (rob == null) continue;
@@ -1768,6 +1846,7 @@ for (int i = 0; i < numRobots; i++) {
     rob.ordersCompleted    = 0;
     rob.deliveryComplete   = false;
     rob.returnComplete     = false;
+    rob.chainedTask        = false;
     rob.currentState       = "IDLE";
     if (rob.plannedRoute != null) rob.plannedRoute.clear();
     rob.clearRoute();
@@ -1777,6 +1856,64 @@ for (int i = 0; i < numRobots; i++) {
 }
 
 // Trigger statecharts
+for (int i = 0; i < numRobots; i++) {
+    Robot rob = getRobotByIndex(i);
+    if (rob != null) rob.onChange();
+}]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[void]]></ReturnType>
+					<Id>1790000100010</Id>
+					<Name><![CDATA[resetForAutoNextRobot]]></Name>
+					<X>880</X><Y>900</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[// Advance to next robot count and restart all 3 routing modes
+autoRobotCount++;
+numRobots = autoRobotCount;
+comparisonPhase = 0;
+effectiveRoutingMode = 0;
+totalDeliveries = 0;
+phaseDeliveryCount = 0;
+phaseTaskTimeSum = 0; phaseOutTimeSum = 0; phaseInTimeSum = 0; phaseReturnTimeSum = 0;
+phaseMinTaskTime = Double.MAX_VALUE; phaseMaxTaskTime = 0;
+for (int i = 0; i < 10; i++) { phaseRobotTaskCount[i] = 0; phaseRobotTotalTime[i] = 0; robotOrders[i] = 0; }
+phaseStartSimTime = time();
+
+orderList.clear();
+claimedOrders.clear();
+for (int[] t : savedOrderList) orderList.add(new int[]{t[0], t[1], t[2]});
+traceln("=== AUTO: robot count now " + numRobots + " | restored " + orderList.size() + " orders ===");
+
+writeEventLog(0, 0, time(), -1, "PHASE_START", "-", "-", -1,
+    "AUTO robots=" + numRobots + " mode=SSP");
+
+int[] startNodes = {0, 7, 14, 21, 28, 35, 42, 49, 56, 63};
+for (int i = 0; i < numRobots; i++) {
+    Robot rob = getRobotByIndex(i);
+    if (rob == null) continue;
+    int nodeIdx = startNodes[Math.min(i, startNodes.length - 1)];
+    NodeLoc startLoc = globalNodes.get(nodeIdx);
+    rob.setXY(startLoc.x, startLoc.y);
+    rob.robotId = i;
+    rob.parStartNode = null;
+    rob.parDestinationNode = null;
+    rob.currentPickupIdx = -1;
+    rob.currentDestIdx = -1;
+    rob.ordersCompleted = 0;
+    rob.deliveryComplete = false;
+    rob.returnComplete = false;
+    rob.chainedTask = false;
+    rob.currentState = "IDLE";
+    if (rob.plannedRoute != null) rob.plannedRoute.clear();
+    rob.clearRoute();
+    rob.buildLocalOrderList();
+    traceln("AUTO Robot" + i + " reset at node" + (nodeIdx+1)
+        + " | list=" + rob.localOrderList.size());
+}
 for (int i = 0; i < numRobots; i++) {
     Robot rob = getRobotByIndex(i);
     if (rob != null) rob.onChange();
@@ -1822,10 +1959,17 @@ updateStatusDisplay();]]></Body>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[String modeLabel = (routingMode == 3)
-    ? "COMPARE | Phase " + (comparisonPhase >= 0 ? comparisonPhase : 0)
-      + " [" + getModeName(effectiveRoutingMode) + "]"
-    : getModeName(effectiveRoutingMode);
+					<Body><![CDATA[String modeLabel;
+if (routingMode == 4) {
+    modeLabel = "AUTO | Robots=" + numRobots + " Phase "
+        + (comparisonPhase >= 0 ? comparisonPhase : 0)
+        + " [" + getModeName(effectiveRoutingMode) + "]";
+} else if (routingMode == 3) {
+    modeLabel = "COMPARE | Phase " + (comparisonPhase >= 0 ? comparisonPhase : 0)
+        + " [" + getModeName(effectiveRoutingMode) + "]";
+} else {
+    modeLabel = getModeName(effectiveRoutingMode);
+}
 
 statusText = "=== ROBOT STATUS | t=" + String.format("%.1f", time())
     + " | Mode: " + modeLabel + " ===\n\n";
@@ -2420,6 +2564,366 @@ dashboardText += "╚═══════════════════�
 					</QuantityColumn>
 				</EmbeddedObject>
 				<EmbeddedObject>
+					<Id>1780100000003</Id>
+					<Name><![CDATA[robot5]]></Name>
+					<X>-220</X><Y>1000</Y>
+					<Label><X>-20</X><Y>-30</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<PresentationId>1780100000103</PresentationId>
+					<ActiveObjectClass>
+						<PackageName><![CDATA[colruytv2]]></PackageName>
+						<ClassName><![CDATA[Robot]]></ClassName>
+					</ActiveObjectClass>
+					<GenericParameterSubstitute>
+						<GenericParameterSubstituteReference>
+							<PackageName><![CDATA[colruytv2]]></PackageName>
+							<ClassName><![CDATA[Robot]]></ClassName>
+							<ItemName><![CDATA[1774461084595]]></ItemName>
+						</GenericParameterSubstituteReference>
+					</GenericParameterSubstitute>
+					<Parameters>
+						<Parameter>
+							<Name><![CDATA[goalNode]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[parDestinationNode]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[parStartNode]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[parDeliveryMode]]></Name>
+						</Parameter>
+					</Parameters>
+					<ReplicationFlag>false</ReplicationFlag>
+					<Replication Class="CodeValue">
+						<Code><![CDATA[100]]></Code>
+					</Replication>
+					<CollectionType>ARRAY_LIST_BASED</CollectionType>
+					<InEnvironment>true</InEnvironment>
+					<InitialLocationType>XYZ</InitialLocationType>
+					<ColumnCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ColumnCode>
+					<RowCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</RowCode>
+					<LocationNameCode Class="CodeValue">
+						<Code><![CDATA[""]]></Code>
+					</LocationNameCode>
+					<InitializationType>SPECIFIED_NUMBER</InitializationType>
+					<InitializationDatabaseTableQuery>
+						<Id>1780100000013</Id>
+						<TableReference>
+						</TableReference>
+					</InitializationDatabaseTableQuery>
+					<InitializationDatabaseType>ONE_AGENT_PER_DATABASE_RECORD</InitializationDatabaseType>
+					<QuantityColumn>
+					</QuantityColumn>
+				</EmbeddedObject>
+				<EmbeddedObject>
+					<Id>1780100000004</Id>
+					<Name><![CDATA[robot6]]></Name>
+					<X>-220</X><Y>1060</Y>
+					<Label><X>-20</X><Y>-30</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<PresentationId>1780100000104</PresentationId>
+					<ActiveObjectClass>
+						<PackageName><![CDATA[colruytv2]]></PackageName>
+						<ClassName><![CDATA[Robot]]></ClassName>
+					</ActiveObjectClass>
+					<GenericParameterSubstitute>
+						<GenericParameterSubstituteReference>
+							<PackageName><![CDATA[colruytv2]]></PackageName>
+							<ClassName><![CDATA[Robot]]></ClassName>
+							<ItemName><![CDATA[1774461084595]]></ItemName>
+						</GenericParameterSubstituteReference>
+					</GenericParameterSubstitute>
+					<Parameters>
+						<Parameter>
+							<Name><![CDATA[goalNode]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[parDestinationNode]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[parStartNode]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[parDeliveryMode]]></Name>
+						</Parameter>
+					</Parameters>
+					<ReplicationFlag>false</ReplicationFlag>
+					<Replication Class="CodeValue">
+						<Code><![CDATA[100]]></Code>
+					</Replication>
+					<CollectionType>ARRAY_LIST_BASED</CollectionType>
+					<InEnvironment>true</InEnvironment>
+					<InitialLocationType>XYZ</InitialLocationType>
+					<ColumnCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ColumnCode>
+					<RowCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</RowCode>
+					<LocationNameCode Class="CodeValue">
+						<Code><![CDATA[""]]></Code>
+					</LocationNameCode>
+					<InitializationType>SPECIFIED_NUMBER</InitializationType>
+					<InitializationDatabaseTableQuery>
+						<Id>1780100000014</Id>
+						<TableReference>
+						</TableReference>
+					</InitializationDatabaseTableQuery>
+					<InitializationDatabaseType>ONE_AGENT_PER_DATABASE_RECORD</InitializationDatabaseType>
+					<QuantityColumn>
+					</QuantityColumn>
+				</EmbeddedObject>
+				<EmbeddedObject>
+					<Id>1780100000005</Id>
+					<Name><![CDATA[robot7]]></Name>
+					<X>-220</X><Y>1120</Y>
+					<Label><X>-20</X><Y>-30</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<PresentationId>1780100000105</PresentationId>
+					<ActiveObjectClass>
+						<PackageName><![CDATA[colruytv2]]></PackageName>
+						<ClassName><![CDATA[Robot]]></ClassName>
+					</ActiveObjectClass>
+					<GenericParameterSubstitute>
+						<GenericParameterSubstituteReference>
+							<PackageName><![CDATA[colruytv2]]></PackageName>
+							<ClassName><![CDATA[Robot]]></ClassName>
+							<ItemName><![CDATA[1774461084595]]></ItemName>
+						</GenericParameterSubstituteReference>
+					</GenericParameterSubstitute>
+					<Parameters>
+						<Parameter>
+							<Name><![CDATA[goalNode]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[parDestinationNode]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[parStartNode]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[parDeliveryMode]]></Name>
+						</Parameter>
+					</Parameters>
+					<ReplicationFlag>false</ReplicationFlag>
+					<Replication Class="CodeValue">
+						<Code><![CDATA[100]]></Code>
+					</Replication>
+					<CollectionType>ARRAY_LIST_BASED</CollectionType>
+					<InEnvironment>true</InEnvironment>
+					<InitialLocationType>XYZ</InitialLocationType>
+					<ColumnCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ColumnCode>
+					<RowCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</RowCode>
+					<LocationNameCode Class="CodeValue">
+						<Code><![CDATA[""]]></Code>
+					</LocationNameCode>
+					<InitializationType>SPECIFIED_NUMBER</InitializationType>
+					<InitializationDatabaseTableQuery>
+						<Id>1780100000015</Id>
+						<TableReference>
+						</TableReference>
+					</InitializationDatabaseTableQuery>
+					<InitializationDatabaseType>ONE_AGENT_PER_DATABASE_RECORD</InitializationDatabaseType>
+					<QuantityColumn>
+					</QuantityColumn>
+				</EmbeddedObject>
+				<EmbeddedObject>
+					<Id>1780100000006</Id>
+					<Name><![CDATA[robot8]]></Name>
+					<X>-220</X><Y>1180</Y>
+					<Label><X>-20</X><Y>-30</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<PresentationId>1780100000106</PresentationId>
+					<ActiveObjectClass>
+						<PackageName><![CDATA[colruytv2]]></PackageName>
+						<ClassName><![CDATA[Robot]]></ClassName>
+					</ActiveObjectClass>
+					<GenericParameterSubstitute>
+						<GenericParameterSubstituteReference>
+							<PackageName><![CDATA[colruytv2]]></PackageName>
+							<ClassName><![CDATA[Robot]]></ClassName>
+							<ItemName><![CDATA[1774461084595]]></ItemName>
+						</GenericParameterSubstituteReference>
+					</GenericParameterSubstitute>
+					<Parameters>
+						<Parameter>
+							<Name><![CDATA[goalNode]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[parDestinationNode]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[parStartNode]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[parDeliveryMode]]></Name>
+						</Parameter>
+					</Parameters>
+					<ReplicationFlag>false</ReplicationFlag>
+					<Replication Class="CodeValue">
+						<Code><![CDATA[100]]></Code>
+					</Replication>
+					<CollectionType>ARRAY_LIST_BASED</CollectionType>
+					<InEnvironment>true</InEnvironment>
+					<InitialLocationType>XYZ</InitialLocationType>
+					<ColumnCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ColumnCode>
+					<RowCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</RowCode>
+					<LocationNameCode Class="CodeValue">
+						<Code><![CDATA[""]]></Code>
+					</LocationNameCode>
+					<InitializationType>SPECIFIED_NUMBER</InitializationType>
+					<InitializationDatabaseTableQuery>
+						<Id>1780100000016</Id>
+						<TableReference>
+						</TableReference>
+					</InitializationDatabaseTableQuery>
+					<InitializationDatabaseType>ONE_AGENT_PER_DATABASE_RECORD</InitializationDatabaseType>
+					<QuantityColumn>
+					</QuantityColumn>
+				</EmbeddedObject>
+				<EmbeddedObject>
+					<Id>1780100000007</Id>
+					<Name><![CDATA[robot9]]></Name>
+					<X>-220</X><Y>1240</Y>
+					<Label><X>-20</X><Y>-30</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<PresentationId>1780100000107</PresentationId>
+					<ActiveObjectClass>
+						<PackageName><![CDATA[colruytv2]]></PackageName>
+						<ClassName><![CDATA[Robot]]></ClassName>
+					</ActiveObjectClass>
+					<GenericParameterSubstitute>
+						<GenericParameterSubstituteReference>
+							<PackageName><![CDATA[colruytv2]]></PackageName>
+							<ClassName><![CDATA[Robot]]></ClassName>
+							<ItemName><![CDATA[1774461084595]]></ItemName>
+						</GenericParameterSubstituteReference>
+					</GenericParameterSubstitute>
+					<Parameters>
+						<Parameter>
+							<Name><![CDATA[goalNode]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[parDestinationNode]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[parStartNode]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[parDeliveryMode]]></Name>
+						</Parameter>
+					</Parameters>
+					<ReplicationFlag>false</ReplicationFlag>
+					<Replication Class="CodeValue">
+						<Code><![CDATA[100]]></Code>
+					</Replication>
+					<CollectionType>ARRAY_LIST_BASED</CollectionType>
+					<InEnvironment>true</InEnvironment>
+					<InitialLocationType>XYZ</InitialLocationType>
+					<ColumnCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ColumnCode>
+					<RowCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</RowCode>
+					<LocationNameCode Class="CodeValue">
+						<Code><![CDATA[""]]></Code>
+					</LocationNameCode>
+					<InitializationType>SPECIFIED_NUMBER</InitializationType>
+					<InitializationDatabaseTableQuery>
+						<Id>1780100000017</Id>
+						<TableReference>
+						</TableReference>
+					</InitializationDatabaseTableQuery>
+					<InitializationDatabaseType>ONE_AGENT_PER_DATABASE_RECORD</InitializationDatabaseType>
+					<QuantityColumn>
+					</QuantityColumn>
+				</EmbeddedObject>
+				<EmbeddedObject>
+					<Id>1780100000008</Id>
+					<Name><![CDATA[robot10]]></Name>
+					<X>-220</X><Y>1300</Y>
+					<Label><X>-20</X><Y>-30</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<PresentationId>1780100000108</PresentationId>
+					<ActiveObjectClass>
+						<PackageName><![CDATA[colruytv2]]></PackageName>
+						<ClassName><![CDATA[Robot]]></ClassName>
+					</ActiveObjectClass>
+					<GenericParameterSubstitute>
+						<GenericParameterSubstituteReference>
+							<PackageName><![CDATA[colruytv2]]></PackageName>
+							<ClassName><![CDATA[Robot]]></ClassName>
+							<ItemName><![CDATA[1774461084595]]></ItemName>
+						</GenericParameterSubstituteReference>
+					</GenericParameterSubstitute>
+					<Parameters>
+						<Parameter>
+							<Name><![CDATA[goalNode]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[parDestinationNode]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[parStartNode]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[parDeliveryMode]]></Name>
+						</Parameter>
+					</Parameters>
+					<ReplicationFlag>false</ReplicationFlag>
+					<Replication Class="CodeValue">
+						<Code><![CDATA[100]]></Code>
+					</Replication>
+					<CollectionType>ARRAY_LIST_BASED</CollectionType>
+					<InEnvironment>true</InEnvironment>
+					<InitialLocationType>XYZ</InitialLocationType>
+					<ColumnCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ColumnCode>
+					<RowCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</RowCode>
+					<LocationNameCode Class="CodeValue">
+						<Code><![CDATA[""]]></Code>
+					</LocationNameCode>
+					<InitializationType>SPECIFIED_NUMBER</InitializationType>
+					<InitializationDatabaseTableQuery>
+						<Id>1780100000018</Id>
+						<TableReference>
+						</TableReference>
+					</InitializationDatabaseTableQuery>
+					<InitializationDatabaseType>ONE_AGENT_PER_DATABASE_RECORD</InitializationDatabaseType>
+					<QuantityColumn>
+					</QuantityColumn>
+				</EmbeddedObject>
+				<EmbeddedObject>
 					<Id>1777286434112</Id>
 					<Name><![CDATA[Store]]></Name>
 					<X>-180</X><Y>760</Y>
@@ -2589,8 +3093,8 @@ dashboardText += "╚═══════════════════�
 					<Alignment>LEFT</Alignment>
 				</Text>
 				<Text>
-					<Id>1780700000006</Id>
-					<Name><![CDATA[legendReturn]]></Name>
+					<Id>1780700000008</Id>
+					<Name><![CDATA[legendRoutes5]]></Name>
 					<X>10</X><Y>64</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -2600,8 +3104,134 @@ dashboardText += "╚═══════════════════�
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>100</Z>
 					<Rotation>0.0</Rotation>
+					<Color>-29696</Color>
+					<Text><![CDATA[● ORANGE  Robot 4 delivery route]]></Text>
+					<Font>
+						<Name>Monospaced</Name>
+						<Size>9</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1780700000009</Id>
+					<Name><![CDATA[legendRoutes6]]></Name>
+					<X>10</X><Y>75</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>100</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-256</Color>
+					<Text><![CDATA[● YELLOW  Robot 5 delivery route]]></Text>
+					<Font>
+						<Name>Monospaced</Name>
+						<Size>9</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1780700000010</Id>
+					<Name><![CDATA[legendRoutes7]]></Name>
+					<X>10</X><Y>86</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>100</Z>
+					<Rotation>0.0</Rotation>
 					<Color>-65536</Color>
-					<Text><![CDATA[--- Red/Orange/Dark = return routes]]></Text>
+					<Text><![CDATA[● RED     Robot 6 delivery route]]></Text>
+					<Font>
+						<Name>Monospaced</Name>
+						<Size>9</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1780700000011</Id>
+					<Name><![CDATA[legendRoutes8]]></Name>
+					<X>10</X><Y>97</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>100</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-38476</Color>
+					<Text><![CDATA[● PINK    Robot 7 delivery route]]></Text>
+					<Font>
+						<Name>Monospaced</Name>
+						<Size>9</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1780700000012</Id>
+					<Name><![CDATA[legendRoutes9]]></Name>
+					<X>10</X><Y>108</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>100</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-7077677</Color>
+					<Text><![CDATA[● PURPLE  Robot 8 delivery route]]></Text>
+					<Font>
+						<Name>Monospaced</Name>
+						<Size>9</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1780700000013</Id>
+					<Name><![CDATA[legendRoutes10]]></Name>
+					<X>10</X><Y>119</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>100</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-7876870</Color>
+					<Text><![CDATA[● SKY BLU Robot 9 delivery route]]></Text>
+					<Font>
+						<Name>Monospaced</Name>
+						<Size>9</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1780700000006</Id>
+					<Name><![CDATA[legendReturn]]></Name>
+					<X>10</X><Y>130</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>100</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-8355712</Color>
+					<Text><![CDATA[--- Return = darker shade per robot]]></Text>
 					<Font>
 						<Name>Monospaced</Name>
 						<Size>9</Size>
@@ -2612,7 +3242,7 @@ dashboardText += "╚═══════════════════�
 				<Text>
 					<Id>1780700000007</Id>
 					<Name><![CDATA[legendModes]]></Name>
-					<X>10</X><Y>78</Y>
+					<X>10</X><Y>144</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2623,9 +3253,11 @@ dashboardText += "╚═══════════════════�
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
 					<Text><![CDATA[── ROUTING MODE ───────────────────────────
- 0=SSP  shortest path (ignores crowd)
- 1=EV   crowd-weighted Dijkstra
- 2=EA   EV + agent-aware task selection
+ 0=SSP     shortest path (ignores crowd)
+ 1=EV      crowd-weighted Dijkstra
+ 2=EA      EV + agent-aware task selection
+ 3=COMPARE all 3 modes, same order list
+ 4=AUTO    sweep 1–10 robots × 3 modes
 ── CURRENT RUN ────────────────────────────]]></Text>
 					<Font>
 						<Name>Monospaced</Name>
@@ -2702,7 +3334,7 @@ dashboardText += "╚═══════════════════�
 				<EmbeddedObjectPresentation>
 					<Id>1774461136320</Id>
 					<Name><![CDATA[robot_presentation]]></Name>
-					<X>740</X><Y>60</Y>
+					<X>870</X><Y>60</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3738,7 +4370,7 @@ dashboardText += "╚═══════════════════�
 				<EmbeddedObjectPresentation>
 					<Id>1776026943115</Id>
 					<Name><![CDATA[robot2_presentation]]></Name>
-					<X>740</X><Y>20</Y>
+					<X>870</X><Y>20</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4707,7 +5339,7 @@ dashboardText += "╚═══════════════════�
 				<EmbeddedObjectPresentation>
 					<Id>1777284004155</Id>
 					<Name><![CDATA[robot3_presentation]]></Name>
-					<X>780</X><Y>20</Y>
+					<X>910</X><Y>20</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4725,7 +5357,115 @@ dashboardText += "╚═══════════════════�
 				<EmbeddedObjectPresentation>
 					<Id>1777284024490</Id>
 					<Name><![CDATA[robot4_presentation]]></Name>
-					<X>780</X><Y>60</Y>
+					<X>910</X><Y>60</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<ScaleType>AUTOMATICALLY_CALCULATED</ScaleType>
+					<GISScaleForRealEmbeddedObjectPresentationSize>1000</GISScaleForRealEmbeddedObjectPresentationSize>
+					<GISScaleForFixedEmbeddedObjectPresentationSize>1000000000</GISScaleForFixedEmbeddedObjectPresentationSize>
+					<Latitude>0.0</Latitude>
+					<Longitude>0.0</Longitude>
+				</EmbeddedObjectPresentation>
+				<EmbeddedObjectPresentation>
+					<Id>1780100000103</Id>
+					<Name><![CDATA[robot5_presentation]]></Name>
+					<X>910</X><Y>100</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<ScaleType>AUTOMATICALLY_CALCULATED</ScaleType>
+					<GISScaleForRealEmbeddedObjectPresentationSize>1000</GISScaleForRealEmbeddedObjectPresentationSize>
+					<GISScaleForFixedEmbeddedObjectPresentationSize>1000000000</GISScaleForFixedEmbeddedObjectPresentationSize>
+					<Latitude>0.0</Latitude>
+					<Longitude>0.0</Longitude>
+				</EmbeddedObjectPresentation>
+				<EmbeddedObjectPresentation>
+					<Id>1780100000104</Id>
+					<Name><![CDATA[robot6_presentation]]></Name>
+					<X>910</X><Y>140</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<ScaleType>AUTOMATICALLY_CALCULATED</ScaleType>
+					<GISScaleForRealEmbeddedObjectPresentationSize>1000</GISScaleForRealEmbeddedObjectPresentationSize>
+					<GISScaleForFixedEmbeddedObjectPresentationSize>1000000000</GISScaleForFixedEmbeddedObjectPresentationSize>
+					<Latitude>0.0</Latitude>
+					<Longitude>0.0</Longitude>
+				</EmbeddedObjectPresentation>
+				<EmbeddedObjectPresentation>
+					<Id>1780100000105</Id>
+					<Name><![CDATA[robot7_presentation]]></Name>
+					<X>910</X><Y>180</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<ScaleType>AUTOMATICALLY_CALCULATED</ScaleType>
+					<GISScaleForRealEmbeddedObjectPresentationSize>1000</GISScaleForRealEmbeddedObjectPresentationSize>
+					<GISScaleForFixedEmbeddedObjectPresentationSize>1000000000</GISScaleForFixedEmbeddedObjectPresentationSize>
+					<Latitude>0.0</Latitude>
+					<Longitude>0.0</Longitude>
+				</EmbeddedObjectPresentation>
+				<EmbeddedObjectPresentation>
+					<Id>1780100000106</Id>
+					<Name><![CDATA[robot8_presentation]]></Name>
+					<X>910</X><Y>220</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<ScaleType>AUTOMATICALLY_CALCULATED</ScaleType>
+					<GISScaleForRealEmbeddedObjectPresentationSize>1000</GISScaleForRealEmbeddedObjectPresentationSize>
+					<GISScaleForFixedEmbeddedObjectPresentationSize>1000000000</GISScaleForFixedEmbeddedObjectPresentationSize>
+					<Latitude>0.0</Latitude>
+					<Longitude>0.0</Longitude>
+				</EmbeddedObjectPresentation>
+				<EmbeddedObjectPresentation>
+					<Id>1780100000107</Id>
+					<Name><![CDATA[robot9_presentation]]></Name>
+					<X>910</X><Y>260</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<ScaleType>AUTOMATICALLY_CALCULATED</ScaleType>
+					<GISScaleForRealEmbeddedObjectPresentationSize>1000</GISScaleForRealEmbeddedObjectPresentationSize>
+					<GISScaleForFixedEmbeddedObjectPresentationSize>1000000000</GISScaleForFixedEmbeddedObjectPresentationSize>
+					<Latitude>0.0</Latitude>
+					<Longitude>0.0</Longitude>
+				</EmbeddedObjectPresentation>
+				<EmbeddedObjectPresentation>
+					<Id>1780100000108</Id>
+					<Name><![CDATA[robot10_presentation]]></Name>
+					<X>910</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4768,7 +5508,7 @@ dashboardText += "╚═══════════════════�
 				<EmbeddedObjectPresentation>
 					<Id>1777286434114</Id>
 					<Name><![CDATA[Store_presentation]]></Name>
-					<X>740</X><Y>40</Y>
+					<X>870</X><Y>40</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5150,6 +5890,21 @@ dashboardText += "╚═══════════════════�
 					</Properties>
 				</Variable>
 				<Variable Class="PlainVariable">
+					<Id>1780100000050</Id>
+					<Name><![CDATA[chainedTask]]></Name>
+					<X>40</X><Y>820</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[boolean]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[false]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
 					<Id>1777902010988</Id>
 					<Name><![CDATA[currentState]]></Name>
 					<X>60</X><Y>840</Y>
@@ -5328,10 +6083,15 @@ dashboardText += "╚═══════════════════�
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties Width="100" Height="50">
-						<EntryAction><![CDATA[parStartNode = null;
-parDestinationNode = null;
+						<EntryAction><![CDATA[boolean wasChained = chainedTask;
+if (!chainedTask) {
+    parStartNode = null;
+    parDestinationNode = null;
+}
+chainedTask = false;
 traceln("Robot" + robotId + " stInit ENTRY FIRED | simTime=" + time()
-    + " | localOrderList.size=" + localOrderList.size());
+    + " | localOrderList.size=" + localOrderList.size()
+    + " | wasChained=" + wasChained);
 if (localOrderList.size() > 0) onChange();]]></EntryAction>
 						<FillColor>-10496</FillColor>
 					</Properties>
@@ -5385,44 +6145,15 @@ traceln("Robot" + robotId + " stReturn entered (hop).");]]></EntryAction>
 					<Properties Width="100" Height="50">
 						<EntryAction><![CDATA[clearRoute();
 
-double toPickupTime  = timeArrivedAtPickup - timeOrderStart;
-double delivLegTime  = timeReachedDest - timeArrivedAtPickup;
-double returnTime    = time() - timeReachedDest;
-double totalTime     = time() - timeOrderStart;
-
-traceln("Robot" + robotId + " COMPLETE! | toPickup=" + String.format("%.1f", toPickupTime)
-    + "s | delivLeg=" + String.format("%.1f", delivLegTime)
-    + "s | return=" + String.format("%.1f", returnTime)
-    + "s | total=" + String.format("%.1f", totalTime) + "s");
-
-main.writeCsvRow(
-    robotId, myOrderId, main.effectiveRoutingMode,
-    "node" + (currentPickupIdx+1), "node" + (currentDestIdx+1),
-    timeOrderStart, toPickupTime, delivLegTime, returnTime, totalTime,
-    expectedOutTime, expectedInTime,
-    routeHopsToStore, routeHopsToDestination, routeHopsReturn);
-
-ordersCompleted++;
-main.totalDeliveries++;  // increment on Main instead
-myPackage = null;
-parDestinationNode = null;
-parStartNode = null;
-// stComplete entry action — release claim
-String taskKey = currentPickupIdx + "_" + currentDestIdx;
-main.claimedOrders.remove(taskKey);
-
-// Rebuild from current position
+// Rebuild from current position (chained: this is the next pickup; normal: a store/idle point)
 buildLocalOrderList();
-traceln("Robot" + robotId + " rebuilt local list | remaining=" + localOrderList.size());
+traceln("Robot" + robotId + " stComplete: remaining=" + localOrderList.size() + " chainedTask=" + chainedTask);
 
-if (localOrderList.isEmpty()) {
-	currentState = "COMPLETE";
+if (localOrderList.isEmpty() && !chainedTask) {
+    currentState = "COMPLETE";
     traceln("Robot" + robotId + " no more orders. Becoming idle.");
-	main.totalDeliveries++;
-	traceln("Robot" + robotId + " COMPLETE! Total deliveries so far: " + main.totalDeliveries);
     if (time() > 0 && ordersCompleted > 0) main.checkAllDone();
 } else {
-    // Trigger stInit → stGoToPickup condition re-evaluation
     onChange();
 }]]></EntryAction>
 						<FillColor>-10496</FillColor>
@@ -5459,10 +6190,11 @@ main.writeEventLog(phaseIdx, main.effectiveRoutingMode, time(), robotId, "DEPART
 if (plannedRoute != null && !plannedRoute.isEmpty()) {
 	currentState= "GOING TO STORE";
     java.awt.Color[] rColors = {
-        java.awt.Color.BLUE,
-        java.awt.Color.MAGENTA,
-        new java.awt.Color(0, 180, 0),
-        java.awt.Color.CYAN
+        java.awt.Color.BLUE, java.awt.Color.MAGENTA,
+        new java.awt.Color(0,180,0), java.awt.Color.CYAN,
+        new java.awt.Color(255,140,0), java.awt.Color.YELLOW,
+        java.awt.Color.RED, new java.awt.Color(255,105,180),
+        new java.awt.Color(148,0,211), new java.awt.Color(135,206,250)
     };
     java.awt.Color routeColor = (robotId < rColors.length) ? rColors[robotId] : java.awt.Color.WHITE;
     drawRoute(plannedRoute, myPos, routeColor);
@@ -5555,25 +6287,59 @@ main.writeEventLog(phaseIdxX, main.effectiveRoutingMode, time(), robotId, "ARRIV
     "node" + (currentPickupIdx+1), "node" + (currentDestIdx+1), myOrderId,
     "delivLegTime=" + String.format("%.1f", timeReachedDest - timeArrivedAtPickup) + "s");
 traceln("Robot" + robotId + " delivered to node" + (currentDestIdx+1) + " | simTime=" + time());
+
+// Log completed task immediately — no depot return
+double toPickupSec_ = timeArrivedAtPickup - timeOrderStart;
+double delivLegSec_ = timeReachedDest - timeArrivedAtPickup;
+int donePickupIdx = currentPickupIdx;
+int doneDestIdx   = currentDestIdx;
+int doneOrderId   = myOrderId;
+main.writeCsvRow(robotId, doneOrderId, main.effectiveRoutingMode,
+    "node" + (donePickupIdx+1), "node" + (doneDestIdx+1),
+    timeOrderStart, toPickupSec_, delivLegSec_, 0.0, toPickupSec_ + delivLegSec_,
+    expectedOutTime, expectedInTime,
+    routeHopsToStore, routeHopsToDestination, 0);
+ordersCompleted++;
+main.totalDeliveries++;
+myPackage = null;
+main.claimedOrders.remove(donePickupIdx + "_" + doneDestIdx);
+
+// Select next task from current delivery position (direct chaining — no depot return)
+parStartNode = null;
+parDestinationNode = null;
+buildLocalOrderList();
+selectNextTask();
+
+main.writeEventLog(phaseIdxX, main.effectiveRoutingMode, time(), robotId, "DEPART_TO_NEXT_PICKUP",
+    "node" + (donePickupIdx+1), "node" + (doneDestIdx+1), doneOrderId,
+    parStartNode != null ? "nextPickup=node" + (currentPickupIdx+1) : "NO_MORE_TASKS");
+
 NodeLoc myPosX = findClosestNode(getX(), getY());
-plannedRoute = calculatePath(myPosX, parStartNode, parDeliveryMode);
-routeHopsReturn = (plannedRoute != null) ? plannedRoute.size() : 0;
-main.writeEventLog(phaseIdxX, main.effectiveRoutingMode, time(), robotId, "DEPART_RETURN",
-    "node" + (currentPickupIdx+1), "node" + (currentDestIdx+1), myOrderId,
-    "hops=" + routeHopsReturn);
-java.awt.Color[] retColors = {
-    java.awt.Color.RED, java.awt.Color.ORANGE,
-    new java.awt.Color(0,100,0), new java.awt.Color(0,100,100)
-};
-java.awt.Color rc = (robotId < retColors.length) ? retColors[robotId] : java.awt.Color.GRAY;
-drawRoute(plannedRoute, myPosX, rc);
-if (plannedRoute != null && !plannedRoute.isEmpty()) {
-    currentState = "GOING TO STORE";
-    NodeLoc nextNode = plannedRoute.remove(0);
-    goalNode = nextNode;
-    setSpeed(10.0 / (1.0 + goalNode.crowdedness * 0.3));
-    moveTo(nextNode.x, nextNode.y);
+if (parStartNode != null) {
+    chainedTask = true;
+    plannedRoute = calculatePath(myPosX, parStartNode, parDeliveryMode);
+    routeHopsReturn = (plannedRoute != null) ? plannedRoute.size() : 0;
+    java.awt.Color[] retColors = {
+        new java.awt.Color(0,0,139), new java.awt.Color(139,0,139),
+        new java.awt.Color(0,100,0), new java.awt.Color(0,100,100),
+        new java.awt.Color(180,80,0), new java.awt.Color(180,150,0),
+        new java.awt.Color(139,0,0), new java.awt.Color(180,50,100),
+        new java.awt.Color(90,0,160), new java.awt.Color(70,130,180)
+    };
+    java.awt.Color rc = (robotId < retColors.length) ? retColors[robotId] : java.awt.Color.GRAY;
+    drawRoute(plannedRoute, myPosX, rc);
+    if (plannedRoute != null && !plannedRoute.isEmpty()) {
+        currentState = "GOING TO NEXT PICKUP";
+        NodeLoc nextNode = plannedRoute.remove(0);
+        goalNode = nextNode;
+        setSpeed(10.0 / (1.0 + goalNode.crowdedness * 0.3));
+        moveTo(nextNode.x, nextNode.y);
+    } else {
+        returnComplete = true;  // already at next pickup
+    }
 } else {
+    chainedTask = false;
+    currentState = "IDLE";
     returnComplete = true;
 }
 deliveryComplete = false;]]></Action>
@@ -5748,7 +6514,10 @@ main.writeEventLog(phaseIdxA, main.effectiveRoutingMode, time(), robotId, "ARRIV
 
 java.awt.Color[] rColors = {
     java.awt.Color.BLUE, java.awt.Color.MAGENTA,
-    new java.awt.Color(0,180,0), java.awt.Color.CYAN
+    new java.awt.Color(0,180,0), java.awt.Color.CYAN,
+    new java.awt.Color(255,140,0), java.awt.Color.YELLOW,
+    java.awt.Color.RED, new java.awt.Color(255,105,180),
+    new java.awt.Color(148,0,211), new java.awt.Color(135,206,250)
 };
 drawRoute(plannedRoute, pickup,
     (robotId < rColors.length) ? rColors[robotId] : java.awt.Color.WHITE);
@@ -5959,7 +6728,7 @@ while (!unvisited.isEmpty()) {
         if (!unvisited.contains(v)) continue;
         
         double cost = Math.sqrt(Math.pow(v.x - u.x, 2) + Math.pow(v.y - u.y, 2));
-        if (mode == 1) cost *= (1.0 + (v.crowdedness * 0.5));
+        if (mode >= 1) cost *= (1.0 + (v.crowdedness * 0.5));
         
         double alt = dist.get(u) + cost;
         if (alt < dist.get(v)) {
@@ -7196,7 +7965,7 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
-					<Text><![CDATA[routingMode   [slider  0 – 3]
+					<Text><![CDATA[routingMode   [slider  0 – 4]
 
   0 = SSP  (Shortest Path)
            Greedy nearest-pickup + standard Dijkstra.
@@ -7217,7 +7986,14 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
            using IDENTICAL orders, start positions, and all other
            parameters.  Results go into a single set of CSV files
            for direct comparison.  Dashboard shows live KPIs for
-           each completed phase.]]></Text>
+           each completed phase.
+
+  4 = AUTO  (Full Robot-Count Sweep)
+           Automatically sweeps numRobots from 1 to 10.
+           For each robot count, runs SSP → EV → EA on the SAME
+           order list.  All 30 phase results (10 counts × 3 modes)
+           are appended to dashboard_performance.csv for charting.
+           numRobots slider is ignored — the sweep controls it.]]></Text>
 					<Font>
 						<Name>Monospaced</Name>
 						<Size>12</Size>
@@ -7228,7 +8004,7 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 				<Text>
 					<Id>1780600000003</Id>
 					<Name><![CDATA[numRobotsGuide]]></Name>
-					<X>200</X><Y>410</Y>
+					<X>200</X><Y>520</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7238,12 +8014,17 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
-					<Text><![CDATA[numRobots     [slider  1 – 4]
+					<Text><![CDATA[numRobots     [slider  1 – 10]  (ignored in AUTO mode)
 
   Number of active delivery robots dispatched simultaneously.
   Each robot works on an independent task from the shared queue.
-  Colors on map:  Robot 0 = Blue    Robot 1 = Magenta
-                  Robot 2 = Green   Robot 3 = Cyan]]></Text>
+
+  Route colours (outbound):      Return colours (darker):
+    R0 Blue      R5 Yellow         R0 Dark Blue   R5 Gold
+    R1 Magenta   R6 Red            R1 Dark Magenta R6 Dark Red
+    R2 Green     R7 Hot Pink       R2 Dark Green  R7 Dark Pink
+    R3 Cyan      R8 Purple         R3 Dark Teal   R8 Dark Purple
+    R4 Orange    R9 Sky Blue       R4 Dark Orange R9 Steel Blue]]></Text>
 					<Font>
 						<Name>Monospaced</Name>
 						<Size>12</Size>
@@ -7254,7 +8035,7 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 				<Text>
 					<Id>1780600000004</Id>
 					<Name><![CDATA[numOrdersGuide]]></Name>
-					<X>200</X><Y>510</Y>
+					<X>200</X><Y>680</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7264,7 +8045,7 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
-					<Text><![CDATA[numOrders     [slider  1 – 50]
+					<Text><![CDATA[numOrders     [slider  1 – 100]
 
   Total deliveries pre-generated before the run starts (offline planning).
   Pickup and delivery nodes are random; pickup ≠ depot, dist(pickup,dest) ≥ 50 m.
@@ -7279,7 +8060,7 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 				<Text>
 					<Id>1780600000005</Id>
 					<Name><![CDATA[outputGuide]]></Name>
-					<X>190</X><Y>830</Y>
+					<X>190</X><Y>950</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7320,7 +8101,7 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 				<Text>
 					<Id>1780600000006</Id>
 					<Name><![CDATA[hypothesisGuide]]></Name>
-					<X>210</X><Y>1140</Y>
+					<X>210</X><Y>1240</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7345,7 +8126,7 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 				<Text>
 					<Id>1777214246296</Id>
 					<Name><![CDATA[crowdednessLevelGuide]]></Name>
-					<X>200</X><Y>615</Y>
+					<X>200</X><Y>770</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7378,7 +8159,7 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1777214798835</Id>
 					<Name><![CDATA[crowdednessLevelSlider]]></Name>
-					<X>50</X><Y>610</Y>
+					<X>50</X><Y>760</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7402,7 +8183,7 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1777214958465</Id>
 					<Name><![CDATA[numOrdersSlider]]></Name>
-					<X>50</X><Y>505</Y>
+					<X>50</X><Y>680</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7416,7 +8197,7 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 						<DefaultValueCode><![CDATA[1]]></DefaultValueCode>
 						<Orientation>HORIZONTAL</Orientation>
 						<MinValue><![CDATA[1]]></MinValue>
-						<MaxValue><![CDATA[50]]></MaxValue>
+						<MaxValue><![CDATA[100]]></MaxValue>
 						<Step><![CDATA[1]]></Step>
 						<LinkTo>true</LinkTo>
 						<Link>numOrders</Link>
@@ -7426,7 +8207,7 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1777214996055</Id>
 					<Name><![CDATA[numRobotsSlider]]></Name>
-					<X>50</X><Y>410</Y>
+					<X>50</X><Y>520</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7440,7 +8221,7 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 						<DefaultValueCode><![CDATA[1]]></DefaultValueCode>
 						<Orientation>HORIZONTAL</Orientation>
 						<MinValue><![CDATA[1]]></MinValue>
-						<MaxValue><![CDATA[4]]></MaxValue>
+						<MaxValue><![CDATA[10]]></MaxValue>
 						<Step><![CDATA[1]]></Step>
 						<LinkTo>true</LinkTo>
 						<Link>numRobots</Link>
@@ -7464,7 +8245,7 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 						<DefaultValueCode><![CDATA[0]]></DefaultValueCode>
 						<Orientation>HORIZONTAL</Orientation>
 						<MinValue><![CDATA[0]]></MinValue>
-						<MaxValue><![CDATA[3]]></MaxValue>
+						<MaxValue><![CDATA[4]]></MaxValue>
 						<Step><![CDATA[1]]></Step>
 						<LinkTo>true</LinkTo>
 						<Link>routingMode</Link>
