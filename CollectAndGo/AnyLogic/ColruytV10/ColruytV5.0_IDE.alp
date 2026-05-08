@@ -1700,38 +1700,59 @@ traceln("COMPARE: Restored " + orderList.size() + " orders");
 writeEventLog(comparisonPhase, effectiveRoutingMode, time(), -1, "PHASE_START",
     "-", "-", -1, "Phase " + comparisonPhase + " mode=" + getModeName(effectiveRoutingMode));
 
-// Reset robots to their fixed start positions
+// Reset ALL robots (active + inactive) — stop movement and clear all state fields first
 int[] startNodes = {0, 7, 14, 21, 28, 35, 42, 49, 56, 63};
+for (int i = 0; i < 10; i++) {
+    Robot rob = getRobotByIndex(i);
+    if (rob == null) continue;
+    // Always stop movement regardless of active/inactive status
+    rob.stop();
+    if (rob.plannedRoute != null) rob.plannedRoute.clear();
+    if (rob.routeLines != null) rob.routeLines.clear();
+    rob.clearRoute();
+    rob.goalNode = null;
+    rob.parStartNode = null;
+    rob.parDestinationNode = null;
+    rob.chainedTask = false;
+    rob.deliveryComplete = false;
+    rob.returnComplete = false;
+}
+
+// Now fully initialise only the active robots
 for (int i = 0; i < numRobots; i++) {
     Robot rob = getRobotByIndex(i);
     if (rob == null) continue;
     int nodeIdx = startNodes[Math.min(i, startNodes.length - 1)];
     NodeLoc startLoc = globalNodes.get(nodeIdx);
-    rob.stop();
     rob.setXY(startLoc.x, startLoc.y);
-    rob.goalNode           = null;
-    rob.parStartNode       = null;
-    rob.parDestinationNode = null;
-    rob.currentPickupIdx   = -1;
-    rob.currentDestIdx     = -1;
-    rob.ordersCompleted    = 0;
-    rob.deliveryComplete   = false;
-    rob.returnComplete     = false;
-    rob.chainedTask        = false;
-    rob.currentState       = "IDLE";
-    if (rob.plannedRoute != null) rob.plannedRoute.clear();
-    rob.clearRoute();
+    rob.robotId = i;
+    rob.currentPickupIdx = -1;
+    rob.currentDestIdx = -1;
+    rob.ordersCompleted = 0;
+    rob.currentState = "IDLE";
+    rob.timeOrderStart = 0.0;
+    rob.timeReachedDest = 0.0;
+    rob.expectedOutTime = 0.0;
+    rob.expectedInTime = 0.0;
+    rob.routeHopsToStore = 0;
+    rob.routeHopsToDestination = 0;
+    rob.routeHopsReturn = 0;
+    rob.localOrderList.clear();
     rob.buildLocalOrderList();
-    traceln("COMPARE Robot" + i + " reset at node" + (nodeIdx+1)
-        + " | list=" + rob.localOrderList.size());
+    traceln("COMPARE Robot" + i + " reset at node" + (nodeIdx+1) + " | list=" + rob.localOrderList.size());
+    // Signal the statechart to escape any mid-delivery state back to stInit.
+    // trDeliverPhaseReset and trReturnPhaseReset transitions fire on this flag.
+    // stGoToPickup uses existing trGoToPickupRestart (parStartNode==null) to escape.
+    rob.phaseReset = true;
+    rob.onChange();
 }
 
-// Pass 1: move robots out of active states into stInit
+// Safety-net: after statechart restart settles, call onChange() twice in case
+// stInit entry fired before localOrderList was populated.
 for (int i = 0; i < numRobots; i++) {
     Robot rob = getRobotByIndex(i);
     if (rob != null) rob.onChange();
 }
-// Pass 2: fire trPickupDeliver for robots now in stInit
 for (int i = 0; i < numRobots; i++) {
     Robot rob = getRobotByIndex(i);
     if (rob != null) rob.onChange();
@@ -1767,37 +1788,57 @@ traceln("=== AUTO: robot count now " + numRobots + " | restored " + orderList.si
 writeEventLog(0, 0, time(), -1, "PHASE_START", "-", "-", -1,
     "AUTO robots=" + numRobots + " mode=SSP");
 
+// Stop and clear ALL robots first (regardless of active/inactive status)
 int[] startNodes = {0, 7, 14, 21, 28, 35, 42, 49, 56, 63};
+for (int i = 0; i < 10; i++) {
+    Robot rob = getRobotByIndex(i);
+    if (rob == null) continue;
+    rob.stop();
+    if (rob.plannedRoute != null) rob.plannedRoute.clear();
+    if (rob.routeLines != null) rob.routeLines.clear();
+    rob.clearRoute();
+    rob.goalNode = null;
+    rob.parStartNode = null;
+    rob.parDestinationNode = null;
+    rob.chainedTask = false;
+    rob.deliveryComplete = false;
+    rob.returnComplete = false;
+}
+
+// Fully initialise only the active robots for the new phase
 for (int i = 0; i < numRobots; i++) {
     Robot rob = getRobotByIndex(i);
     if (rob == null) continue;
     int nodeIdx = startNodes[Math.min(i, startNodes.length - 1)];
     NodeLoc startLoc = globalNodes.get(nodeIdx);
-    rob.stop();
     rob.setXY(startLoc.x, startLoc.y);
-    rob.goalNode = null;
     rob.robotId = i;
-    rob.parStartNode = null;
-    rob.parDestinationNode = null;
     rob.currentPickupIdx = -1;
     rob.currentDestIdx = -1;
     rob.ordersCompleted = 0;
-    rob.deliveryComplete = false;
-    rob.returnComplete = false;
-    rob.chainedTask = false;
     rob.currentState = "IDLE";
-    if (rob.plannedRoute != null) rob.plannedRoute.clear();
-    rob.clearRoute();
+    rob.timeOrderStart = 0.0;
+    rob.timeReachedDest = 0.0;
+    rob.expectedOutTime = 0.0;
+    rob.expectedInTime = 0.0;
+    rob.routeHopsToStore = 0;
+    rob.routeHopsToDestination = 0;
+    rob.routeHopsReturn = 0;
+    rob.localOrderList.clear();
     rob.buildLocalOrderList();
-    traceln("AUTO Robot" + i + " reset at node" + (nodeIdx+1)
-        + " | list=" + rob.localOrderList.size());
+    traceln("AUTO Robot" + i + " reset at node" + (nodeIdx+1) + " | list=" + rob.localOrderList.size());
+    // Signal the statechart to escape any mid-delivery state back to stInit.
+    rob.phaseReset = true;
+    rob.onChange();
 }
-// Pass 1: move robots out of active states into stInit
+
+
+// Safety-net: after statechart restart settles, call onChange() twice in case
+// stInit entry fired before localOrderList was populated.
 for (int i = 0; i < numRobots; i++) {
     Robot rob = getRobotByIndex(i);
     if (rob != null) rob.onChange();
 }
-// Pass 2: fire trPickupDeliver for robots now in stInit
 for (int i = 0; i < numRobots; i++) {
     Robot rob = getRobotByIndex(i);
     if (rob != null) rob.onChange();
@@ -5832,6 +5873,21 @@ dashboardText += "╚═══════════════════�
 						</InitialValue>
 					</Properties>
 				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>9990000000001</Id>
+					<Name><![CDATA[phaseReset]]></Name>
+					<X>50</X><Y>320</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[boolean]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[false]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
 				<Variable Class="Parameter">
 					<Id>1774461104260</Id>
 					<Name><![CDATA[goalNode]]></Name>
@@ -5936,16 +5992,32 @@ dashboardText += "╚═══════════════════�
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties Width="100" Height="50">
-						<EntryAction><![CDATA[boolean wasChained = chainedTask;
+						<EntryAction><![CDATA[// Clear phase-reset flag so normal flow resumes
+phaseReset = false;
+boolean wasChained = chainedTask;
 if (!chainedTask) {
     parStartNode = null;
     parDestinationNode = null;
 }
 chainedTask = false;
-traceln("Robot" + robotId + " stInit ENTRY FIRED | simTime=" + time()
-    + " | localOrderList.size=" + localOrderList.size()
-    + " | wasChained=" + wasChained);
-if (localOrderList.size() > 0) onChange();]]></EntryAction>
+
+// Only trigger pickup transition if there is at least one UNCLAIMED task.
+// Checking localOrderList.size()>0 alone causes an infinite loop when all
+// tasks are claimed by other robots: stInit→stGoToPickup(null)→stInit→...
+// Scan for any task not yet in main.claimedOrders before calling onChange().
+boolean hasUnclaimedTask = false;
+for (int _i = 0; _i < localOrderList.size(); _i++) {
+    int[] _t = localOrderList.get(_i);
+    String _key = _t[0] + "_" + _t[1];
+    if (!main.claimedOrders.contains(_key)) {
+        hasUnclaimedTask = true;
+        break;
+    }
+}
+if (hasUnclaimedTask || parStartNode != null) {
+    traceln("Robot" + robotId + " stInit: triggering pickup (hasUnclaimed=" + hasUnclaimedTask + ", hasAssigned=" + (parStartNode != null) + ")");
+    onChange();
+}]]></EntryAction>
 						<FillColor>-10496</FillColor>
 					</Properties>
 				</StatechartElement>
@@ -6021,7 +6093,12 @@ if (localOrderList.isEmpty() && !chainedTask) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties Width="120" Height="50">
-						<EntryAction><![CDATA[// Guard: if no task was claimed (parStartNode null), skip all work.
+						<EntryAction><![CDATA[// Always clear phaseReset here — this is the gateway from stInit to delivery.
+// Robots already in stInit bypass stInit's entry (which normally clears phaseReset),
+// so we clear it here to prevent trDeliverPhaseReset from firing during normal delivery.
+phaseReset = false;
+
+// Guard: if no task was claimed (parStartNode null), skip all work.
 // trGoToPickupRestart (condition: parStartNode==null) will fire via onChange() and send robot back to stInit.
 if (parStartNode == null) {
     traceln("Robot" + robotId + " stGoToPickup ENTRY: no task (parStartNode null) — recovery pending");
@@ -6121,7 +6198,7 @@ if (parDestinationNode != null && parStartNode != null) {
 							<Code><![CDATA[0.1]]></Code>
 							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
 						</Timeout>
-						<Condition><![CDATA[localOrderList.size() > 0]]></Condition>
+						<Condition><![CDATA[localOrderList.size() > 0 || parStartNode != null]]></Condition>
 						<Rate Class="CodeUnitValue">
 							<Code><![CDATA[1]]></Code>
 							<Unit Class="RateUnits"><![CDATA[PER_SECOND]]></Unit>
@@ -6458,10 +6535,10 @@ traceln("Robot" + robotId + " delivery route calculated | size=" + plannedRoute.
 					<IconOffset>20.0</IconOffset>
 					<Properties Source="1777592317820" Target="1779640062186" Trigger="condition">
 						<Timeout Class="CodeUnitValue">
-							<Code><![CDATA[localOrderList.size() > 0]]></Code>
+							<Code><![CDATA[localOrderList.size() > 0 || chainedTask]]></Code>
 							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
 						</Timeout>
-						<Condition><![CDATA[localOrderList.size() > 0]]></Condition>
+						<Condition><![CDATA[localOrderList.size() > 0 || chainedTask]]></Condition>
 						<Rate Class="CodeUnitValue">
 							<Code><![CDATA[1]]></Code>
 							<Unit Class="RateUnits"><![CDATA[PER_SECOND]]></Unit>
@@ -6531,6 +6608,68 @@ traceln("Robot" + robotId + " delivery route calculated | size=" + plannedRoute.
 						</Rate>
 						<MessageType><![CDATA[Object]]></MessageType>
 						<DefaultTransition>true</DefaultTransition>
+						<FilterType><![CDATA[unconditionally]]></FilterType>
+						<EqualsExpression><![CDATA["text"]]></EqualsExpression>
+						<SatisfiesExpression><![CDATA[true]]></SatisfiesExpression>
+					</Properties>	
+				</StatechartElement>
+				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
+					<Id>9990000000002</Id>
+					<Name><![CDATA[trDeliverPhaseReset]]></Name>
+					<X>300</X><Y>350</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Points>
+						<Point><X>0</X><Y>0</Y></Point>
+						<Point><X>0</X><Y>30</Y></Point>
+					</Points>
+					<IconOffset>20.0</IconOffset>
+					<Properties Source="1776689338483" Target="1779640062186" Trigger="condition">
+						<Action><![CDATA[traceln("Robot" + robotId + " stDeliver→stInit (phaseReset)");]]></Action>
+						<Timeout Class="CodeUnitValue">
+							<Code><![CDATA[0]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+						</Timeout>
+						<Condition><![CDATA[phaseReset]]></Condition>
+						<Rate Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="RateUnits"><![CDATA[PER_SECOND]]></Unit>
+						</Rate>
+						<MessageType><![CDATA[Object]]></MessageType>
+						<DefaultTransition>false</DefaultTransition>
+						<FilterType><![CDATA[unconditionally]]></FilterType>
+						<EqualsExpression><![CDATA["text"]]></EqualsExpression>
+						<SatisfiesExpression><![CDATA[true]]></SatisfiesExpression>
+					</Properties>	
+				</StatechartElement>
+				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
+					<Id>9990000000003</Id>
+					<Name><![CDATA[trReturnPhaseReset]]></Name>
+					<X>460</X><Y>350</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Points>
+						<Point><X>0</X><Y>0</Y></Point>
+						<Point><X>0</X><Y>30</Y></Point>
+					</Points>
+					<IconOffset>20.0</IconOffset>
+					<Properties Source="1778249431667" Target="1779640062186" Trigger="condition">
+						<Action><![CDATA[traceln("Robot" + robotId + " stReturn→stInit (phaseReset)");]]></Action>
+						<Timeout Class="CodeUnitValue">
+							<Code><![CDATA[0]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+						</Timeout>
+						<Condition><![CDATA[phaseReset]]></Condition>
+						<Rate Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="RateUnits"><![CDATA[PER_SECOND]]></Unit>
+						</Rate>
+						<MessageType><![CDATA[Object]]></MessageType>
+						<DefaultTransition>false</DefaultTransition>
 						<FilterType><![CDATA[unconditionally]]></FilterType>
 						<EqualsExpression><![CDATA["text"]]></EqualsExpression>
 						<SatisfiesExpression><![CDATA[true]]></SatisfiesExpression>
@@ -6782,8 +6921,14 @@ return totalTime;]]></Body>
 
 localOrderList.clear();
 
-// Copy the global order registry
-java.util.List<int[]> all = new java.util.ArrayList<>(main.orderList);
+// Copy the global order registry, but skip any tasks that are already claimed
+java.util.List<int[]> all = new java.util.ArrayList<>();
+for (int[] task : main.orderList) {
+    String key = task[0] + "_" + task[1];
+    if (!main.claimedOrders.contains(key)) {
+        all.add(task);
+    }
+}
 
 // Sort by distance from this robot's current position to each pickup node
 all.sort((a, b) -> {
