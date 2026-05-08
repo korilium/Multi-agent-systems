@@ -5898,7 +5898,7 @@ dashboardText += "╚═══════════════════�
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[boolean]]></Type>
+						<Type><![CDATA[boolean]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[false]]></Code>
 						</InitialValue>

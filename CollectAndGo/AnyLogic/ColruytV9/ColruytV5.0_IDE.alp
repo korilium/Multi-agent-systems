@@ -115,7 +115,14 @@ globalNodes.get(12).crowdedness = 5;  // node13
 globalNodes.get(29).crowdedness = 2;  // node30
 globalNodes.get(38).crowdedness = 1;  // node39
 globalNodes.get(44).crowdedness = 1;  // node45
- 
+
+// Scale all node crowdedness values by the crowdednessLevel parameter so that
+// EV/EA routing actually responds to the slider (level 3 = unchanged baseline).
+double crowdednessScale = crowdednessLevel / 3.0;
+for (NodeLoc _n : globalNodes) {
+    _n.crowdedness *= crowdednessScale;
+}
+
 // ===== BUILD ADJACENCY GRAPH =====
 com.anylogic.engine.markup.Wall[] allWalls =
     {wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9, wall10, wall11, wall12};
@@ -306,18 +313,6 @@ closeCsv();]]></DestroyCode>
 			<ConnectionsId>1774376502078</ConnectionsId>
 			<Variables>
 				<Variable Class="PlainVariable">
-					<Id>1774463433091</Id>
-					<Name><![CDATA[nodes]]></Name>
-					<X>-210</X><Y>160</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[List<NodeLoc>]]></Type>        
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
 					<Id>1774786655687</Id>
 					<Name><![CDATA[globalNodes]]></Name>
 					<X>-210</X><Y>240</Y>
@@ -378,21 +373,6 @@ closeCsv();]]></DestroyCode>
 					</Properties>
 				</Variable>
 				<Variable Class="PlainVariable">
-					<Id>1778418321428</Id>
-					<Name><![CDATA[dispatchedRobots]]></Name>
-					<X>-210</X><Y>360</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>        
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[1]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
 					<Id>1776899652343</Id>
 					<Name><![CDATA[currentStart]]></Name>
 					<X>-210</X><Y>400</Y>
@@ -434,21 +414,6 @@ closeCsv();]]></DestroyCode>
 						<Type><![CDATA[NodeLoc]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[null]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1780200000004</Id>
-					<Name><![CDATA[taskQueue]]></Name>
-					<X>-210</X><Y>490</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[java.util.ArrayList<int[]>]]></Type>        
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[new java.util.ArrayList<>()]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -888,30 +853,6 @@ closeCsv();]]></DestroyCode>
 					</Properties>
 				</Variable>
 				<Variable Class="Parameter">
-					<Id>1779056862521</Id>
-					<Name><![CDATA[deliveryMode]]></Name>
-					<X>-160</X><Y>1000</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[int]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<SdArray>false</SdArray>
-						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[2]]></Code>
-						</DefaultValue>
-						<ParameterEditor>
-							<Id>1779509869206</Id>
-							<EditorContolType>TEXT_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
-				</Variable>
-				<Variable Class="Parameter">
 					<Id>1780200000001</Id>
 					<Name><![CDATA[routingMode]]></Name>
 					<X>-160</X><Y>860</Y>
@@ -1335,90 +1276,18 @@ return null;]]></Body>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
 					<ReturnType><![CDATA[void]]></ReturnType>
-					<Id>1780400000002</Id>
-					<Name><![CDATA[assignNextTask]]></Name>
+					<Id>0</Id>
+					<Name><![CDATA[assignNextTask_REMOVED]]></Name>
 					<X>1040</X><Y>740</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
+					<PresentationFlag>false</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
 					<Parameter>
 						<Name><![CDATA[r]]></Name>
 						<Type><![CDATA[Robot]]></Type>
 					</Parameter>
-					<Body><![CDATA[if (taskQueue.isEmpty()) {
-    traceln("Robot" + r.robotId + " finished all tasks. Becoming idle.");
-    r.parDestinationNode = null;
-    checkAllDone();
-    return;
-}
-
-int[] selectedTask = null;
-
-if (effectiveRoutingMode == 2) {
-    // EA: pick task with min expected completion time + conflict penalty
-    double bestScore = Double.MAX_VALUE;
-    NodeLoc robPos = r.findClosestNode(r.getX(), r.getY());
-    for (int[] task : taskQueue) {
-        NodeLoc pickup = globalNodes.get(task[0]);
-        NodeLoc dest   = globalNodes.get(task[1]);
-        double t = r.calculateExpectedTime(robPos, pickup, 1)
-                 + r.calculateExpectedTime(pickup, dest, 1)
-                 + r.calculateExpectedTime(dest, globalNodes.get(0), 1);
-        // Conflict penalty: if another active robot targets same destination area
-        double penalty = 0;
-        for (int i = 0; i < numRobots; i++) {
-            Robot other = getRobotByIndex(i);
-            if (other == null || other == r) continue;
-            if (other.parDestinationNode != null) {
-                double overlap = Math.sqrt(
-                    Math.pow(other.parDestinationNode.x - dest.x, 2) +
-                    Math.pow(other.parDestinationNode.y - dest.y, 2));
-                if (overlap < 40) penalty += 30.0;
-            }
-        }
-        if (t + penalty < bestScore) {
-            bestScore = t + penalty;
-            selectedTask = task;
-        }
-    }
-} else {
-    // SSP / EV: greedy nearest pickup
-    double nearestDist = Double.MAX_VALUE;
-    for (int[] task : taskQueue) {
-        NodeLoc pickup = globalNodes.get(task[0]);
-        double d = Math.sqrt(Math.pow(r.getX()-pickup.x,2)+Math.pow(r.getY()-pickup.y,2));
-        if (d < nearestDist) { nearestDist = d; selectedTask = task; }
-    }
-}
-
-if (selectedTask == null) selectedTask = taskQueue.get(0);
-taskQueue.remove(selectedTask);
-
-r.parStartNode       = globalNodes.get(selectedTask[0]);
-r.parDestinationNode = globalNodes.get(selectedTask[1]);
-r.currentPickupIdx   = selectedTask[0];
-r.currentDestIdx     = selectedTask[1];
-
-// Find and assign the matching package by pickup node index
-r.myPackage = null;
-for (int i = 0; i < Store.size(); i++) {
-    Package pkg = (Package) Store.get(i);
-    if (pkg.orderIndex == selectedTask[0]) {
-        r.myPackage = pkg;
-        break;
-    }
-}
-if (r.myPackage == null) {
-    traceln("WARNING: no package found for orderIndex=" + selectedTask[2] + " (pickupIdx=" + selectedTask[0] + ")");
-
-}
-
-
-robotOrders[r.robotId]++;
-traceln("=== Task -> Robot" + r.robotId + ": pickup=node" + (selectedTask[0]+1)
-    + " dest=node" + (selectedTask[1]+1) + " (queue left: " + taskQueue.size() + ") ===");
-r.onChange();]]></Body>
+					<Body><![CDATA[/* dead — tasks are dispatched via Robot.selectNextTask() */]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -1838,7 +1707,9 @@ for (int i = 0; i < numRobots; i++) {
     if (rob == null) continue;
     int nodeIdx = startNodes[Math.min(i, startNodes.length - 1)];
     NodeLoc startLoc = globalNodes.get(nodeIdx);
+    rob.stop();
     rob.setXY(startLoc.x, startLoc.y);
+    rob.goalNode           = null;
     rob.parStartNode       = null;
     rob.parDestinationNode = null;
     rob.currentPickupIdx   = -1;
@@ -1855,7 +1726,12 @@ for (int i = 0; i < numRobots; i++) {
         + " | list=" + rob.localOrderList.size());
 }
 
-// Trigger statecharts
+// Pass 1: move robots out of active states into stInit
+for (int i = 0; i < numRobots; i++) {
+    Robot rob = getRobotByIndex(i);
+    if (rob != null) rob.onChange();
+}
+// Pass 2: fire trPickupDeliver for robots now in stInit
 for (int i = 0; i < numRobots; i++) {
     Robot rob = getRobotByIndex(i);
     if (rob != null) rob.onChange();
@@ -1897,7 +1773,9 @@ for (int i = 0; i < numRobots; i++) {
     if (rob == null) continue;
     int nodeIdx = startNodes[Math.min(i, startNodes.length - 1)];
     NodeLoc startLoc = globalNodes.get(nodeIdx);
+    rob.stop();
     rob.setXY(startLoc.x, startLoc.y);
+    rob.goalNode = null;
     rob.robotId = i;
     rob.parStartNode = null;
     rob.parDestinationNode = null;
@@ -1914,6 +1792,12 @@ for (int i = 0; i < numRobots; i++) {
     traceln("AUTO Robot" + i + " reset at node" + (nodeIdx+1)
         + " | list=" + rob.localOrderList.size());
 }
+// Pass 1: move robots out of active states into stInit
+for (int i = 0; i < numRobots; i++) {
+    Robot rob = getRobotByIndex(i);
+    if (rob != null) rob.onChange();
+}
+// Pass 2: fire trPickupDeliver for robots now in stInit
 for (int i = 0; i < numRobots; i++) {
     Robot rob = getRobotByIndex(i);
     if (rob != null) rob.onChange();
@@ -5637,37 +5521,6 @@ dashboardText += "╚═══════════════════�
 			<ConnectionsId>1774461084591</ConnectionsId>
 			<Variables>
 				<Variable Class="PlainVariable">
-					<Id>1774468219391</Id>
-					<Name><![CDATA[nodes]]></Name>
-					<X>30</X><Y>150</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[List<NodeLoc>]]></Type>        
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[new ArrayList<>();
-]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1774552815673</Id>
-					<Name><![CDATA[varClosest4Nodes]]></Name>
-					<X>30</X><Y>220</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[List<NodeLoc>]]></Type>        
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[new ArrayList<>();]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
 					<Id>1775403550796</Id>
 					<Name><![CDATA[ordersCompleted]]></Name>
 					<X>140</X><Y>50</Y>
@@ -5898,7 +5751,7 @@ dashboardText += "╚═══════════════════�
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[boolean]]></Type>
+						<Type><![CDATA[boolean]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[false]]></Code>
 						</InitialValue>
@@ -6112,7 +5965,7 @@ if (plannedRoute != null && !plannedRoute.isEmpty()) {
 	currentState= "DELIVERING";
     NodeLoc nextNode = plannedRoute.remove(0);
     goalNode = nextNode;
-    setSpeed(10.0 / (1.0 + goalNode.crowdedness * 0.3));
+    setSpeed(10.0 / (1.0 + goalNode.crowdedness * 0.5));
     moveTo(nextNode.x, nextNode.y);
     traceln("Robot" + robotId + " moving to node" + (main.globalNodes.indexOf(nextNode)+1));
 }]]></EntryAction>
@@ -6152,7 +6005,7 @@ traceln("Robot" + robotId + " stComplete: remaining=" + localOrderList.size() + 
 if (localOrderList.isEmpty() && !chainedTask) {
     currentState = "COMPLETE";
     traceln("Robot" + robotId + " no more orders. Becoming idle.");
-    if (time() > 0 && ordersCompleted > 0) main.checkAllDone();
+    // checkAllDone() is called from pollEvent to avoid re-entrancy from within a statechart entry action
 } else {
     onChange();
 }]]></EntryAction>
@@ -6168,7 +6021,15 @@ if (localOrderList.isEmpty() && !chainedTask) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties Width="120" Height="50">
-						<EntryAction><![CDATA[NodeLoc myPos = findClosestNode(getX(), getY());
+						<EntryAction><![CDATA[// Guard: if no task was claimed (parStartNode null), skip all work.
+// trGoToPickupRestart (condition: parStartNode==null) will fire via onChange() and send robot back to stInit.
+if (parStartNode == null) {
+    traceln("Robot" + robotId + " stGoToPickup ENTRY: no task (parStartNode null) — recovery pending");
+    onChange();
+    return;
+}
+
+NodeLoc myPos = findClosestNode(getX(), getY());
 
 traceln("Robot" + robotId + " stGoToPickup ENTRY FIRED | simTime=" + time()
     + " | myPos=" + (myPos != null ? "node" + (main.globalNodes.indexOf(myPos)+1) : "NULL")
@@ -6201,7 +6062,7 @@ if (plannedRoute != null && !plannedRoute.isEmpty()) {
 
     NodeLoc nextNode = plannedRoute.remove(0);
     goalNode = nextNode;
-    setSpeed(10.0 / (1.0 + goalNode.crowdedness * 0.3));
+    setSpeed(10.0 / (1.0 + goalNode.crowdedness * 0.5));
     moveTo(nextNode.x, nextNode.y);
 } else {
     traceln("WARNING: Robot" + robotId + " empty route in stGoToPickup — already at store or graph issue");
@@ -6240,14 +6101,19 @@ if (plannedRoute != null && !plannedRoute.isEmpty()) {
 					<IconOffset>20.0</IconOffset>
 					<Properties Source="1779640062186" Target="1777894091143" Trigger="condition">
 						<Action><![CDATA[traceln("Robot" + robotId + " stInit→stGoToPickup FIRED");
+NodeLoc prevStartNode = parStartNode; // snapshot: non-null means a chained task was preserved
 selectNextTask();
 
 if (parDestinationNode != null && parStartNode != null) {
-    timeOrderStart = time();
+    // Only overwrite timeOrderStart for fresh (non-chained) task claims;
+    // chained tasks had timeOrderStart recorded in trDeliverReturn at claim time.
+    boolean wasChainedResume = (prevStartNode != null && prevStartNode == parStartNode);
+    if (!wasChainedResume) timeOrderStart = time();
     int dijkstraMode = (main.effectiveRoutingMode == 0) ? 0 : 1;
     parDeliveryMode = dijkstraMode;
-    expectedOutTime = calculateExpectedTime(parStartNode, parDestinationNode, dijkstraMode);
-    expectedInTime  = calculateExpectedTime(parDestinationNode, parStartNode, dijkstraMode);
+    NodeLoc myCurrentPos = findClosestNode(getX(), getY());
+    expectedOutTime = calculateExpectedTime(myCurrentPos, parStartNode, dijkstraMode);       // currentPos → pickup
+    expectedInTime  = calculateExpectedTime(parStartNode, parDestinationNode, dijkstraMode); // pickup → dest
     traceln("Robot" + robotId + " task assigned: pickup=node" + (currentPickupIdx+1)
         + " dest=node" + (currentDestIdx+1));
 }]]></Action>
@@ -6315,6 +6181,7 @@ main.writeEventLog(phaseIdxX, main.effectiveRoutingMode, time(), robotId, "DEPAR
 
 NodeLoc myPosX = findClosestNode(getX(), getY());
 if (parStartNode != null) {
+    timeOrderStart = time();  // record pickup-leg start at claim, not at trPickupDeliver
     chainedTask = true;
     plannedRoute = calculatePath(myPosX, parStartNode, parDeliveryMode);
     routeHopsReturn = (plannedRoute != null) ? plannedRoute.size() : 0;
@@ -6331,7 +6198,7 @@ if (parStartNode != null) {
         currentState = "GOING TO NEXT PICKUP";
         NodeLoc nextNode = plannedRoute.remove(0);
         goalNode = nextNode;
-        setSpeed(10.0 / (1.0 + goalNode.crowdedness * 0.3));
+        setSpeed(10.0 / (1.0 + goalNode.crowdedness * 0.5));
         moveTo(nextNode.x, nextNode.y);
     } else {
         returnComplete = true;  // already at next pickup
@@ -6377,7 +6244,7 @@ deliveryComplete = false;]]></Action>
 						<Action><![CDATA[if (plannedRoute != null && !plannedRoute.isEmpty()) {
     NodeLoc nextNode = plannedRoute.remove(0);
     goalNode = nextNode;
-    setSpeed(10.0 / (1.0 + goalNode.crowdedness * 0.3));
+    setSpeed(10.0 / (1.0 + goalNode.crowdedness * 0.5));
     moveTo(nextNode.x, nextNode.y);
 } else {
     // Arrived at final destination
@@ -6451,7 +6318,7 @@ deliveryComplete = false;]]></Action>
 						<Action><![CDATA[if (plannedRoute != null && !plannedRoute.isEmpty()) {
     NodeLoc nextNode = plannedRoute.remove(0);
     goalNode = nextNode;
-    setSpeed(10.0 / (1.0 + goalNode.crowdedness * 0.3));
+    setSpeed(10.0 / (1.0 + goalNode.crowdedness * 0.5));
     moveTo(nextNode.x, nextNode.y);
 } else {
     returnComplete = true;
@@ -6526,7 +6393,7 @@ traceln("Robot" + robotId + " delivery route calculated | size=" + plannedRoute.
 							<Code><![CDATA[1]]></Code>
 							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
 						</Timeout>
-						<Condition><![CDATA[plannedRoute != null && plannedRoute.isEmpty()]]></Condition>
+						<Condition><![CDATA[parStartNode != null && plannedRoute != null && plannedRoute.isEmpty()]]></Condition>
 						<Rate Class="CodeUnitValue">
 							<Code><![CDATA[1]]></Code>
 							<Unit Class="RateUnits"><![CDATA[PER_SECOND]]></Unit>
@@ -6557,7 +6424,7 @@ traceln("Robot" + robotId + " delivery route calculated | size=" + plannedRoute.
 						<Action><![CDATA[if (plannedRoute != null && !plannedRoute.isEmpty()) {
     NodeLoc nextNode = plannedRoute.remove(0);
     goalNode = nextNode;
-    setSpeed(10.0 / (1.0 + goalNode.crowdedness * 0.3));
+    setSpeed(10.0 / (1.0 + goalNode.crowdedness * 0.5));
     moveTo(nextNode.x, nextNode.y);
 }]]></Action>
 						<Timeout Class="CodeUnitValue">
@@ -6606,6 +6473,68 @@ traceln("Robot" + robotId + " delivery route calculated | size=" + plannedRoute.
 						<SatisfiesExpression><![CDATA[true]]></SatisfiesExpression>
 					</Properties>	
 				</StatechartElement>
+				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
+					<Id>1800000000002</Id>
+					<Name><![CDATA[trInitWakeup]]></Name>
+					<X>280</X><Y>120</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Points>
+						<Point><X>0</X><Y>0</Y></Point>
+						<Point><X>-40</X><Y>0</Y></Point>
+						<Point><X>-40</X><Y>30</Y></Point>
+						<Point><X>0</X><Y>30</Y></Point>
+					</Points>
+					<IconOffset>20.0</IconOffset>
+					<Properties Source="1779640062186" Target="1779640062186" Trigger="timeout">
+						<Timeout Class="CodeUnitValue">
+							<Code><![CDATA[1.0]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+						</Timeout>
+						<Rate Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="RateUnits"><![CDATA[PER_SECOND]]></Unit>
+						</Rate>
+						<MessageType><![CDATA[Object]]></MessageType>
+						<DefaultTransition>false</DefaultTransition>
+						<FilterType><![CDATA[unconditionally]]></FilterType>
+						<EqualsExpression><![CDATA["text"]]></EqualsExpression>
+						<SatisfiesExpression><![CDATA[true]]></SatisfiesExpression>
+					</Properties>	
+				</StatechartElement>
+								<StatechartElement Class="Transition" ParentState="ROOT_NODE">
+					<Id>1800000000001</Id>
+					<Name><![CDATA[trGoToPickupRestart]]></Name>
+					<X>230</X><Y>155</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Points>
+						<Point><X>0</X><Y>0</Y></Point>
+						<Point><X>-30</X><Y>-55</Y></Point>
+					</Points>
+					<IconOffset>20.0</IconOffset>
+					<Properties Source="1777894091143" Target="1779640062186" Trigger="condition">
+						<Action><![CDATA[traceln("Robot" + robotId + " stGoToPickup→stInit RECOVERY (parStartNode was null)");]]></Action>
+						<Timeout Class="CodeUnitValue">
+							<Code><![CDATA[0.2]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+						</Timeout>
+						<Condition><![CDATA[parStartNode == null]]></Condition>
+						<Rate Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="RateUnits"><![CDATA[PER_SECOND]]></Unit>
+						</Rate>
+						<MessageType><![CDATA[Object]]></MessageType>
+						<DefaultTransition>true</DefaultTransition>
+						<FilterType><![CDATA[unconditionally]]></FilterType>
+						<EqualsExpression><![CDATA["text"]]></EqualsExpression>
+						<SatisfiesExpression><![CDATA[true]]></SatisfiesExpression>
+					</Properties>	
+				</StatechartElement>
 			</StatechartElements>
 			<Events>
 				<Event>
@@ -6636,9 +6565,12 @@ traceln("Robot" + robotId + " delivery route calculated | size=" + plannedRoute.
 							<Code><![CDATA[0.5]]></Code>
 							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
 						</RecurrenceCode>
-						<Condition><![CDATA[false]]></Condition>
+						<Condition><![CDATA[true]]></Condition>
 					</Properties>
-					<Action><![CDATA[onChange();]]></Action>
+					<Action><![CDATA[onChange();
+if (currentState.equals("COMPLETE") && main.simulationReady && time() > 0 && ordersCompleted > 0) {
+    main.checkAllDone();
+}]]></Action>
 				</Event>
 			</Events>
 			<Functions>
@@ -6825,13 +6757,14 @@ routeLines.clear();]]></Body>
 					</Parameter>
 					<Body><![CDATA[java.util.List<NodeLoc> p = calculatePath(s, e, mode);
 if (p.isEmpty()) return 0.0;
-double d = 0;
-NodeLoc last = findClosestNode(s.x, s.y);
+double totalTime = 0.0;
+NodeLoc last = s;
 for (NodeLoc n : p) {
-    d += Math.sqrt(Math.pow(n.x - last.x, 2) + Math.pow(n.y - last.y, 2));
+    double dist = Math.sqrt(Math.pow(n.x - last.x, 2) + Math.pow(n.y - last.y, 2));
+    totalTime += dist * (1.0 + n.crowdedness * 0.5) / 10.0;
     last = n;
 }
-return d / 10.0;]]></Body>
+return totalTime;]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -6884,7 +6817,10 @@ for (int i = 0; i < localOrderList.size(); i++) {
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[// Guard: robot already has active task — do not claim another
+					<Body><![CDATA[// Guard: robot is not active in the current run
+if (robotId >= main.numRobots) return;
+
+// Guard: robot already has active task — do not claim another
 if (parStartNode != null) {
     traceln("Robot" + robotId + " selectNextTask: already has task, skipping");
     return;
@@ -6896,9 +6832,7 @@ traceln("Robot" + robotId + " selectNextTask() called | localOrderList.size="
 if (localOrderList.isEmpty()) {
     parDestinationNode = null;
     traceln("Robot" + robotId + " finished all tasks. Becoming idle.");
-    if (main.simulationReady && time() > 0) {
-        main.checkAllDone();
-    }
+    // checkAllDone() is deferred to pollEvent to avoid re-entrancy from within a statechart transition action
     return;
 }
 
@@ -6960,15 +6894,35 @@ if (main.effectiveRoutingMode == 2) {
 
 if (selectedTask == null) selectedTask = localOrderList.get(0);
 
-// Atomic claim check
-String taskKey = selectedTask[0] + "_" + selectedTask[1];
-if (main.claimedOrders.contains(taskKey)) {
-    traceln("Robot" + robotId + " task already claimed, skipping: node"
+// Atomic claim check — iterate (no recursion) until an unclaimed task is found
+// or the list is fully exhausted (all tasks already claimed by peers).
+while (main.claimedOrders.contains(selectedTask[0] + "_" + selectedTask[1])) {
+    traceln("Robot" + robotId + " task claimed by peer, skipping: node"
         + (selectedTask[0]+1) + " -> node" + (selectedTask[1]+1));
     localOrderList.remove(selectedTask);
-    if (!localOrderList.isEmpty()) selectNextTask();
-    return;
+    if (localOrderList.isEmpty()) {
+        // All candidates are claimed — exit without claiming; parStartNode stays null.
+        // Recovery: trGoToPickupRestart (timeout 0.2s) → stInit → trPickupDeliver (timeout 0.1s) retry.
+        traceln("Robot" + robotId + " no claimable task found (all claimed). Will retry later.");
+        return;
+    }
+    // Pick next candidate (SSP/EV: first; EA: re-score remaining)
+    if (main.effectiveRoutingMode == 2) {
+        double bestScore2 = Double.MAX_VALUE;
+        NodeLoc robPos2 = findClosestNode(getX(), getY());
+        selectedTask = localOrderList.get(0);
+        for (int[] task2 : localOrderList) {
+            NodeLoc pickup2 = main.globalNodes.get(task2[0]);
+            NodeLoc dest2   = main.globalNodes.get(task2[1]);
+            double t2 = calculateExpectedTime(robPos2, pickup2, 1)
+                      + calculateExpectedTime(pickup2, dest2, 1);
+            if (t2 < bestScore2) { bestScore2 = t2; selectedTask = task2; }
+        }
+    } else {
+        selectedTask = localOrderList.get(0);
+    }
 }
+String taskKey = selectedTask[0] + "_" + selectedTask[1];
 main.claimedOrders.add(taskKey);
 
 // Claim: remove from own list
@@ -7333,7 +7287,7 @@ if (parDestinationNode == null) {
     double totalWeight = 0;
     for (NodeLoc n : main.globalNodes)
         totalWeight += n.crowdedness;
-    double r = Math.random() * totalWeight;
+    double r = uniform(0, totalWeight);
     double cumulative = 0;
     NodeLoc currentNode = main.globalNodes.get(0);
     for (NodeLoc n : main.globalNodes) {
@@ -7343,9 +7297,9 @@ if (parDestinationNode == null) {
         }
     }
     setXY(currentNode.x, currentNode.y);
- 
-    // Random speed 0.8 – 1.6 m/s
-    parSpeed = 0.8 + (Math.random() * 0.8);
+
+    // Random speed 0.8 – 1.6 m/s (seeded via model RNG)
+    parSpeed = uniform(0.8, 1.6);
  
     // Pick distant destination (>50m away)
     java.util.List<NodeLoc> candidates =
@@ -7359,8 +7313,7 @@ if (parDestinationNode == null) {
     }
     if (candidates.isEmpty())
         candidates.addAll(main.globalNodes);
-    int idx = (int)(Math.random()
-                   * candidates.size());
+    int idx = uniform_discr(0, candidates.size() - 1);
     parDestinationNode = candidates.get(idx);
 }
  
@@ -8325,9 +8278,6 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[numOrders]]></ParameterName>
-				</Parameter>
-				<Parameter>
-					<ParameterName><![CDATA[deliveryMode]]></ParameterName>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[crowdednessLevel]]></ParameterName>
