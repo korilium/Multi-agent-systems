@@ -1885,6 +1885,100 @@ for (int i = 0; i < numRobots; i++) {
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
 					<ReturnType><![CDATA[void]]></ReturnType>
+					<Id>1790000100011</Id>
+					<Name><![CDATA[resetForAutoNextCrowdness]]></Name>
+					<X>880</X><Y>930</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[// Advance outer crowd-level counter and rescale node weights
+autoCrowdLevel++;
+crowdednessLevel = autoCrowdLevel;
+
+double newScale = crowdednessLevel / 3.0;
+for (int i = 0; i < globalNodes.size(); i++)
+    globalNodes.get(i).crowdedness = baseCrowdedness[i] * newScale;
+
+// Reset inner robot-count sweep back to 1
+autoRobotCount       = 1;
+numRobots            = 1;
+comparisonPhase      = 0;
+effectiveRoutingMode = 0;
+totalDeliveries      = 0;
+
+phaseDeliveryCount = 0;
+phaseTaskTimeSum = 0; phaseOutTimeSum = 0; phaseInTimeSum = 0; phaseReturnTimeSum = 0;
+phaseMinTaskTime = Double.MAX_VALUE; phaseMaxTaskTime = 0;
+for (int i = 0; i < 10; i++) { phaseRobotTaskCount[i] = 0; phaseRobotTotalTime[i] = 0; robotOrders[i] = 0; }
+phaseStartSimTime = time();
+
+// Restore original order list (savedOrderList never changes across all 150 phases)
+orderList.clear();
+claimedOrders.clear();
+for (int[] t : savedOrderList) orderList.add(new int[]{t[0], t[1], t[2]});
+traceln("=== COMPREHENSIVE: crowd now " + crowdednessLevel
+    + " | restored " + orderList.size() + " orders ===");
+
+writeEventLog(0, 0, time(), -1, "PHASE_START", "-", "-", -1,
+    "COMPREHENSIVE crowd=" + crowdednessLevel + " robots=" + numRobots + " mode=SSP");
+
+// Stop and clear ALL robots
+int[] startNodes = {0, 7, 14, 21, 28, 35, 42, 49, 56, 63};
+for (int i = 0; i < 10; i++) {
+    Robot rob = getRobotByIndex(i);
+    if (rob == null) continue;
+    rob.stop();
+    if (rob.plannedRoute != null) rob.plannedRoute.clear();
+    if (rob.routeLines   != null) rob.routeLines.clear();
+    rob.clearRoute();
+    rob.goalNode = null;
+    rob.parStartNode = null;
+    rob.parDestinationNode = null;
+    rob.chainedTask = false;
+    rob.deliveryComplete = false;
+    rob.returnComplete = false;
+}
+
+// Fully initialise only the 1 active robot for the new phase
+for (int i = 0; i < numRobots; i++) {
+    Robot rob = getRobotByIndex(i);
+    if (rob == null) continue;
+    int nodeIdx = startNodes[Math.min(i, startNodes.length - 1)];
+    NodeLoc startLoc = globalNodes.get(nodeIdx);
+    rob.setXY(startLoc.x, startLoc.y);
+    rob.robotId = i;
+    rob.currentPickupIdx = -1;
+    rob.currentDestIdx   = -1;
+    rob.ordersCompleted  = 0;
+    rob.currentState     = "IDLE";
+    rob.timeOrderStart   = 0.0;
+    rob.timeReachedDest  = 0.0;
+    rob.expectedOutTime  = 0.0;
+    rob.expectedInTime   = 0.0;
+    rob.routeHopsToStore       = 0;
+    rob.routeHopsToDestination = 0;
+    rob.routeHopsReturn        = 0;
+    rob.localOrderList.clear();
+    rob.buildLocalOrderList();
+    traceln("COMPREHENSIVE Robot" + i + " reset at node" + (nodeIdx+1)
+        + " | list=" + rob.localOrderList.size());
+    rob.phaseReset = true;
+    rob.onChange();
+}
+
+for (int i = 0; i < numRobots; i++) {
+    Robot rob = getRobotByIndex(i);
+    if (rob != null) rob.onChange();
+}
+for (int i = 0; i < numRobots; i++) {
+    Robot rob = getRobotByIndex(i);
+    if (rob != null) rob.onChange();
+}]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[void]]></ReturnType>
 					<Id>1790000100004</Id>
 					<Name><![CDATA[writeFinalComparison]]></Name>
 					<X>880</X><Y>870</Y>
