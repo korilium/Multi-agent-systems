@@ -6142,6 +6142,8 @@ if (plannedRoute != null && !plannedRoute.isEmpty()) {
     setSpeed(computeSpeed(goalNode));
     moveTo(nextNode.x, nextNode.y);
 } else {
+    // Zero-hop route: robot is already at the store node. No moveTo is issued,
+    // so no setSpeed call is needed — computeSpeed(goalNode) is never reached.
     traceln("WARNING: Robot" + robotId + " empty route in stGoToPickup — already at store or graph issue");
     goalNode = parStartNode;
 }]]></EntryAction>

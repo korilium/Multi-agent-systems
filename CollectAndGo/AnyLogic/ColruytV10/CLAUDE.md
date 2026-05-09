@@ -21,8 +21,9 @@ Batch experiments (parameter variation runs) are configured inside AnyLogic via 
 | Class | Role |
 |---|---|
 | `Main` | Environment root: builds the road graph, spawns pedestrians and robots, owns the global order list, manages CSV logging |
-| `Robot` | Delivery agent with a statechart (Init → GoToPickup → Deliver → Return → NextTask) |
+| `Robot` | Delivery agent with a statechart (Init → GoToPickup → Deliver → stReturn[chained] → stComplete). No depot return — after delivery, directly chains to next pickup via `stReturn`. |
 | `Pedestrian` | External agent (non-cooperative); moves through the space creating congestion |
+| `Package` | Visual agent for stores and deliverable items; `orderIndex` links it to the global node index |
 | `NodeLoc` (Java class) | Graph node: holds `(x, y)`, a crowdedness weight, an adjacency `edges` list, and `nodeIndex` |
 
 ### Road Graph
@@ -44,14 +45,16 @@ Batch experiments (parameter variation runs) are configured inside AnyLogic via 
 
 Mode 3 runs all three phases in one session; the `phase` column (0/1/2) identifies which. Mode 4 additionally sweeps robot counts automatically — `numRobots` slider is overridden and the full 30-phase result (10 counts × 3 modes) accumulates into `dashboard_performance.csv`.
 
-`calculatePath(start, end, mode)` in `Robot` runs Dijkstra. Robot speed per segment: `10 / (1 + crowdedness × 0.3)`.
+`calculatePath(start, end, mode)` in `Robot` runs Dijkstra. Both path cost and movement speed use the same formula: `10 / (1 + crowdedness × 0.5)` (mode ≥ 1 applies this; mode 0 uses pure distance). Speed is set per hop via `computeSpeed(goalNode)`, which adds a real-time pedestrian proximity term: `10.0 / (1.0 + (crowdedness + nearbyPedCount × 0.5) × 0.5)`. **Known limitation:** `calculateExpectedTime` (used for EA task scoring) uses static crowdedness only — it cannot account for real-time pedestrian density at future nodes because positions are unknowable at plan time. This means EA's lookahead score underestimates travel time on busy corridors, but fixing it would require dynamic replanning (violating the offline planning guarantee).
 
 ### Task Assignment
 
-- `Main.initEnvironment()` generates `numOrders` pickup→delivery pairs stored in `Main.orderList`.
+- `Main.initEnvironment()` generates `numOrders` pickup→delivery pairs stored in `Main.orderList` as `int[]{pickupNodeIdx, destNodeIdx, taskSeq}`. 4 stores are placed randomly each phase 0; phases 1+ restore from `savedOrderList`.
 - `Robot.buildLocalOrderList()` copies and sorts the global list by Dijkstra distance from current position.
 - `Robot.selectNextTask()` applies mode-specific scoring, then broadcasts a claim via `removeClaimedTask()`. `Main.claimedOrders` (`HashSet<String>`) prevents double-claiming.
-- EA mode penalises tasks whose delivery node is within `conflictRadiusThreshold` px of another robot's current destination, weighted by `conflictPenaltyWeight`.
+- EA mode penalises tasks whose delivery node is within `conflictRadiusThreshold` px of another robot's **current destination** (`parDestinationNode`), weighted by `conflictPenaltyWeight`. Note: SSP and EV have identical task selection (both take the nearest-by-pure-distance task); they differ only in the path taken.
+- `buildLocalOrderList()` always sorts by pure Dijkstra distance (mode=0), regardless of `effectiveRoutingMode`. The crowd-weighted cost only affects path routing, not task ordering.
+- Robot start positions are hardcoded as node indices `{0, 7, 14, 21, 28, 35, 42, 49, 56, 63}` (nodes 1, 8, 15…).
 
 ### Key Parameters
 
@@ -82,7 +85,7 @@ runId, phase, effectiveMode, modeName, numRobots, numOrders,
 crowdednessLevel, randomSeed, makespan, totalDeliveries,
 avgTaskSec, minTaskSec, maxTaskSec, avgToPickupSec,
 avgDeliveryLegSec, avgReturnSec,
-robot0Tasks … robot3Tasks, robot0TotalSec … robot3TotalSec
+robot0Tasks … robot9Tasks, robot0TotalSec … robot9TotalSec
 ```
 
 **`dashboard_performance.csv`** — cross-run accumulation file for charting (opened in **append** mode, no timestamp). One row per phase per run:
@@ -110,6 +113,15 @@ All logic is in the `.alp` XML:
 - **`NodeLoc`** → standalone `<JavaClass>` near the bottom of the file — edit it there, not inline.
 
 Model time unit: **seconds**. Distance scale: 50 px = 10 m.
+
+### Phase Reset Mechanism (COMPARE / AUTO mode)
+
+When a phase ends, `resetForNextPhase()` (or `resetForAutoNextRobot()`) sets `rob.phaseReset = true` on each active robot before calling `rob.onChange()`. Three statechart transitions watch this flag:
+- `trDeliverPhaseReset` — fires from `stDeliver`
+- `trReturnPhaseReset` — fires from `stReturn`
+- `trGoToPickupRestart` — fires from `stGoToPickup` when `parStartNode == null`
+
+All three return to `stInit`, where `trPickupDeliver` re-starts delivery. **`checkAllDone()` is always deferred to `pollEvent`** (both on `Main` and `Robot`) — never call it directly from within a statechart entry/transition action to avoid re-entrancy.
 
 ### 3D Assets (`3d/`)
 `tractor_3.dae` (robot), `person.dae` (pedestrian), `bicycle.dae`.
