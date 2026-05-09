@@ -217,7 +217,8 @@ numRobots     [slider  1 – 10]  (ignored in AUTO and COMPREHENSIVE modes)
 
 ### `updateStatusDisplay`
 
-Add mode 5 branch before the `else if (routingMode == 3)` branch:
+The existing if/else chain is: `if (routingMode == 4) ... else if (routingMode == 3) ... else ...`.
+Add mode 5 as the new first branch, pushing mode 4 to second:
 
 ```java
 if (routingMode == 5) {
