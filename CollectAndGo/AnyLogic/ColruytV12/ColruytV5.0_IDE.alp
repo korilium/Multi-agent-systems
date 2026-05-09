@@ -1946,13 +1946,21 @@ traceln("=== COMPREHENSIVE: crowd now " + crowdednessLevel
 writeEventLog(0, 0, time(), -1, "PHASE_START", "-", "-", -1,
     "COMPREHENSIVE crowd=" + crowdednessLevel + " robots=" + numRobots + " mode=SSP");
 
-// Clear existing pedestrians so the map starts fresh at the new crowd level.
-// The continuous spawn source repopulates at the new rate automatically —
-// no batch add_pedestrian() needed (avoids exhausting PLE's 50k creation budget).
-for (Pedestrian p : new java.util.ArrayList<>(pedestrians)) {
-    remove_pedestrian(p);
+// Reset existing pedestrians by assigning each a new destination node — no
+// remove/add calls, so the PLE 50k cumulative creation budget is never touched.
+for (Pedestrian p : pedestrians) {
+    java.util.List<NodeLoc> candidates = new java.util.ArrayList<>();
+    for (NodeLoc n : globalNodes) {
+        double dist = Math.sqrt(
+            Math.pow(n.x - p.getX(), 2) + Math.pow(n.y - p.getY(), 2));
+        if (dist > 50) candidates.add(n);
+    }
+    if (!candidates.isEmpty())
+        p.parDestinationNode = candidates.get(
+            uniform_discr(0, candidates.size() - 1));
 }
-traceln("COMPREHENSIVE: cleared pedestrians for crowd=" + crowdednessLevel + " (spawner will repopulate)");
+traceln("COMPREHENSIVE: redirected " + pedestrians.size()
+    + " pedestrians for crowd=" + crowdednessLevel);
 
 // Stop and clear ALL robots
 int[] startNodes = {0, 7, 14, 21, 28, 35, 42, 49, 56, 63};
