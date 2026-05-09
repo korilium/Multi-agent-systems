@@ -1379,6 +1379,27 @@ if (routingMode == 3) {
     // Full sweep 1–10 robots complete
     traceln("=== AUTO SWEEP COMPLETE (1–10 robots × 3 modes) ===");
     closeCsv();
+} else if (routingMode == 5) {
+    phaseMakespan[phaseIdx] = makespan;
+    writeMakespanRow(makespan);
+    if (comparisonPhase < 2) {
+        resetForNextPhase();
+        return;
+    }
+    // All 3 modes done for this (crowd, robot) combination
+    writeFinalComparison();
+    if (autoRobotCount < 10) {
+        resetForAutoNextRobot();
+        return;
+    }
+    // All 10 robot counts done for this crowdedness level
+    if (autoCrowdLevel < 5) {
+        resetForAutoNextCrowdness();
+        return;
+    }
+    // Full 150-phase sweep complete
+    traceln("=== COMPREHENSIVE SWEEP COMPLETE (5 crowd × 10 robots × 3 modes) ===");
+    closeCsv();
 } else {
     writeMakespanRow(makespan);
     closeCsv();
