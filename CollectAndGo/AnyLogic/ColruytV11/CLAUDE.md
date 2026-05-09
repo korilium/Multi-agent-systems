@@ -45,7 +45,7 @@ Batch experiments (parameter variation runs) are configured inside AnyLogic via 
 
 Mode 3 runs all three phases in one session; the `phase` column (0/1/2) identifies which. Mode 4 additionally sweeps robot counts automatically — `numRobots` slider is overridden and the full 30-phase result (10 counts × 3 modes) accumulates into `dashboard_performance.csv`.
 
-`calculatePath(start, end, mode)` in `Robot` runs Dijkstra. Both path cost and movement speed use the same formula: `10 / (1 + crowdedness × 0.5)` (mode ≥ 1 applies this; mode 0 uses pure distance). Speed is set per hop based on the **destination** node's crowdedness.
+`calculatePath(start, end, mode)` in `Robot` runs Dijkstra. Both path cost and movement speed use the same formula: `10 / (1 + crowdedness × 0.5)` (mode ≥ 1 applies this; mode 0 uses pure distance). Speed is set per hop via `computeSpeed(goalNode)`, which adds a real-time pedestrian proximity term: `10.0 / (1.0 + (crowdedness + nearbyPedCount × 0.5) × 0.5)`. **Known limitation:** `calculateExpectedTime` (used for EA task scoring) uses static crowdedness only — it cannot account for real-time pedestrian density at future nodes because positions are unknowable at plan time. This means EA's lookahead score underestimates travel time on busy corridors, but fixing it would require dynamic replanning (violating the offline planning guarantee).
 
 ### Task Assignment
 

@@ -6037,7 +6037,7 @@ if (plannedRoute != null && !plannedRoute.isEmpty()) {
 	currentState= "DELIVERING";
     NodeLoc nextNode = plannedRoute.remove(0);
     goalNode = nextNode;
-    setSpeed(10.0 / (1.0 + goalNode.crowdedness * 0.5));
+    setSpeed(computeSpeed(goalNode));
     moveTo(nextNode.x, nextNode.y);
     traceln("Robot" + robotId + " moving to node" + (main.globalNodes.indexOf(nextNode)+1));
 }]]></EntryAction>
@@ -6139,9 +6139,11 @@ if (plannedRoute != null && !plannedRoute.isEmpty()) {
 
     NodeLoc nextNode = plannedRoute.remove(0);
     goalNode = nextNode;
-    setSpeed(10.0 / (1.0 + goalNode.crowdedness * 0.5));
+    setSpeed(computeSpeed(goalNode));
     moveTo(nextNode.x, nextNode.y);
 } else {
+    // Zero-hop route: robot is already at the store node. No moveTo is issued,
+    // so no setSpeed call is needed — computeSpeed(goalNode) is never reached.
     traceln("WARNING: Robot" + robotId + " empty route in stGoToPickup — already at store or graph issue");
     goalNode = parStartNode;
 }]]></EntryAction>
@@ -6275,7 +6277,7 @@ if (parStartNode != null) {
         currentState = "GOING TO NEXT PICKUP";
         NodeLoc nextNode = plannedRoute.remove(0);
         goalNode = nextNode;
-        setSpeed(10.0 / (1.0 + goalNode.crowdedness * 0.5));
+        setSpeed(computeSpeed(goalNode));
         moveTo(nextNode.x, nextNode.y);
     } else {
         returnComplete = true;  // already at next pickup
@@ -6321,7 +6323,7 @@ deliveryComplete = false;]]></Action>
 						<Action><![CDATA[if (plannedRoute != null && !plannedRoute.isEmpty()) {
     NodeLoc nextNode = plannedRoute.remove(0);
     goalNode = nextNode;
-    setSpeed(10.0 / (1.0 + goalNode.crowdedness * 0.5));
+    setSpeed(computeSpeed(goalNode));
     moveTo(nextNode.x, nextNode.y);
 } else {
     // Arrived at final destination
@@ -6395,7 +6397,7 @@ deliveryComplete = false;]]></Action>
 						<Action><![CDATA[if (plannedRoute != null && !plannedRoute.isEmpty()) {
     NodeLoc nextNode = plannedRoute.remove(0);
     goalNode = nextNode;
-    setSpeed(10.0 / (1.0 + goalNode.crowdedness * 0.5));
+    setSpeed(computeSpeed(goalNode));
     moveTo(nextNode.x, nextNode.y);
 } else {
     returnComplete = true;
@@ -6501,7 +6503,7 @@ traceln("Robot" + robotId + " delivery route calculated | size=" + plannedRoute.
 						<Action><![CDATA[if (plannedRoute != null && !plannedRoute.isEmpty()) {
     NodeLoc nextNode = plannedRoute.remove(0);
     goalNode = nextNode;
-    setSpeed(10.0 / (1.0 + goalNode.crowdedness * 0.5));
+    setSpeed(computeSpeed(goalNode));
     moveTo(nextNode.x, nextNode.y);
 }]]></Action>
 						<Timeout Class="CodeUnitValue">
@@ -6985,53 +6987,13 @@ if (localOrderList.isEmpty()) {
 int[] selectedTask = null;
 
 if (main.effectiveRoutingMode == 2) {
-    // EA: expectation-aware scoring with lookahead and graduated conflict penalty
+    // EA: expectation-aware scoring — see scoreTaskEA()
     double bestScore = Double.MAX_VALUE;
     NodeLoc robPos = findClosestNode(getX(), getY());
 
     for (int[] task : localOrderList) {
-        NodeLoc pickup = main.globalNodes.get(task[0]);
-        NodeLoc dest   = main.globalNodes.get(task[1]);
-
-        // Travel to store + delivery leg
-        double t = calculateExpectedTime(robPos, pickup, 1)
-                 + calculateExpectedTime(pickup, dest, 1);
-
-        // Lookahead: cost to nearest remaining order from destination
-        double minNextCost = Double.MAX_VALUE;
-        for (int[] next : localOrderList) {
-            if (next == task) continue;
-            NodeLoc nextPickup = main.globalNodes.get(next[0]);
-            double nextCost = calculateExpectedTime(dest, nextPickup, 1);
-            if (nextCost < minNextCost) minNextCost = nextCost;
-        }
-        // No next task — fall back to depot
-        if (minNextCost == Double.MAX_VALUE) {
-            minNextCost = calculateExpectedTime(dest, main.globalNodes.get(0), 1);
-        }
-        t += minNextCost;
-
-        // Graduated conflict penalty
-        double penalty = 0;
-        for (int i = 0; i < main.numRobots; i++) {
-            Robot other = main.getRobotByIndex(i);
-            if (other == null || other == this) continue;
-            if (other.parDestinationNode != null) {
-                double overlap = Math.sqrt(
-                    Math.pow(other.parDestinationNode.x - dest.x, 2) +
-                    Math.pow(other.parDestinationNode.y - dest.y, 2));
-                if (overlap < main.conflictRadiusThreshold) {
-                    penalty += main.conflictPenaltyWeight
-                             * (1.0 - overlap / main.conflictRadiusThreshold);
-                }
-            }
-        }
-
-        double score = t + penalty;
-        if (score < bestScore) {
-            bestScore = score;
-            selectedTask = task;
-        }
+        double s = scoreTaskEA(task, robPos);
+        if (s < bestScore) { bestScore = s; selectedTask = task; }
     }
 } else {
     // SSP / EV: list already Dijkstra-sorted — take first entry
@@ -7052,17 +7014,16 @@ while (main.claimedOrders.contains(selectedTask[0] + "_" + selectedTask[1])) {
         traceln("Robot" + robotId + " no claimable task found (all claimed). Will retry later.");
         return;
     }
-    // Pick next candidate (SSP/EV: first; EA: re-score remaining)
+    // Pick next candidate (SSP/EV: first; EA: full re-score with scoreTaskEA).
+    // Note: the rejected task was removed from localOrderList above, so this pass
+    // scores a smaller candidate set than the primary loop — this is intentional.
     if (main.effectiveRoutingMode == 2) {
         double bestScore2 = Double.MAX_VALUE;
         NodeLoc robPos2 = findClosestNode(getX(), getY());
         selectedTask = localOrderList.get(0);
         for (int[] task2 : localOrderList) {
-            NodeLoc pickup2 = main.globalNodes.get(task2[0]);
-            NodeLoc dest2   = main.globalNodes.get(task2[1]);
-            double t2 = calculateExpectedTime(robPos2, pickup2, 1)
-                      + calculateExpectedTime(pickup2, dest2, 1);
-            if (t2 < bestScore2) { bestScore2 = t2; selectedTask = task2; }
+            double s2 = scoreTaskEA(task2, robPos2);
+            if (s2 < bestScore2) { bestScore2 = s2; selectedTask = task2; }
         }
     } else {
         selectedTask = localOrderList.get(0);
@@ -7139,6 +7100,73 @@ main.writeEventLog(phaseIdxC, main.effectiveRoutingMode, time(), robotId, "TASK_
         break;
     }
 }]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1791000000001</Id>
+					<Name><![CDATA[computeSpeed]]></Name>
+					<X>50</X><Y>600</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[target]]></Name>
+						<Type><![CDATA[NodeLoc]]></Type>
+					</Parameter>
+					<Body><![CDATA[double pedCount = 0;
+for (Pedestrian p : main.pedestrians) {
+    double d = Math.sqrt(Math.pow(p.getX() - target.x, 2)
+                       + Math.pow(p.getY() - target.y, 2));
+    if (d < 30.0) pedCount += 1.0;
+}
+return 10.0 / (1.0 + (target.crowdedness + pedCount * 0.5) * 0.5);]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1791000000002</Id>
+					<Name><![CDATA[scoreTaskEA]]></Name>
+					<X>50</X><Y>640</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[task]]></Name>
+						<Type><![CDATA[int[]]]></Type>
+					</Parameter>
+					<Parameter>
+						<Name><![CDATA[robPos]]></Name>
+						<Type><![CDATA[NodeLoc]]></Type>
+					</Parameter>
+					<Body><![CDATA[NodeLoc pickup = main.globalNodes.get(task[0]);
+NodeLoc dest   = main.globalNodes.get(task[1]);
+
+double score = calculateExpectedTime(robPos, pickup, 1)
+             + calculateExpectedTime(pickup, dest, 1);
+
+double minNext = Double.MAX_VALUE;
+for (int[] nxt : localOrderList) {
+    if (nxt == task) continue;
+    double c = calculateExpectedTime(dest, main.globalNodes.get(nxt[0]), 1);
+    if (c < minNext) minNext = c;
+}
+if (minNext == Double.MAX_VALUE)
+    minNext = calculateExpectedTime(dest, main.globalNodes.get(0), 1);
+score += minNext;
+
+for (int i = 0; i < main.numRobots; i++) {
+    Robot other = main.getRobotByIndex(i);
+    if (other == null || other == this || other.parDestinationNode == null) continue;
+    double overlap = Math.sqrt(
+        Math.pow(other.parDestinationNode.x - dest.x, 2) +
+        Math.pow(other.parDestinationNode.y - dest.y, 2));
+    if (overlap < main.conflictRadiusThreshold)
+        score += main.conflictPenaltyWeight * (1.0 - overlap / main.conflictRadiusThreshold);
+}
+return score;]]></Body>
 				</Function>
 			</Functions>
 			<AgentLinks>
