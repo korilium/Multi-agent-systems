@@ -3343,6 +3343,7 @@ dashboardText += "╚═══════════════════�
  2=EA      EV + agent-aware task selection
  3=COMPARE all 3 modes, same order list
  4=AUTO    sweep 1–10 robots × 3 modes
+ 5=COMPR.  crowd 1–5 × 1–10 robots × 3 modes
 ── CURRENT RUN ────────────────────────────]]></Text>
 					<Font>
 						<Name>Monospaced</Name>
