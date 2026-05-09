@@ -1462,6 +1462,8 @@ if (routingMode == 3) {
     }
 
     traceln("CSV files opened: " + detailFile + " | " + eventFile + " | " + summaryFile + " | dashboard_performance.csv");
+    if (routingMode == 5)
+        traceln("=== COMPREHENSIVE mode: 5 crowd × 10 robots × 3 modes = 150 phases ===");
 } catch (Exception e) {
     traceln("CSV open error: " + e.getMessage());
     csvWriter = null; eventLogWriter = null; summaryLogWriter = null;
