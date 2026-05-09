@@ -7014,7 +7014,9 @@ while (main.claimedOrders.contains(selectedTask[0] + "_" + selectedTask[1])) {
         traceln("Robot" + robotId + " no claimable task found (all claimed). Will retry later.");
         return;
     }
-    // Pick next candidate (SSP/EV: first; EA: full re-score with scoreTaskEA)
+    // Pick next candidate (SSP/EV: first; EA: full re-score with scoreTaskEA).
+    // Note: the rejected task was removed from localOrderList above, so this pass
+    // scores a smaller candidate set than the primary loop — this is intentional.
     if (main.effectiveRoutingMode == 2) {
         double bestScore2 = Double.MAX_VALUE;
         NodeLoc robPos2 = findClosestNode(getX(), getY());
