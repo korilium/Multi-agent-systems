@@ -116,6 +116,12 @@ globalNodes.get(29).crowdedness = 2;  // node30
 globalNodes.get(38).crowdedness = 1;  // node39
 globalNodes.get(44).crowdedness = 1;  // node45
 
+// Capture unscaled base values before applying crowdednessLevel — needed by
+// mode 5 to rescale node weights when advancing to each new crowd tier.
+baseCrowdedness = new double[globalNodes.size()];
+for (int i = 0; i < globalNodes.size(); i++)
+	baseCrowdedness[i] = globalNodes.get(i).crowdedness;
+
 // Scale all node crowdedness values by the crowdednessLevel parameter so that
 // EV/EA routing actually responds to the slider (level 3 = unchanged baseline).
 double crowdednessScale = crowdednessLevel / 3.0;
@@ -187,8 +193,10 @@ simulationStartTime = (int) time();
 // COMPARE / AUTO mode initialisation
 comparisonPhase      = (routingMode >= 3) ? 0  : -1;
 effectiveRoutingMode = (routingMode >= 3) ? 0  : routingMode;
-autoRobotCount       = (routingMode == 4) ? 1  : 0;
-if (routingMode == 4) numRobots = 1;
+autoRobotCount       = (routingMode >= 4) ? 1  : 0;
+if (routingMode >= 4) numRobots = 1;
+autoCrowdLevel       = (routingMode == 5) ? 1  : 0;
+if (routingMode == 5) crowdednessLevel = 1;
 phaseStartSimTime    = simulationStartTime;
 initEnvironment();
 simulationReady = true;
