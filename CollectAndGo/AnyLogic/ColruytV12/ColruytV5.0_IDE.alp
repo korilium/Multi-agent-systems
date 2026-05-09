@@ -2038,7 +2038,12 @@ updateStatusDisplay();]]></Body>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[String modeLabel;
-if (routingMode == 4) {
+if (routingMode == 5) {
+    modeLabel = "COMPREHENSIVE | Crowd=" + autoCrowdLevel
+        + " Robots=" + numRobots + " Phase "
+        + (comparisonPhase >= 0 ? comparisonPhase : 0)
+        + " [" + getModeName(effectiveRoutingMode) + "]";
+} else if (routingMode == 4) {
     modeLabel = "AUTO | Robots=" + numRobots + " Phase "
         + (comparisonPhase >= 0 ? comparisonPhase : 0)
         + " [" + getModeName(effectiveRoutingMode) + "]";
