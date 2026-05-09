@@ -8252,7 +8252,7 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
-					<Text><![CDATA[routingMode   [slider  0 – 4]
+					<Text><![CDATA[routingMode   [slider  0 – 5]
 
   0 = SSP  (Shortest Path)
            Greedy nearest-pickup + standard Dijkstra.
@@ -8280,7 +8280,15 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
            For each robot count, runs SSP → EV → EA on the SAME
            order list.  All 30 phase results (10 counts × 3 modes)
            are appended to dashboard_performance.csv for charting.
-           numRobots slider is ignored — the sweep controls it.]]></Text>
+           numRobots slider is ignored — the sweep controls it.
+
+  5 = COMPREHENSIVE  (Full 2-D Sweep)
+           Sweeps crowdednessLevel 1→5, and for each level
+           sweeps numRobots 1→10, running SSP→EV→EA on the
+           SAME order list throughout.
+           150 phases total (5 crowd × 10 robots × 3 modes).
+           Both numRobots and crowdednessLevel sliders are ignored.
+           All 150 results append to dashboard_performance.csv.]]></Text>
 					<Font>
 						<Name>Monospaced</Name>
 						<Size>12</Size>
