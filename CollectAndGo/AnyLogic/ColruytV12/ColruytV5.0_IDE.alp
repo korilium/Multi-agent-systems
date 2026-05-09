@@ -8301,7 +8301,7 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
-					<Text><![CDATA[numRobots     [slider  1 – 10]  (ignored in AUTO mode)
+					<Text><![CDATA[numRobots     [slider  1 – 10]  (ignored in AUTO and COMPREHENSIVE modes)
 
   Number of active delivery robots dispatched simultaneously.
   Each robot works on an independent task from the shared queue.
