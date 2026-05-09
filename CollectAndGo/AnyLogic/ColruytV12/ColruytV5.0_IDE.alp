@@ -8434,6 +8434,8 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
  
   Spatial pattern (city-centre busier than outskirts) is preserved
   via per-node crowdedness weights set in Main's startup code.
+
+  (ignored in COMPREHENSIVE mode — swept 1→5 automatically)
 ]]></Text>
 					<Font>
 						<Name>Monospaced</Name>
