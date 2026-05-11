@@ -8129,7 +8129,7 @@ main.remove_pedestrian(this);]]></EntryAction>
 				<Rectangle>
 					<Id>1777285983647</Id>
 					<Name><![CDATA[package_figure]]></Name>
-					<X>5</X><Y>5</Y>
+					<X>15</X><Y>25</Y>
 					<Label><X>10</X><Y>10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8148,6 +8148,28 @@ main.remove_pedestrian(this);]]></EntryAction>
 					<FillColor>-3308225</FillColor>
 					<FillMaterial>null</FillMaterial>
 				</Rectangle>
+				<Text>
+					<Id>1778540206653</Id>
+					<Name><![CDATA[text]]></Name>
+					<X>23</X><Y>-5</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[text]]></Text>
+					<TextCode><![CDATA["" + count(main.orderList, t -> t[0] == (int) orderIndex)]]></TextCode>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>26</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>CENTER</Alignment>
+				</Text>
 			</Presentation>
 
 				</Level>
