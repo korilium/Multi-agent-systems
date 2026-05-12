@@ -18,7 +18,18 @@
 		<ActiveObjectClass>
 			<Id>1774376502077</Id>
 			<Name><![CDATA[Main]]></Name>
-			<StartupCode><![CDATA[// ===== POPULATE globalNodes =====
+			<StartupCode><![CDATA[getEngine().getDefaultRandomGenerator().setSeed(randomSeed);
+
+// COMPARE / AUTO mode initialisation
+comparisonPhase      = (routingMode >= 3) ? 0  : -1;
+effectiveRoutingMode = (routingMode >= 3) ? 0  : routingMode;
+autoRobotCount       = (routingMode >= 4) ? 1  : 0;
+if (routingMode >= 4) numRobots = 1;
+autoCrowdLevel       = (routingMode == 5) ? 1  : 0;
+if (routingMode == 5) crowdednessLevel = 1;
+phaseStartSimTime    = simulationStartTime;
+
+// ===== POPULATE globalNodes =====
 globalNodes.add(new NodeLoc(node1.getX(), node1.getY()));
 globalNodes.add(new NodeLoc(node2.getX(), node2.getY()));
 globalNodes.add(new NodeLoc(node3.getX(), node3.getY()));
@@ -190,14 +201,7 @@ currentStart = globalNodes.get(0);
 
 // Generate order list and open CSV
 simulationStartTime = (int) time();
-// COMPARE / AUTO mode initialisation
-comparisonPhase      = (routingMode >= 3) ? 0  : -1;
-effectiveRoutingMode = (routingMode >= 3) ? 0  : routingMode;
-autoRobotCount       = (routingMode >= 4) ? 1  : 0;
-if (routingMode >= 4) numRobots = 1;
-autoCrowdLevel       = (routingMode == 5) ? 1  : 0;
-if (routingMode == 5) crowdednessLevel = 1;
-phaseStartSimTime    = simulationStartTime;
+
 initEnvironment();
 simulationReady = true;
 openCsv();
@@ -512,21 +516,6 @@ closeCsv();]]></DestroyCode>
 						<Type><![CDATA[String]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[""]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1777895284042</Id>
-					<Name><![CDATA[randomSeed]]></Name>
-					<X>-580</X><Y>284</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>        
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[5]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -907,9 +896,10 @@ closeCsv();]]></DestroyCode>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1780200000101</Id>
+							<Label><![CDATA[routingMode]]></Label>
 							<EditorContolType>SLIDER</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[4]]></MaxSliderValue>
+							<MaxSliderValue><![CDATA[5]]></MaxSliderValue>
 							<DelimeterType>NO_DELIMETER</DelimeterType>
 						</ParameterEditor>
 					</Properties>                 
@@ -1029,6 +1019,30 @@ closeCsv();]]></DestroyCode>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1777908979755</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1778625937731</Id>
+					<Name><![CDATA[randomSeed]]></Name>
+					<X>-760</X><Y>300</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[int]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[5]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1778625937729</Id>
 							<EditorContolType>TEXT_BOX</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
@@ -1369,6 +1383,7 @@ if (routingMode == 3) {
     }
     writeFinalComparison();
     closeCsv();
+    finishSimulation();
 } else if (routingMode == 4) {
     phaseMakespan[phaseIdx] = makespan;
     writeMakespanRow(makespan);
@@ -1385,6 +1400,7 @@ if (routingMode == 3) {
     // Full sweep 1–10 robots complete
     traceln("=== AUTO SWEEP COMPLETE (1–10 robots × 3 modes) ===");
     closeCsv();
+    finishSimulation();
 } else if (routingMode == 5) {
     phaseMakespan[phaseIdx] = makespan;
     writeMakespanRow(makespan);
@@ -1406,9 +1422,11 @@ if (routingMode == 3) {
     // Full 150-phase sweep complete
     traceln("=== COMPREHENSIVE SWEEP COMPLETE (5 crowd × 10 robots × 3 modes) ===");
     closeCsv();
+    finishSimulation();
 } else {
     writeMakespanRow(makespan);
     closeCsv();
+    finishSimulation();
 }]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -8188,7 +8206,7 @@ main.remove_pedestrian(this);]]></EntryAction>
 	<Frame>
 		<Id>1774376502075</Id>
 		<Width>1000</Width>
-		<Height>1610</Height>
+		<Height>1660</Height>
 	</Frame>
 	<Database>
 		<Id>1774376502074</Id>
@@ -8234,14 +8252,16 @@ main.remove_pedestrian(this);]]></EntryAction>
 			<InitialSetupCode><![CDATA[routingModeSlider.setValue(0);
 numRobotsSlider.setValue(2);
 numOrdersSlider.setValue(6);
-crowdednessLevelSlider.setValue(3);]]></InitialSetupCode>
+crowdednessLevelSlider.setValue(3);
+randomSeedEdit.setText("5");]]></InitialSetupCode>
 			<MaximumMemory>512</MaximumMemory>
 			<RandomNumberGenerationType>fixedSeed</RandomNumberGenerationType>
 			<CustomGeneratorCode>new Random()</CustomGeneratorCode>
 			<BeforeSimulationRunCode><![CDATA[root.crowdednessLevel = (int) crowdednessLevelSlider.getValue();
 root.routingMode      = (int) routingModeSlider.getValue();
 root.numRobots        = (int) numRobotsSlider.getValue();
-root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRunCode>
+root.numOrders        = (int) numOrdersSlider.getValue();
+root.randomSeed       = Integer.parseInt(randomSeedEdit.getText());]]></BeforeSimulationRunCode>
 			<SeedValue>1</SeedValue>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
@@ -8293,7 +8313,7 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 				<Text>
 					<Id>1780600000002</Id>
 					<Name><![CDATA[routingModeGuide]]></Name>
-					<X>200</X><Y>105</Y>
+					<X>200</X><Y>145</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8350,7 +8370,7 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 				<Text>
 					<Id>1780600000003</Id>
 					<Name><![CDATA[numRobotsGuide]]></Name>
-					<X>200</X><Y>700</Y>
+					<X>200</X><Y>740</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8381,7 +8401,7 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 				<Text>
 					<Id>1780600000004</Id>
 					<Name><![CDATA[numOrdersGuide]]></Name>
-					<X>200</X><Y>880</Y>
+					<X>200</X><Y>920</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8406,7 +8426,7 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 				<Text>
 					<Id>1780600000005</Id>
 					<Name><![CDATA[outputGuide]]></Name>
-					<X>200</X><Y>1270</Y>
+					<X>200</X><Y>1310</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8447,7 +8467,7 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 				<Text>
 					<Id>1780600000006</Id>
 					<Name><![CDATA[hypothesisGuide]]></Name>
-					<X>200</X><Y>1180</Y>
+					<X>200</X><Y>1220</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8472,7 +8492,7 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 				<Text>
 					<Id>1777214246296</Id>
 					<Name><![CDATA[crowdednessLevelGuide]]></Name>
-					<X>200</X><Y>970</Y>
+					<X>200</X><Y>1010</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8507,7 +8527,7 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1777214798835</Id>
 					<Name><![CDATA[crowdednessLevelSlider]]></Name>
-					<X>50</X><Y>970</Y>
+					<X>50</X><Y>1010</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8531,7 +8551,7 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1777214958465</Id>
 					<Name><![CDATA[numOrdersSlider]]></Name>
-					<X>50</X><Y>880</Y>
+					<X>50</X><Y>920</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8555,7 +8575,7 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1777214996055</Id>
 					<Name><![CDATA[numRobotsSlider]]></Name>
-					<X>50</X><Y>700</Y>
+					<X>50</X><Y>740</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8579,7 +8599,7 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1777215000216</Id>
 					<Name><![CDATA[routingModeSlider]]></Name>
-					<X>50</X><Y>100</Y>
+					<X>50</X><Y>140</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8663,6 +8683,49 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
+				<Control Type="EditBox">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1778626040726</Id>
+					<Name><![CDATA[randomSeedEdit]]></Name>
+					<X>50</X><Y>100</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<FillColor>-1</FillColor>
+						<TextColor>-16777216</TextColor>
+						<Enabled>true</Enabled>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="11" Style="0"/>
+						<LinkTo>true</LinkTo>
+						<Link>randomSeed</Link>
+					</ExtendedProperties>
+				</Control>
+				<Text>
+					<Id>1778626071117</Id>
+					<Name><![CDATA[routingModeGuide1]]></Name>
+					<X>200</X><Y>110</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Random seed used by the simulation.]]></Text>
+					<Font>
+						<Name>Monospaced</Name>
+						<Size>12</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
 			</Presentation>
 
 			<Parameters>
@@ -8684,10 +8747,13 @@ root.numOrders        = (int) numOrdersSlider.getValue();]]></BeforeSimulationRu
 				<Parameter>
 					<ParameterName><![CDATA[conflictPenaltyWeight]]></ParameterName>
 				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[randomSeed]]></ParameterName>
+				</Parameter>
 			</Parameters>
 			<PresentationProperties>
 				<EnableZoomAndPanning>true</EnableZoomAndPanning>
-				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
+				<ExecutionMode><![CDATA[virtualTime]]></ExecutionMode>
 				<Title><![CDATA[ColruytV2 : Simulation]]></Title>
 				<EnableDeveloperPanel>true</EnableDeveloperPanel>
 				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
