@@ -7616,7 +7616,7 @@ return score;]]></Body>
 						</ColorMapping>
 						<ColorMapping>
 							<Name><![CDATA[MA_material_7]]></Name>
-							<OriginalColor>-3285271</OriginalColor>
+							<OriginalColor>-3285014</OriginalColor>
 						</ColorMapping>
 						<ColorMapping>
 							<Name><![CDATA[MA_material]]></Name>
@@ -8113,7 +8113,7 @@ moveTo(nextGraphNode.x, nextGraphNode.y, parSpeed);]]></Body>
 						</ColorMapping>
 						<ColorMapping>
 							<Name><![CDATA[Material__6__Surf]]></Name>
-							<OriginalColor>-4083577</OriginalColor>
+							<OriginalColor>-4083321</OriginalColor>
 						</ColorMapping>
 						<ColorMapping>
 							<Name><![CDATA[Material__2__Surf]]></Name>
@@ -8125,7 +8125,7 @@ moveTo(nextGraphNode.x, nextGraphNode.y, parSpeed);]]></Body>
 						</ColorMapping>
 						<ColorMapping>
 							<Name><![CDATA[Material__1__Surf]]></Name>
-							<OriginalColor>-5279952</OriginalColor>
+							<OriginalColor>-5279695</OriginalColor>
 						</ColorMapping>
 					</ColorTable>
 					<AutoScale>true</AutoScale>
@@ -9041,6 +9041,20 @@ public class PedSnapshot implements java.io.Serializable {
 }]]></Text>
 		</JavaClass>
 	</JavaClasses>
+	<ModelResources>
+		<Resource>
+			<Id>1778773901340</Id>
+			<Path><![CDATA[3d/person.dae]]></Path>
+			<ReferencedFromUserCode>false</ReferencedFromUserCode>
+			<Location>FILE_SYSTEM</Location>
+		</Resource>
+		<Resource>
+			<Id>1778773910419</Id>
+			<Path><![CDATA[3d/tractor_3.dae]]></Path>
+			<ReferencedFromUserCode>false</ReferencedFromUserCode>
+			<Location>FILE_SYSTEM</Location>
+		</Resource>
+	</ModelResources>
     <RequiredLibraryReference>
 		<LibraryName><![CDATA[com.anylogic.libraries.modules.markup_descriptors]]></LibraryName>
 		<VersionMajor>1</VersionMajor>
