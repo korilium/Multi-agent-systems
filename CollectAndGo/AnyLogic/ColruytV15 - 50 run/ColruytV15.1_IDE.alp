@@ -9043,13 +9043,13 @@ public class PedSnapshot implements java.io.Serializable {
 	</JavaClasses>
 	<ModelResources>
 		<Resource>
-			<Id>1778795472757</Id>
+			<Id>1778919492719</Id>
 			<Path><![CDATA[3d/tractor_3.dae]]></Path>
 			<ReferencedFromUserCode>false</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
 		<Resource>
-			<Id>1778795486463</Id>
+			<Id>1778919508613</Id>
 			<Path><![CDATA[3d/person.dae]]></Path>
 			<ReferencedFromUserCode>false</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
